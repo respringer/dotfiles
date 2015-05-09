@@ -3,3 +3,5 @@
 	name = Ryan Springer
 [push]
 	default = simple
+[credential]
+	helper = cache --timeout=360000
