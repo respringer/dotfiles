@@ -119,12 +119,14 @@ alias bb="cd ../.."
 alias sb="source ~/.bashrc"
 alias vb="vi ~/.bashrc"
 
-alias ls="ls --color=always"
+alias ls="ls -a --color=always"
 alias l="ls -al --color=always"
 
 alias gs="git status"
 alias gsu="git submodule update"
 alias gc="git commit"
+alias gb="git branch"
+alias gcl="git clean -dff"
 
 # Leet Promptness
 C0="\[\e[0m\]"
@@ -136,3 +138,8 @@ C4="\[\e[1;34m\]" # <- seperator color (..[ ]..)
 PROMPT='>'
 export PS1="$C3$C4..( $C2\u$C1@$C3\h$C1($C2\l$C1): $C2\w$C1$C1 : $C2\t$C1 $C4)..\n$C3$C2$PROMPT$C1$PROMPT$C0 "
 
+export EDITOR="vim"
+
+alias s="sudo su"
+shopt -s autocd
+export PATH=$PATH:~/bin
