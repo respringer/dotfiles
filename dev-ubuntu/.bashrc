@@ -153,6 +153,9 @@ alias rc="rm -rf ~/ripcord/opscenterd/local/clusters/*"
 # Rebuild js
 alias rj="cd ~/ripcord/opscenterd && ant build-static"
 
+# Rebuild ui
+alias ru="cd ~/ripcord/opscenterd && ant ui"
+
 # restart opscenterd
 alias ro="cd ~/ripcord/opscenterd && ./bin/opscenter"
 
