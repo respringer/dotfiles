@@ -150,6 +150,9 @@ alias ko="killall python2.7; ps aux | grep -i twi"
 # Remove cluster configs
 alias rc="rm -rf ~/ripcord/opscenterd/local/clusters/*"
 
+# Rebuild js
+alias rj="cd ~/ripcord/opscenterd && ant build-static"
+
 # restart opscenterd
 alias ro="cd ~/ripcord/opscenterd && ./bin/opscenter"
 
