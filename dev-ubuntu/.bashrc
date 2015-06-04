@@ -145,7 +145,10 @@ shopt -s autocd
 export PATH=$PATH:~/bin
 
 # kill opscenter
-alias ko="killall python2.7"
+alias ko="killall python2.7; ps aux | grep -i twi"
+
+# Remove cluster configs
+alias rc="rm -rf ~/ripcord/opscenterd/local/clusters/*"
 
 # restart opscenterd
 alias ro="cd ~/ripcord/opscenterd && ./bin/opscenter"
