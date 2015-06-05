@@ -1,11 +1,12 @@
 [user]
-	name = Ryan Springer
-	email = ryan.springer@datastax.com
+    name = Ryan Springer
+    email = ryan.springer@datastax.com
 [push]
-	default = simple
+    #default = current
+    default = simple
 [fetch]
     prune = true
 [color]
     ui = auto
 [credential]
-	helper = cache --timeout=360000
+    helper = cache --timeout=360000
