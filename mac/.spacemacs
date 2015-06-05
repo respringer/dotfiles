@@ -18,4 +18,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(setq dotspacemacs-default-font '("Monaco"
+                                          :size 18
+                                          :weight normal
+                                          :width normal
+                                          :powerline-scale 1.1))
 (setq-default dotspacemacs-configuration-layers '(themes-megapack))
