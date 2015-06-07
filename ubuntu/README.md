@@ -14,4 +14,7 @@ sudo add-apt-repository -y ppa:ubuntu-elisp
 sudo apt-get update
 sudo apt-get install emacs-snapshot
 
+## copy my .spacemacs to ~
+## get the latest copy of spacemacs 
 
+git clone --recursive https://github.com/syl20bnr/spacemacs ~/.emacs.d
