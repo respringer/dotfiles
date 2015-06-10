@@ -1,6 +1,7 @@
 
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-rsi'
+Plug 'justinmk/vim-sneak'
 call plug#end()
 
 set ts=4
