@@ -4,6 +4,8 @@ Plug 'tpope/vim-rsi'
 Plug 'justinmk/vim-sneak'
 call plug#end()
 
+let mapleader = "\<Space>"
+
 set ts=4
 set shiftwidth=4
 set ruler
@@ -21,6 +23,9 @@ syntax enable
 filetype plugin indent on
 
 set background=dark
+
+nnoremap <Leader>w :w<CR>
+nnoremap <Leader>q :wq<CR>
 
 map <f2> :w<CR>
 map <f4> :nohl<CR>
