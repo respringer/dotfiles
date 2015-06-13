@@ -18,3 +18,10 @@ sudo apt-get install emacs-snapshot
 ## get the latest copy of spacemacs 
 
 git clone --recursive https://github.com/syl20bnr/spacemacs ~/.emacs.d
+
+## spacemacs to-do
+## 1. tab control
+## 2. make sure scrolling is good
+## 3. buffer management
+## 4. powerline in ubuntu
+
