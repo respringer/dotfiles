@@ -2,6 +2,7 @@
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-rsi'
 Plug 'justinmk/vim-sneak'
+Plug 'guns/vim-clojure-static'
 call plug#end()
 
 set ts=4

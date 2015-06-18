@@ -1,5 +1,5 @@
 #!/bin/bash
-mkdir ~/bin
+mkdir -p ~/bin
 cp .vimrc ~/.vimrc
 cp .bashrc ~/.bashrc
 cp .gitconfig ~/.gitconfig
