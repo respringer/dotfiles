@@ -33,6 +33,11 @@
     (when (not (package-installed-p p))
       (package-install p))))
 
+;; evil
+
+(require 'evil)
+(evil-mode 1)
+
 ;; edit and reload .emacs
 
 (defun edit-dot-emacs ()
@@ -71,6 +76,12 @@
 ;; Add highlighting type thing for the selected region
 
 (transient-mark-mode 1)
+
+;; sane scrolling
+
+(setq scroll-step 1)
+(setq scroll-conservatively 10000)
+(setq auto-window-vscroll nil)
 
 ;;  Terminal Mode Tweaks
 
