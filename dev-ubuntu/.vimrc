@@ -13,6 +13,7 @@ set hlsearch
 set clipboard=unnamed
 "set mouse=a
 set t_Co=256 
+set paste
 
 "set ignorecase
 "set smartcase

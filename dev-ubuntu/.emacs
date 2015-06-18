@@ -1,0 +1,121 @@
+;; Package stuff
+
+(require 'cl) ;; needed for loop
+
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+;; had a funky cert problem
+;;(add-to-list 'package-archives
+;;             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(package-initialize)
+
+(defvar required-packages
+  '(
+    evil
+    evil-leader
+  ) "a list of packages to ensure are installed at launch.")
+
+; method to check if all packages are installed
+(defun packages-installed-p ()
+  (loop for p in required-packages
+        when (not (package-installed-p p)) do (return nil)
+        finally (return t)))
+
+; if not all packages are installed, check one by one and install the missing ones.
+(unless (packages-installed-p)
+  ; check for new packages (package versions)
+  (message "%s" "Emacs is now refreshing its package database...")
+  (package-refresh-contents)
+  (message "%s" " done.")
+  ; install the missing packages
+  (dolist (p required-packages)
+    (when (not (package-installed-p p))
+      (package-install p))))
+
+;; edit and reload .emacs
+
+(defun edit-dot-emacs ()
+  "Load the .emacs file into a buffer for editing."
+  (interactive)
+  (find-file "~/.emacs"))
+
+(defun reload-dot-emacs ()
+  "Save .emacs, if it is in a buffer, and reload it."
+  (interactive)
+  (if (bufferp (get-file-buffer "~/.emacs"))
+    (save-buffer (get-buffer "~/.emacs")))
+  (load-file "~/.emacs"))
+
+;; backup files
+
+(setq make-backup-files nil)
+
+;; No tabs! - spaces only
+
+(setq tab-width 4)
+(setq indent-tabs-mode nil)
+
+;; No bell at all
+
+(setq ring-bell-function 'ignore)
+
+;; Turn off auto-saves
+
+(setq auto-save-default nil)
+
+;; Turn off backups
+
+(setq backup-inhibited t)
+
+;; Add highlighting type thing for the selected region
+
+(transient-mark-mode 1)
+
+;;  Terminal Mode Tweaks
+
+(defun my-terminal-mode ()
+  (interactive)
+  (ansi-term "/bin/bash"))
+
+;; Window movement
+
+(defun my-next-window ()
+  (interactive)
+  (other-window 1))
+
+(defun my-previous-window ()
+  (interactive)
+  (other-window -1))
+
+;;  Hotkeys
+
+;;(global-set-key (kbd "C-`")  'my-terminal-mode)
+
+(global-set-key (kbd "<f2>") 'save-buffer)
+
+(global-set-key (kbd "C-1")  'previous-buffer)
+(global-set-key (kbd "C-2")  'next-buffer)
+(global-set-key (kbd "C-3")  'my-previous-window)
+(global-set-key (kbd "C-4")  'my-next-window)
+(global-set-key (kbd "C-5")  'other-frame)
+
+(global-set-key (kbd "C-8")  'edit-dot-emacs)
+(global-set-key (kbd "C-9")  'reload-dot-emacs)
+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
+ 
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages (quote (evil-leader evil))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
