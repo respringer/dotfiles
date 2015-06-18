@@ -28,6 +28,7 @@ map <f4> :nohl<CR>
 map <f8> :q<CR>
 
 autocmd BufNewFile,BufRead *.json set ft=javascript
+autocmd BufNewFile,BufRead *.boot set ft=clojure
 
 "inoremap fj <esc>
 "inoremap jf <esc>
