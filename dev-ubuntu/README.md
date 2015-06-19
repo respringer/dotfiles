@@ -8,6 +8,8 @@
 
 ## emacs stuff
 # sudo apt-get install emacs24
+## unzip needed for cider 
+# sudo apt-get install unzip
 
 # Put this in .lein/profiles.clj
  {:user

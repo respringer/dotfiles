@@ -43,45 +43,14 @@
 (require 'evil-leader)
 (evil-leader/set-leader "<SPC>")
 
-;; cider stuff
-
-(defun my-cider-repl-mode-hook ()
-;;  (setq show-trailing-whitespace nil)
-;;  (smartparens-strict-mode 1)
-;;  (company-mode 1)
-;;  (eldoc-mode)
-  (fill-keymaps '(evil-insert-state-local-map evil-normal-state-local-map)
-                "M-." 'my-cider-find-var
-                "C-c M-." 'my-cider-find-resource
-                "M-," 'cider-jump-back)
-  (whitespace-mode 0)
-  (evil-force-normal-state))
-(add-hook 'cider-repl-mode-hook #'my-cider-repl-mode-hook)
-
-(defun my-clojure-mode-hook ()
-  (cider-mode 1)
-  (fill-keymap cider-mode-map
-               "C-c C-e" 'cider-eval-defun-at-point
-               "C-c C-m" nil
-               "C-c h" 'clojure-cheatsheet
-               "C-c M-b" 'cider-browse-ns-all
-               "C-c m" 'cider-macroexpand-1
-               "C-c c" 'cider-clear-errors
-               "C-c M" 'cider-macroexpand-all)
-  (cljr-add-keybindings-with-prefix "C-c C-m")
-  (local-set-key (kbd "RET") 'newline-and-indent)
-  (fill-keymap evil-normal-state-local-map
-               "M-q" '(lambda () (interactive) (clojure-fill-paragraph))
-               "M-." 'my-cider-find-var
-               "C-c M-." 'my-cider-find-resource
-               "M-," 'cider-jump-back
-               "M-n" 'flycheck-next-error
-               "M-p" 'flycheck-previous-error
-               "C-c s" 'toggle-spy
-               "C-c f" 'toggle-print-foo
-               "C-c R" 'cider-component-reset))
-
-(add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
+(require 'clj-refactor)
+(add-hook 'clojure-mode-hook (lambda ()
+;;                               (clj-refactor-mode 1)
+                               ;;(yas-minor-mode 1) ; for adding require/use/import
+                               ;; insert keybinding setup here
+;;			                   (cljr-add-keybindings-with-prefix "C-c C-m")
+                               ;; eg. rename files with `C-c C-m rf`.
+                               ))
 
 ;; edit and reload .emacs
 
@@ -161,6 +130,8 @@
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
+
+(define-key evil-normal-state-map (kbd "M-.") 'cider-find-var)
  
 
 (custom-set-variables
@@ -168,7 +139,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (cider evil-leader))))
+ '(package-selected-packages (quote (clj-refactor evil-leader cider))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
