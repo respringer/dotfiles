@@ -16,6 +16,8 @@
     evil
     evil-leader
     clj-refactor
+    projectile
+    helm-projectile
   ) "a list of packages to ensure are installed at launch.")
 
 ; method to check if all packages are installed
@@ -51,6 +53,31 @@
 ;;			                   (cljr-add-keybindings-with-prefix "C-c C-m")
                                ;; eg. rename files with `C-c C-m rf`.
                                ))
+
+;; include underscore as a word character for evil for * searches
+
+(add-hook 'clojure-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+(add-hook 'js-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+(add-hook 'python-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+
+;; projectile
+
+(projectile-global-mode)
+(projectile-mode 1)
+
+(projectile-add-known-project "/home/vagrant/ripcord/spock")
+
+;; helm
+
+(add-to-list 'load-path "/home/vagrant/emacs-async")
+(add-to-list 'load-path "/home/vagrant/helm")
+
+(require 'helm-config)
+
+(helm-mode 1)
+
+(setq projectile-completion-system 'helm)
+(helm-projectile-on)
 
 ;; edit and reload .emacs
 
@@ -97,6 +124,10 @@
 (setq scroll-conservatively 10000)
 (setq auto-window-vscroll nil)
 
+
+(add-to-list 'auto-mode-alist '("\\.edn\\'" . clojure-mode))
+(add-to-list 'auto-mode-alist '("\\.boot\\'" . clojure-mode))
+
 ;;  Terminal Mode Tweaks
 
 (defun my-terminal-mode ()
@@ -139,7 +170,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (clj-refactor evil-leader cider))))
+ '(package-selected-packages
+   (quote
+    (helm-projectile projectile evil-leader clj-refactor))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
