@@ -175,7 +175,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (helm-projectile projectile evil-leader clj-refactor))))
+    (helm-projectile projectile clj-refactor evil-leader evil cider))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

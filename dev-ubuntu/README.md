@@ -7,6 +7,8 @@
 ## konsole stuff
 
 ## emacs stuff
+sudo add-apt-repository ppa:ubuntu-elisp/ppa
+
 # sudo apt-get install emacs24
 ## unzip needed for cider 
 # sudo apt-get install unzip
