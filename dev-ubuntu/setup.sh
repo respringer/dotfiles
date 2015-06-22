@@ -1,6 +1,7 @@
 #!/bin/bash
 mkdir -p ~/bin
 cp .vimrc ~/.vimrc
+cp .emacs ~/.emacs
 cp .bashrc ~/.bashrc
 cp .gitconfig ~/.gitconfig
 
