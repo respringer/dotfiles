@@ -95,9 +95,9 @@
 (global-set-key (kbd "C-c h M-:") 'helm-eval-expression-with-eldoc)
 
 (setq helm-semantic-fuzzy-matching t
-      helm-locate-fuzzy-match    t)
-      helm-apropos-fuzzy-match    t)
-      helm-lisp-fuzzy-completion    t)
+      helm-locate-fuzzy-match    t
+      helm-apropos-fuzzy-match    t
+      helm-lisp-fuzzy-completion    t
       helm-imenu-fuzzy-match    t)
 
 (add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
