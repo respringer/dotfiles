@@ -79,6 +79,9 @@
 (setq projectile-completion-system 'helm)
 (helm-projectile-on)
 
+(global-set-key (kbd "M-x") 'helm-M-x)
+(setq helm-M-x-fuzzy-match t)
+
 ;; edit and reload .emacs
 
 (defun edit-dot-emacs ()
