@@ -39,11 +39,21 @@
 
 ;; evil
 
-(require 'evil)
-(evil-mode 1)
 
+(require 'evil)
 (require 'evil-leader)
+
 (evil-leader/set-leader "<SPC>")
+;; enable evil-leader before enabling evil
+(global-evil-leader-mode)
+
+(evil-leader/set-key
+  "f" 'helm-find-files
+  "b" 'helm-mini
+  "x" 'helm-M-x
+)
+
+(evil-mode 1)
 
 (require 'clj-refactor)
 (add-hook 'clojure-mode-hook (lambda ()
