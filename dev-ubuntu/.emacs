@@ -82,6 +82,33 @@
 (global-set-key (kbd "M-x") 'helm-M-x)
 (setq helm-M-x-fuzzy-match t)
 
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+(global-set-key (kbd "C-x b") 'helm-mini)
+(setq helm-buffers-fuzzy-matching t
+      helm-recentf-fuzzy-match    t)
+
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-c h o") 'helm-occur)
+(global-set-key (kbd "C-h SPC") 'helm-all-mark-rings)
+(global-set-key (kbd "C-c h x") 'helm-register)
+(global-set-key (kbd "C-c h h") 'helm-google-suggest)
+(global-set-key (kbd "C-c h M-:") 'helm-eval-expression-with-eldoc)
+
+(setq helm-semantic-fuzzy-matching t
+      helm-locate-fuzzy-match    t)
+      helm-apropos-fuzzy-match    t)
+      helm-lisp-fuzzy-completion    t)
+      helm-imenu-fuzzy-match    t)
+
+(add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
+
+(require 'helm-eshell)
+(add-hook 'eshell-mode-hook
+	  #'(lambda () (define-key eshell-mode-map (kbd "C-c C-l") 'helm-eshell-history)))
+
+(define-key shell-mode-map (kbd "C-c C-l") 'helm-comint-input-ring)
+(define-key minibuffer-local-map (kbd "C-c C-l") 'helm-minibuffer-history)
+
 ;; edit and reload .emacs
 
 (defun edit-dot-emacs ()
@@ -175,7 +202,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (helm-projectile projectile clj-refactor evil-leader evil cider))))
+    (helm-projectile projectile evil-leader clj-refactor))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
