@@ -14,6 +14,7 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.c
 if [[ `lsb_release -rs` == "12.04" ]] 
 then
 sudo apt-add-repository ppa:lvillani/silversearcher
+sudo apt-get update
 fi
 
 sudo apt-get install silversearcher-ag
