@@ -9,6 +9,10 @@ cp .gitconfig ~/.gitconfig
 
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
+# packages
+
+sudo apt-get install silversearcher-ag
+
 # Done
 
 echo "All done, please: source ~/.bashrc"
