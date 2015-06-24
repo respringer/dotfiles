@@ -17,3 +17,6 @@ git clone --recursive https://github.com/syl20bnr/spacemacs ~/.emacs.d
 # also, you may need to comment out a (package-initialize) from the top of ~/.emacs.d/spacemacs/init.el
 # this package-initialize is automatically added by emacs, and does not seem to be part of spacemacs
 
+## gui tweaking
+#
+# I recommend spectacle and toggle-osx-shadows
