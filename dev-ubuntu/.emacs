@@ -44,15 +44,9 @@
 (require 'evil-leader)
 
 (evil-leader/set-leader "<SPC>")
+(setq evil-leader/in-all-states t)
 ;; enable evil-leader before enabling evil
 (global-evil-leader-mode)
-
-(evil-leader/set-key
-  "f" 'helm-find-files
-  "b" 'helm-mini
-  "x" 'helm-M-x
-)
-
 (evil-mode 1)
 
 (require 'clj-refactor)
@@ -176,8 +170,6 @@
   (interactive)
   (ansi-term "/bin/bash"))
 
-;; Window movement
-
 (defun my-next-window ()
   (interactive)
   (other-window 1))
@@ -206,6 +198,15 @@
 
 (define-key evil-normal-state-map (kbd "M-.") 'cider-find-var)
  
+(evil-leader/set-key
+  "e" 'eshell
+  "f" 'helm-find-files
+  "b" 'helm-mini
+  "t" 'my-terminal-mode
+  "x" 'helm-M-x
+)
+
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -214,7 +215,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (helm-projectile projectile evil-leader clj-refactor))))
+    (helm-projectile projectile clj-refactor evil-leader evil cider))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
