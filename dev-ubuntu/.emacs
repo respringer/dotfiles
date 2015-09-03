@@ -10,14 +10,18 @@
 ;;             '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (package-initialize)
 
+;; really good: evil, evil-leader
+;; good: projectile, helm projectile
+;; clojure: cider
+
 (defvar required-packages
   '(
-    cider
     evil
     evil-leader
-    clj-refactor
     projectile
     helm-projectile
+    cider
+;;    clj-refactor
   ) "a list of packages to ensure are installed at launch.")
 
 ; method to check if all packages are installed
@@ -39,7 +43,6 @@
 
 ;; evil
 
-
 (require 'evil)
 (require 'evil-leader)
 
@@ -49,14 +52,14 @@
 (global-evil-leader-mode)
 (evil-mode 1)
 
-(require 'clj-refactor)
-(add-hook 'clojure-mode-hook (lambda ()
+;;(require 'clj-refactor)
+;;(add-hook 'clojure-mode-hook (lambda ()
 ;;                               (clj-refactor-mode 1)
                                ;;(yas-minor-mode 1) ; for adding require/use/import
                                ;; insert keybinding setup here
 ;;			                   (cljr-add-keybindings-with-prefix "C-c C-m")
                                ;; eg. rename files with `C-c C-m rf`.
-                               ))
+;;                               ))
 
 ;; include underscore as a word character for evil for * searches
 
@@ -160,7 +163,6 @@
 (setq scroll-conservatively 10000)
 (setq auto-window-vscroll nil)
 
-
 (add-to-list 'auto-mode-alist '("\\.edn\\'" . clojure-mode))
 (add-to-list 'auto-mode-alist '("\\.boot\\'" . clojure-mode))
 
@@ -180,33 +182,32 @@
 
 ;;  Hotkeys
 
-;;(global-set-key (kbd "C-`")  'my-terminal-mode)
-
-(global-set-key (kbd "<f2>") 'save-buffer)
-
-(global-set-key (kbd "C-1")  'previous-buffer)
-(global-set-key (kbd "C-2")  'next-buffer)
-(global-set-key (kbd "C-3")  'my-previous-window)
-(global-set-key (kbd "C-4")  'my-next-window)
-(global-set-key (kbd "C-5")  'other-frame)
-
-(global-set-key (kbd "C-8")  'edit-dot-emacs)
-(global-set-key (kbd "C-9")  'reload-dot-emacs)
-
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-
-
 (define-key evil-normal-state-map (kbd "M-.") 'cider-find-var)
  
 (evil-leader/set-key
   "e" 'eshell
   "f" 'helm-find-files
   "b" 'helm-mini
+  "i" 'ibuffer
   "t" 'my-terminal-mode
   "x" 'helm-M-x
+  "s" 'save-buffer
+
+  "h" 'my-previous-window
+  "j" 'previous-buffer
+  "k" 'next-buffer
+  "l" 'my-next-window
+
+  "3" 'my-previous-window
+  "4" 'my-next-window
+  "5" 'other-frame
+
+  "9" 'edit-dot-emacs
+  "0" 'reload-dot-emacs
+
+  "[" 'split-window-below
+  "]" 'split-window-right
 )
-
-
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
