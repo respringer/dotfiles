@@ -1,4 +1,10 @@
+;; TO DO
+;;         friendly way to exit insert mode like fj or something
+;;         
+;;
 ;; Package stuff
+;;
+;;
 
 (require 'cl) ;; needed for loop
 
@@ -12,7 +18,13 @@
 
 ;; really good: evil, evil-leader
 ;; good: projectile, helm projectile
-;; clojure: cider
+;; clojure: cider, clj-refactor
+;;  for lein, check out the versions at: https://clojars.org/cider/cider-nrepl/versions
+;;                                  and: https://clojars.org/refactor-nrepl/versions
+;;  for cider, clj-refactor with java 1.7, do this before lein repl:
+;;       export JAVA_OPTS="-XX:MaxPermSize=128m"
+
+;; to check out: guide-key, hydra, rainbow identifiers
 
 (defvar required-packages
   '(
@@ -21,7 +33,9 @@
     projectile
     helm-projectile
     cider
-;;    clj-refactor
+    clj-refactor
+    rainbow-delimiters
+    rainbow-identifiers
   ) "a list of packages to ensure are installed at launch.")
 
 ; method to check if all packages are installed
@@ -52,20 +66,29 @@
 (global-evil-leader-mode)
 (evil-mode 1)
 
-;;(require 'clj-refactor)
-;;(add-hook 'clojure-mode-hook (lambda ()
-;;                               (clj-refactor-mode 1)
+;; This will cause dired to default to Normal mode
+
+(setq evil-normal-state-modes (append evil-motion-state-modes evil-normal-state-modes))
+(setq evil-motion-state-modes nil)
+
+(require 'clj-refactor)
+(add-hook 'clojure-mode-hook (lambda ()
+                               (clj-refactor-mode 1)
                                ;;(yas-minor-mode 1) ; for adding require/use/import
                                ;; insert keybinding setup here
 ;;			                   (cljr-add-keybindings-with-prefix "C-c C-m")
                                ;; eg. rename files with `C-c C-m rf`.
-;;                               ))
+                               ))
 
 ;; include underscore as a word character for evil for * searches
 
 (add-hook 'clojure-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
 (add-hook 'js-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
 (add-hook 'python-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+(evil-set-initial-state 'ibuffer-mode 'normal)
+
+
+
 
 ;; projectile
 
@@ -75,6 +98,16 @@
 (projectile-mode 1)
 
 (projectile-add-known-project "/home/vagrant/ripcord/spock")
+
+;;
+
+;;(require 'smartparens)
+;;(require 'smartparens-config)
+
+;; rainbow delimiters
+
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook #'rainbow-identifiers-mode)
 
 ;; helm
 
@@ -157,6 +190,8 @@
 
 (transient-mark-mode 1)
 
+(show-paren-mode)
+
 ;; sane scrolling
 
 (setq scroll-step 1)
@@ -165,6 +200,12 @@
 
 (add-to-list 'auto-mode-alist '("\\.edn\\'" . clojure-mode))
 (add-to-list 'auto-mode-alist '("\\.boot\\'" . clojure-mode))
+
+;; display a clock
+
+(setq display-time-day-and-date t
+      display-time-24hr-format t)
+(display-time)
 
 ;;  Terminal Mode Tweaks
 
@@ -184,14 +225,30 @@
 
 (define-key evil-normal-state-map (kbd "M-.") 'cider-find-var)
  
+;; it looks like 3 relavant helms are
+;;
+;; helm-mini
+;; helm-buffers-list
+
+;; this one is for finding new files
+;; helm-find-files
+
 (evil-leader/set-key
   "e" 'eshell
-  "f" 'helm-find-files
-  "b" 'helm-mini
-  "i" 'ibuffer
   "t" 'my-terminal-mode
-  "x" 'helm-M-x
+
   "s" 'save-buffer
+  "d" 'cider-doc
+  "f" 'helm-find-files
+
+  "p" 'projectile-find-file
+  "]" 'helm-buffers-list
+
+  "x" 'helm-M-x
+
+  "i" 'ibuffer
+  "b" 'ibuffer
+;;  "i" 'helm-buffers-list
 
   "h" 'my-previous-window
   "j" 'previous-buffer
@@ -209,6 +266,8 @@
   "]" 'split-window-right
 )
 
+;;(setq cljr--debug-mode)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -216,7 +275,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (helm-projectile projectile clj-refactor evil-leader evil cider))))
+    (rainbow-identifiers rainbow-delimiters helm-projectile projectile clj-refactor evil-leader evil cider))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
