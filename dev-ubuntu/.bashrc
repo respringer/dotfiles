@@ -167,3 +167,12 @@ alias controls="cd ~/ripcord/opscenterd/src/js/ripcord/controls"
 alias yfail="vi ~/ripcord/opscenterd/src/build/build-report.txt"
 
 
+#eval "$(hub alias -s)"
+
+alias vi="echo 'use emacs instead'"
+
+export JAVA_OPTS="-XX:MaxPermSize=128m"
+
+alias e="emacs"
+alias eb="emacs ~/.bashrc"
+
