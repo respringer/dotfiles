@@ -74,6 +74,11 @@
 
 (evil-escape-mode 1)
 
+;;(setq-default evil-escape-delay 0.2)
+;;(setq-default evil-escape-delay 2.0)
+;; give me a couple of minutes to decide if i want to exit insert mode... heh
+(setq-default evil-escape-delay 120.0)
+
 (setq-default evil-escape-key-sequence "fj")
 ;(setq-default evil-escape-key-sequence "jk")
 (setq evil-escape-unordered-key-sequence 1)
@@ -228,6 +233,30 @@
 (defun my-previous-window ()
   (interactive)
   (other-window -1))
+
+;; term stuff
+
+(require 'term)
+
+(defun jnm/term-toggle-mode ()
+  "Toggles term between line mode and char mode"
+  (interactive)
+  (if (term-in-line-mode)
+      (term-char-mode)
+    (term-line-mode)))
+
+(define-key term-mode-map (kbd "C-c C-j") 'jnm/term-toggle-mode)
+(define-key term-mode-map (kbd "C-c C-k") 'jnm/term-toggle-mode)
+
+(define-key term-raw-map (kbd "C-c C-j") 'jnm/term-toggle-mode)
+(define-key term-raw-map (kbd "C-c C-k") 'jnm/term-toggle-mode)
+
+;; send string or current kill to the term without changing modes
+(defun my-term-paste (&optional string)
+  (interactive)
+  (process-send-string
+   (get-buffer-process (current-buffer))
+   (if string string (current-kill 0))))
 
 ;;  Hotkeys
 
