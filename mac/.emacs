@@ -245,6 +245,17 @@
       (term-char-mode)
     (term-line-mode)))
 
+(defun rs-term-enter-scroll-mode ()
+  (interactive)
+  (term-line-mode)
+  (evil-normal-state)) 
+
+(defun rs-term-exit-scroll-mode ()
+  (interactive)
+  (end-of-buffer)
+  (term-char-mode)
+  (evil-insert-state)) 
+
 (define-key term-mode-map (kbd "C-c C-j") 'jnm/term-toggle-mode)
 (define-key term-mode-map (kbd "C-c C-k") 'jnm/term-toggle-mode)
 
@@ -260,7 +271,30 @@
 
 ;;  Hotkeys
 
+;; i want a backquote as a prefix key
+
+(define-prefix-command 'my-backquote-keymap)
+(define-key my-backquote-keymap (vector ?`) 'my-insert-backquote)
+(define-key my-backquote-keymap (vector ?q) 'rs-term-exit-scroll-mode)
+(define-key my-backquote-keymap (vector ?b) 'ibuffer)
+
+(define-key my-backquote-keymap (vector ?h) 'previous-buffer)
+(define-key my-backquote-keymap (vector ?j) 'my-next-window)
+(define-key my-backquote-keymap (vector ?k) 'my-previous-window)
+(define-key my-backquote-keymap (vector ?l) 'next-buffer)
+(define-key my-backquote-keymap (vector ? ) 'rs-term-enter-scroll-mode)
+
+(defun my-insert-backquote ()
+  (interactive)
+  (insert "`"))
+
+;;(global-set-key (kbd "`") 'my-backquote-keymap)
+(define-key evil-normal-state-map (kbd "`") 'my-backquote-keymap)
+(define-key evil-insert-state-map (kbd "`") 'my-backquote-keymap)
+
+;;(define-key evil-normal-state-map (kbd "M-.") 'cider-find-var)
 (define-key evil-normal-state-map (kbd "M-.") 'cider-find-var)
+
  
 ;; it looks like 3 relavant helms are
 ;;
@@ -287,10 +321,10 @@
   "b" 'ibuffer
 ;;  "i" 'helm-buffers-list
 
-  "h" 'my-previous-window
-  "j" 'previous-buffer
-  "k" 'next-buffer
-  "l" 'my-next-window
+  "h" 'previous-buffer
+  "j" 'my-next-window
+  "k" 'my-previous-window
+  "l" 'next-buffer
 
   "3" 'my-previous-window
   "4" 'my-next-window
