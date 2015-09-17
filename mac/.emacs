@@ -284,7 +284,15 @@
 (define-key my-backquote-keymap (vector ?l) 'next-buffer)
 (define-key my-backquote-keymap (vector ? ) 'rs-term-enter-scroll-mode)
 
+(define-key my-backquote-keymap (vector ?s) 'split-window-below)
+(define-key my-backquote-keymap (vector ?v) 'split-window-right)
+
 (define-key my-backquote-keymap (vector ?,) 'rename-buffer)
+
+(define-key my-backquote-keymap (kbd "<up>") 'enlarge-window)
+(define-key my-backquote-keymap (kbd "<down>") 'shrink-window)
+(define-key my-backquote-keymap (kbd "<left>") 'shrink-window-horizontally)
+(define-key my-backquote-keymap (kbd "<right>") 'enlarge-window-horizontally)
 
 (defun my-insert-backquote ()
   (interactive)
