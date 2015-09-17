@@ -284,6 +284,8 @@
 (define-key my-backquote-keymap (vector ?l) 'next-buffer)
 (define-key my-backquote-keymap (vector ? ) 'rs-term-enter-scroll-mode)
 
+(define-key my-backquote-keymap (vector ?,) 'rename-buffer)
+
 (defun my-insert-backquote ()
   (interactive)
   (insert "`"))
@@ -335,6 +337,11 @@
 
   "[" 'split-window-below
   "]" 'split-window-right
+
+  "<up>"     'shrink-window
+  "<down>"   'enlarge-window
+  "<left>"   'shrink-window-horizontally
+  "<right>"  'enlarge-window-horizontally
 )
 
 ;;(setq cljr--debug-mode)
