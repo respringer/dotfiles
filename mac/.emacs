@@ -67,6 +67,8 @@
 (global-evil-leader-mode)
 (evil-mode 1)
 
+(set-default-font "Monospace-16")
+
 ;; This will cause dired to default to Normal mode
 
 (setq evil-normal-state-modes (append evil-motion-state-modes evil-normal-state-modes))
@@ -187,6 +189,11 @@
 
 (setq ring-bell-function 'ignore)
 
+;;(load-theme 'afternoon t)
+
+;; disable the tool bar
+(tool-bar-mode -1)
+
 ;; Turn off auto-saves
 
 (setq auto-save-default nil)
@@ -219,6 +226,11 @@
 ;; line numbers
 
 (add-hook 'clojure-mode-hook (lambda () (linum-mode 1)))
+
+;; todo, rebind ` in ibuffer 
+;;(add-hook 'ibuffer-mode-hook
+;;          (lambda ()
+;;            (define-key 1)))
 
 ;;  Terminal Mode Tweaks
 
@@ -277,7 +289,11 @@
 (define-key my-backquote-keymap (vector ?`) 'my-insert-backquote)
 (define-key my-backquote-keymap (vector ?q) 'rs-term-exit-scroll-mode)
 (define-key my-backquote-keymap (vector ?b) 'ibuffer)
+(define-key my-backquote-keymap (vector ?9) 'edit-dot-emacs)
+(define-key my-backquote-keymap (vector ?0) 'reload-dot-emacs)
+(define-key my-backquote-keymap (vector ?p) 'projectile-find-file)
 
+(define-key my-backquote-keymap (vector ?g) 'helm-keyboard-quit)
 (define-key my-backquote-keymap (vector ?h) 'previous-buffer)
 (define-key my-backquote-keymap (vector ?j) 'my-next-window)
 (define-key my-backquote-keymap (vector ?k) 'my-previous-window)
@@ -286,6 +302,7 @@
 
 (define-key my-backquote-keymap (vector ?s) 'split-window-below)
 (define-key my-backquote-keymap (vector ?v) 'split-window-right)
+(define-key my-backquote-keymap (vector ?x) 'helm-M-x)
 
 (define-key my-backquote-keymap (vector ?,) 'rename-buffer)
 
@@ -298,13 +315,12 @@
   (interactive)
   (insert "`"))
 
-;;(global-set-key (kbd "`") 'my-backquote-keymap)
 (define-key evil-normal-state-map (kbd "`") 'my-backquote-keymap)
 (define-key evil-insert-state-map (kbd "`") 'my-backquote-keymap)
+(define-key evil-emacs-state-map (kbd "`") 'my-backquote-keymap)
 
-;;(define-key evil-normal-state-map (kbd "M-.") 'cider-find-var)
+
 (define-key evil-normal-state-map (kbd "M-.") 'cider-find-var)
-
  
 ;; it looks like 3 relavant helms are
 ;;
@@ -321,9 +337,12 @@
   "s" 'save-buffer
   "d" 'cider-doc
   "f" 'helm-find-files
+  "g" 'helm-keyboard-quit
 
   "p" 'projectile-find-file
   "]" 'helm-buffers-list
+
+  "<tab>" 'helm-keyboard-quit
 
   "x" 'helm-M-x
 
@@ -361,7 +380,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (evil-escape rainbow-identifiers rainbow-delimiters helm-projectile evil-leader clj-refactor))))
+    (afternoon-theme evil-escape rainbow-identifiers rainbow-delimiters helm-projectile evil-leader clj-refactor))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
