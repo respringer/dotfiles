@@ -37,6 +37,7 @@
     clj-refactor
     rainbow-delimiters
     rainbow-identifiers
+    nyan-mode
   ) "a list of packages to ensure are installed at launch.")
 
 ; method to check if all packages are installed
@@ -67,7 +68,8 @@
 (global-evil-leader-mode)
 (evil-mode 1)
 
-(set-default-font "Monospace-16")
+;;(set-default-font "Monospace-16")
+(set-default-font "DejaVu Sans Mono 13")
 
 ;; This will cause dired to default to Normal mode
 
@@ -190,9 +192,13 @@
 (setq ring-bell-function 'ignore)
 
 ;;(load-theme 'afternoon t)
+;;(disable-theme 'autumn-light t)
+(load-theme 'cyberpunk t)
 
 ;; disable the tool bar
+(menu-bar-mode -1)
 (tool-bar-mode -1)
+(scroll-bar-mode -1)
 
 ;; Turn off auto-saves
 
@@ -281,6 +287,8 @@
    (get-buffer-process (current-buffer))
    (if string string (current-kill 0))))
 
+(setq nyan-wavy-trail t)
+
 ;;  Hotkeys
 
 ;; i want a backquote as a prefix key
@@ -293,11 +301,16 @@
 (define-key my-backquote-keymap (vector ?0) 'reload-dot-emacs)
 (define-key my-backquote-keymap (vector ?p) 'projectile-find-file)
 
+(define-key my-backquote-keymap (vector ?f) 'find-file)
 (define-key my-backquote-keymap (vector ?g) 'helm-keyboard-quit)
-(define-key my-backquote-keymap (vector ?h) 'previous-buffer)
+;;(define-key my-backquote-keymap (vector ?h) 'previous-buffer)
+(define-key my-backquote-keymap (vector ?h) 'my-next-window)
+;;(define-key my-backquote-keymap (vector ?j) 'my-next-window)
 (define-key my-backquote-keymap (vector ?j) 'my-next-window)
 (define-key my-backquote-keymap (vector ?k) 'my-previous-window)
-(define-key my-backquote-keymap (vector ?l) 'next-buffer)
+;;(define-key my-backquote-keymap (vector ?k) 'my-previous-window)
+;;(define-key my-backquote-keymap (vector ?l) 'next-buffer)
+(define-key my-backquote-keymap (vector ?l) 'my-previous-window)
 (define-key my-backquote-keymap (vector ? ) 'rs-term-enter-scroll-mode)
 
 (define-key my-backquote-keymap (vector ?s) 'split-window-below)
@@ -336,7 +349,8 @@
 
   "s" 'save-buffer
   "d" 'cider-doc
-  "f" 'helm-find-files
+;;  "f" 'helm-find-files
+  "f" 'find-file
   "g" 'helm-keyboard-quit
 
   "p" 'projectile-find-file
@@ -380,10 +394,10 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (afternoon-theme evil-escape rainbow-identifiers rainbow-delimiters helm-projectile evil-leader clj-refactor))))
+    (nyan-mode cyberpunk-theme autumn-light-theme afternoon-theme evil-escape rainbow-identifiers rainbow-delimiters helm-projectile evil-leader clj-refactor))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(scroll-bar ((t (:background "black" :foreground "spring green")))))
