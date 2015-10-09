@@ -31,8 +31,10 @@
     evil
     evil-leader
     evil-escape
+    evil-snipe
     projectile
     helm-projectile
+    helm-ag
     cider
     clj-refactor
     rainbow-delimiters
@@ -69,7 +71,8 @@
 (evil-mode 1)
 
 ;;(set-default-font "Monospace-16")
-(set-default-font "DejaVu Sans Mono 13")
+;;(set-default-font "DejaVu Sans Mono 13")
+(set-default-font "DejaVu Sans Mono 14")
 
 ;; This will cause dired to default to Normal mode
 
@@ -102,6 +105,14 @@
 (add-hook 'js-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
 (add-hook 'python-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
 (evil-set-initial-state 'ibuffer-mode 'normal)
+
+;; evil-snipe
+
+(require 'evil-snipe)
+(evil-snipe-mode 1)
+
+;; OPTIONAL: Replaces evil-mode's f/F/t/T motions with evil-snipe
+(evil-snipe-override-mode 1)
 
 ;; projectile
 
@@ -164,6 +175,8 @@
 (define-key shell-mode-map (kbd "C-c C-l") 'helm-comint-input-ring)
 (define-key minibuffer-local-map (kbd "C-c C-l") 'helm-minibuffer-history)
 
+(require 'helm-ag)
+
 ;; edit and reload .emacs
 
 (defun edit-dot-emacs ()
@@ -172,7 +185,7 @@
   (find-file "~/.emacs"))
 
 (defun reload-dot-emacs ()
-  "Save .emacs, if it is in a buffer, and reload it."
+
   (interactive)
   (if (bufferp (get-file-buffer "~/.emacs"))
     (save-buffer (get-buffer "~/.emacs")))
@@ -237,6 +250,24 @@
 ;;(add-hook 'ibuffer-mode-hook
 ;;          (lambda ()
 ;;            (define-key 1)))
+
+
+;; change mode-line color by evil state
+(lexical-let ((default-color (cons (face-background 'mode-line)
+                                    (face-foreground 'mode-line))))
+    (add-hook 'post-command-hook
+    (lambda ()
+        (let ((color (cond ((minibufferp) default-color)
+                        ((evil-insert-state-p) '("#e80000" . "#ffffff"))
+                        ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
+                        ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
+                        (t default-color))))
+        (set-face-background 'mode-line (car color))
+        (set-face-foreground 'mode-line (cdr color))))))
+
+;; focus on the buffer with a mouse
+
+(setq mouse-autoselect-window t)
 
 ;;  Terminal Mode Tweaks
 
@@ -318,6 +349,7 @@
 (define-key my-backquote-keymap (vector ?x) 'helm-M-x)
 
 (define-key my-backquote-keymap (vector ?,) 'rename-buffer)
+(define-key my-backquote-keymap (vector ?/) 'helm-projectile-ag)
 
 (define-key my-backquote-keymap (kbd "<up>") 'enlarge-window)
 (define-key my-backquote-keymap (kbd "<down>") 'shrink-window)
@@ -379,6 +411,8 @@
   "[" 'split-window-below
   "]" 'split-window-right
 
+  "/" 'helm-projectile-ag
+
   "<up>"     'shrink-window
   "<down>"   'enlarge-window
   "<left>"   'shrink-window-horizontally
@@ -394,7 +428,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (nyan-mode cyberpunk-theme autumn-light-theme afternoon-theme evil-escape rainbow-identifiers rainbow-delimiters helm-projectile evil-leader clj-refactor))))
+    (evil-snipe helm-ag nyan-mode cyberpunk-theme autumn-light-theme afternoon-theme evil-escape rainbow-identifiers rainbow-delimiters helm-projectile evil-leader clj-refactor))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
