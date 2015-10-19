@@ -16,6 +16,8 @@
 ;;             '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (package-initialize)
 
+;; to check out: gnugol, abbrev mode, org mode
+
 ;; really good: evil, evil-leader, evil-escape
 ;; good: projectile, helm projectile
 ;; clojure: cider, clj-refactor
@@ -39,6 +41,8 @@
     clj-refactor
     rainbow-delimiters
     rainbow-identifiers
+;;    persp-mode
+;;    workgroups2
     nyan-mode
   ) "a list of packages to ensure are installed at launch.")
 
@@ -59,6 +63,16 @@
     (when (not (package-installed-p p))
       (package-install p))))
 
+;; persp mode - not too cool
+
+;;(require 'persp-mode)
+;;(persp-mode 1)
+
+;; workgroups2
+
+;;(require 'workgroups2)
+;;(workgroups-mode 1)
+
 ;; evil
 
 (require 'evil)
@@ -72,7 +86,8 @@
 
 ;;(set-default-font "Monospace-16")
 ;;(set-default-font "DejaVu Sans Mono 13")
-(set-default-font "DejaVu Sans Mono 14")
+;;(set-default-font "DejaVu Sans Mono 14")
+(set-default-font "DejaVu Sans Mono 12")
 
 ;; This will cause dired to default to Normal mode
 
@@ -245,6 +260,7 @@
 ;; line numbers
 
 (add-hook 'clojure-mode-hook (lambda () (linum-mode 1)))
+(add-hook 'python-mode-hook (lambda () (linum-mode 1)))
 
 ;; todo, rebind ` in ibuffer 
 ;;(add-hook 'ibuffer-mode-hook
@@ -282,6 +298,31 @@
 (defun my-previous-window ()
   (interactive)
   (other-window -1))
+
+;; ibuffer stuff
+
+(setq ibuffer-saved-filter-groups
+      (quote (("default"
+               ("Org" ;; all org-related buffers
+                (mode . org-mode))
+               ("Programming" ;; prog stuff not already in MyProjectX
+                (or
+                 (mode . c-mode)
+                 (mode . c++-mode)
+                 (mode . perl-mode)
+                 (mode . python-mode)
+                 (mode . emacs-lisp-mode)))
+               ("LaTeX"
+                (mode . latex-mode))
+               ("Terminals"
+                (mode . term-mode))
+               ("Directories"
+                (mode . dired-mode))
+               ))))
+
+(add-hook 'ibuffer-mode-hook
+  (lambda ()
+    (ibuffer-switch-to-saved-filter-groups "default")))
 
 ;; term stuff
 
@@ -428,7 +469,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (evil-snipe helm-ag nyan-mode cyberpunk-theme autumn-light-theme afternoon-theme evil-escape rainbow-identifiers rainbow-delimiters helm-projectile evil-leader clj-refactor))))
+    (workgroups2 persp-mode evil-snipe helm-ag nyan-mode cyberpunk-theme autumn-light-theme afternoon-theme evil-escape rainbow-identifiers rainbow-delimiters helm-projectile evil-leader clj-refactor))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
