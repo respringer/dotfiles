@@ -86,8 +86,8 @@
 
 ;;(set-default-font "Monospace-16")
 ;;(set-default-font "DejaVu Sans Mono 13")
-;;(set-default-font "DejaVu Sans Mono 14")
-(set-default-font "DejaVu Sans Mono 12")
+(set-default-font "DejaVu Sans Mono 15")
+;;(set-default-font "DejaVu Sans Mono 12")
 
 ;; This will cause dired to default to Normal mode
 
@@ -285,6 +285,39 @@
 
 (setq mouse-autoselect-window t)
 
+;; org-mode stuffy stuff
+
+(setq org-directory "/home/vagrant/grive/orgmode")
+
+;;(add-to-list 'auto-mode-alist '("\\.org.txt\\'" . org-mode))
+
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-iswitchb)
+
+;; do not prompt when executing code
+
+(setq org-confirm-babel-evaluate nil)
+
+;; active Babel languages
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((sh . t)
+   (emacs-lisp . t)
+   ))
+
+
+;; keep all the org files in the agenda
+
+(defun org-add-eventually()
+  "Adding a file to org-agenda when saved"
+  (interactive)
+  (if (string= major-mode "org-mode")
+      (org-agenda-file-to-front)))
+
+(add-hook 'before-save-hook 'org-add-eventually)
+
 ;;  Terminal Mode Tweaks
 
 (defun my-terminal-mode ()
@@ -359,7 +392,13 @@
    (get-buffer-process (current-buffer))
    (if string string (current-kill 0))))
 
-(setq nyan-wavy-trail t)
+(nyan-mode 1)
+
+(setq nyan-wavy-trail nil)
+
+(defun open-org-todo ()
+  (interactive)
+  (find-file "/home/vagrant/grive/orgmode/work-todo.org"))
 
 ;;  Hotkeys
 
@@ -391,6 +430,7 @@
 
 (define-key my-backquote-keymap (vector ?,) 'rename-buffer)
 (define-key my-backquote-keymap (vector ?/) 'helm-projectile-ag)
+(define-key my-backquote-keymap (vector ?=) 'open-org-todo)
 
 (define-key my-backquote-keymap (kbd "<up>") 'enlarge-window)
 (define-key my-backquote-keymap (kbd "<down>") 'shrink-window)
@@ -417,6 +457,7 @@
 ;; helm-find-files
 
 (evil-leader/set-key
+  "=" 'open-org-todo
   "e" 'eshell
   "t" 'my-terminal-mode
 
@@ -467,6 +508,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-agenda-files
+   (quote
+    ("~/grive/orgmode/work-todo.org" "~/grive/orgmode/clojure.org")))
  '(package-selected-packages
    (quote
     (workgroups2 persp-mode evil-snipe helm-ag nyan-mode cyberpunk-theme autumn-light-theme afternoon-theme evil-escape rainbow-identifiers rainbow-delimiters helm-projectile evil-leader clj-refactor))))
