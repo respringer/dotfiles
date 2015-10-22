@@ -274,7 +274,8 @@
     (add-hook 'post-command-hook
     (lambda ()
         (let ((color (cond ((minibufferp) default-color)
-                        ((evil-insert-state-p) '("#e80000" . "#ffffff"))
+                        ;;((evil-insert-state-p) '("#e80000" . "#ffffff"))
+                        ((evil-insert-state-p) '("#480000" . "#ffffff"))
                         ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
                         ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
                         (t default-color))))
@@ -352,6 +353,20 @@
 (org-agenda-file-to-front)
 )
 
+(setq org-refile-targets '((nil :maxlevel . 2)
+                                ; all top-level headlines in the
+                                ; current buffer are used (first) as a
+                                ; refile target
+                           (org-agenda-files :maxlevel . 2)))
+
+;; provide refile targets as paths, including the file name
+;; (without directory) as level 1 of the path
+(setq org-refile-use-outline-path 'file)
+
+;; allow to create new nodes (must be confirmed by the user) as
+;; refile targets
+(setq org-refile-allow-creating-parent-nodes 'confirm)
+
 (defun grive-sync ()
   (interactive)
   (async-shell-command "cd ~/grive && grive"))
@@ -359,6 +374,13 @@
 (defun dot-emacs-sync ()
   (interactive)
   (async-shell-command "~/bin/sync-dot-emacs.sh"))
+
+;; buffer gestion
+
+(defun kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
 ;;  Terminal Mode Tweaks
 
@@ -555,7 +577,7 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/work-todo.org" "~/grive/orgmode/spock-def-files.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/clojure.org")))
+    ("~/grive/orgmode/spock-def-files.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/todo.org" "~/grive/orgmode/silly.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/clojure.org")))
  '(package-selected-packages
    (quote
     (workgroups2 persp-mode evil-snipe helm-ag nyan-mode cyberpunk-theme autumn-light-theme afternoon-theme evil-escape rainbow-identifiers rainbow-delimiters helm-projectile evil-leader clj-refactor))))
