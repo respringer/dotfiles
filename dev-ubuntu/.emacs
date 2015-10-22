@@ -291,9 +291,18 @@
 
 ;;(add-to-list 'auto-mode-alist '("\\.org.txt\\'" . org-mode))
 
+(setq org-default-notes-file (concat org-directory "/notes.org"))
+
+(defun rs-capture-task ()
+  (interactive)
+  (org-capture nil "t"))
+
+;; capture a task
+(define-key global-map "\C-cc" 'rs-capture-task)
+
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cc" 'org-capture)
+;;(global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-cb" 'org-iswitchb)
 
 ;; do not prompt when executing code
@@ -317,6 +326,39 @@
       (org-agenda-file-to-front)))
 
 (add-hook 'before-save-hook 'org-add-eventually)
+
+(defun subtree-to-new-file ()
+  (interactive)
+  "sloppily assists in moving an org subtree to a new file"
+  (org-copy-subtree nil t)
+;;; This long setq statement gets the title of the first heading, to use as a default filename for the new .org file.
+(setq first-heading
+  (with-temp-buffer
+    (yank)
+    (beginning-of-buffer)
+    (search-forward " " nil nil 1)
+    (setq title-start (point))
+    (end-of-visual-line)
+    (setq title-end (point))
+    (setq first-heading (buffer-substring title-start title-end))
+  ))
+(setq def-filename (concat first-heading ".org"))
+(let ((insert-default-directory t))
+  (find-file-other-window  
+    (read-file-name "Move subtree to file:" def-filename)
+  ))
+(org-paste-subtree)
+;;; this final command adds the new .org file to the agenda
+(org-agenda-file-to-front)
+)
+
+(defun grive-sync ()
+  (interactive)
+  (async-shell-command "cd ~/grive && grive"))
+
+(defun dot-emacs-sync ()
+  (interactive)
+  (async-shell-command "~/bin/sync-dot-emacs.sh"))
 
 ;;  Terminal Mode Tweaks
 
@@ -424,6 +466,7 @@
 (define-key my-backquote-keymap (vector ?l) 'my-previous-window)
 (define-key my-backquote-keymap (vector ? ) 'rs-term-enter-scroll-mode)
 
+(define-key my-backquote-keymap (vector ?c) 'rs-capture-task)
 (define-key my-backquote-keymap (vector ?s) 'split-window-below)
 (define-key my-backquote-keymap (vector ?v) 'split-window-right)
 (define-key my-backquote-keymap (vector ?x) 'helm-M-x)
@@ -483,6 +526,8 @@
   "k" 'my-previous-window
   "l" 'next-buffer
 
+  "c" 'rs-capture-task
+
   "3" 'my-previous-window
   "4" 'my-next-window
   "5" 'other-frame
@@ -510,7 +555,7 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/work-todo.org" "~/grive/orgmode/clojure.org")))
+    ("~/grive/orgmode/work-todo.org" "~/grive/orgmode/spock-def-files.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/clojure.org")))
  '(package-selected-packages
    (quote
     (workgroups2 persp-mode evil-snipe helm-ag nyan-mode cyberpunk-theme autumn-light-theme afternoon-theme evil-escape rainbow-identifiers rainbow-delimiters helm-projectile evil-leader clj-refactor))))
