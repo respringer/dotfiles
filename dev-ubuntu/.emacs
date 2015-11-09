@@ -63,6 +63,7 @@
     (when (not (package-installed-p p))
       (package-install p))))
 
+(add-to-list 'load-path "~/.emacs.d/lisp/")
 ;; persp mode - not too cool
 
 ;;(require 'persp-mode)
@@ -86,8 +87,8 @@
 
 ;;(set-default-font "Monospace-16")
 ;;(set-default-font "DejaVu Sans Mono 13")
-(set-default-font "DejaVu Sans Mono 15")
-;;(set-default-font "DejaVu Sans Mono 12")
+;;(set-default-font "DejaVu Sans Mono 15")
+(set-default-font "DejaVu Sans Mono 12")
 
 ;; This will cause dired to default to Normal mode
 
@@ -192,6 +193,13 @@
 
 (require 'helm-ag)
 
+;; smartparens and evil-cleverparens
+
+;;(require 'smartparens-config)
+
+;;(add-hook 'smartparens-mode #'evil-cleverparens-mode)
+
+
 ;; edit and reload .emacs
 
 (defun edit-dot-emacs ()
@@ -205,6 +213,10 @@
   (if (bufferp (get-file-buffer "~/.emacs"))
     (save-buffer (get-buffer "~/.emacs")))
   (load-file "~/.emacs"))
+
+;; align cljlet
+
+(require 'align-cljlet)  
 
 ;; backup files
 
@@ -282,6 +294,18 @@
         (set-face-background 'mode-line (car color))
         (set-face-foreground 'mode-line (cdr color))))))
 
+;; my hybrid mode
+
+(define-key evil-insert-state-map   (kbd "C-a") #'move-beginning-of-line)
+(define-key evil-insert-state-map   (kbd "C-b") #'backward-char)
+(define-key evil-insert-state-map   (kbd "C-d") #'delete-char)
+(define-key evil-insert-state-map   (kbd "C-e") #'move-end-of-line)
+(define-key evil-insert-state-map   (kbd "C-f") #'forward-char)
+(define-key evil-insert-state-map   (kbd "C-k") #'kill-line)
+(define-key evil-insert-state-map   (kbd "C-n") #'next-line)
+(define-key evil-insert-state-map   (kbd "C-p") #'previous-line)
+
+
 ;; focus on the buffer with a mouse
 
 (setq mouse-autoselect-window t)
@@ -316,6 +340,7 @@
  '((sh . t)
    (emacs-lisp . t)
    ))
+
 
 
 ;; keep all the org files in the agenda
@@ -395,6 +420,11 @@
 (defun my-previous-window ()
   (interactive)
   (other-window -1))
+
+;; ediff stuff
+
+;;(csetq ediff-window-setup-function 'ediff-setup-windows-plain)
+;;(csetq ediff-split-window-function 'split-window-horizontally)
 
 ;; ibuffer stuff
 
@@ -477,7 +507,7 @@
 (define-key my-backquote-keymap (vector ?p) 'projectile-find-file)
 
 (define-key my-backquote-keymap (vector ?f) 'find-file)
-(define-key my-backquote-keymap (vector ?g) 'helm-keyboard-quit)
+;;(define-key my-backquote-keymap (vector ?g) 'helm-keyboard-quit)
 ;;(define-key my-backquote-keymap (vector ?h) 'previous-buffer)
 (define-key my-backquote-keymap (vector ?h) 'my-next-window)
 ;;(define-key my-backquote-keymap (vector ?j) 'my-next-window)
@@ -489,9 +519,10 @@
 (define-key my-backquote-keymap (vector ? ) 'rs-term-enter-scroll-mode)
 
 (define-key my-backquote-keymap (vector ?c) 'rs-capture-task)
+(define-key my-backquote-keymap (vector ?a) 'align-cljlet)
 (define-key my-backquote-keymap (vector ?s) 'split-window-below)
 (define-key my-backquote-keymap (vector ?v) 'split-window-right)
-(define-key my-backquote-keymap (vector ?x) 'helm-M-x)
+;;(define-key my-backquote-keymap (vector ?x) 'helm-M-x)
 
 (define-key my-backquote-keymap (vector ?,) 'rename-buffer)
 (define-key my-backquote-keymap (vector ?/) 'helm-projectile-ag)
@@ -530,10 +561,10 @@
   "d" 'cider-doc
 ;;  "f" 'helm-find-files
   "f" 'find-file
-  "g" 'helm-keyboard-quit
+;;  "g" 'helm-keyboard-quit
 
   "p" 'projectile-find-file
-  "]" 'helm-buffers-list
+;;  "]" 'helm-buffers-list
 
   "<tab>" 'helm-keyboard-quit
 
@@ -542,6 +573,8 @@
   "i" 'ibuffer
   "b" 'ibuffer
 ;;  "i" 'helm-buffers-list
+
+  "a" 'align-cljlet
 
   "h" 'previous-buffer
   "j" 'my-next-window
@@ -577,10 +610,10 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/spock-def-files.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/todo.org" "~/grive/orgmode/silly.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/clojure.org")))
+    ("~/grive/orgmode/work-todo.org" "~/grive/orgmode/spock-def-files.org" "~/grive/orgmode/todo.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/silly.org" "~/grive/orgmode/clojure.org")))
  '(package-selected-packages
    (quote
-    (workgroups2 persp-mode evil-snipe helm-ag nyan-mode cyberpunk-theme autumn-light-theme afternoon-theme evil-escape rainbow-identifiers rainbow-delimiters helm-projectile evil-leader clj-refactor))))
+    (evil-cleverparens yaml-mode workgroups2 persp-mode evil-snipe helm-ag nyan-mode cyberpunk-theme autumn-light-theme afternoon-theme evil-escape rainbow-identifiers rainbow-delimiters helm-projectile evil-leader clj-refactor))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
