@@ -87,8 +87,8 @@
 
 ;;(set-default-font "Monospace-16")
 ;;(set-default-font "DejaVu Sans Mono 13")
-;;(set-default-font "DejaVu Sans Mono 15")
-(set-default-font "DejaVu Sans Mono 12")
+(set-default-font "DejaVu Sans Mono 15")
+;;(set-default-font "DejaVu Sans Mono 12")
 
 ;; This will cause dired to default to Normal mode
 
@@ -128,10 +128,16 @@
 (evil-snipe-mode 1)
 
 ;; OPTIONAL: Replaces evil-mode's f/F/t/T motions with evil-snipe
-(evil-snipe-override-mode 1)
+;;(evil-snipe-override-mode 1)
+
+
+;; avy
+
+(require 'evil-avy)
+
+(evil-avy-mode 1)
 
 ;; projectile
-
 (require 'projectile)
 
 (projectile-global-mode)
@@ -302,9 +308,8 @@
 (define-key evil-insert-state-map   (kbd "C-e") #'move-end-of-line)
 (define-key evil-insert-state-map   (kbd "C-f") #'forward-char)
 (define-key evil-insert-state-map   (kbd "C-k") #'kill-line)
-(define-key evil-insert-state-map   (kbd "C-n") #'next-line)
-(define-key evil-insert-state-map   (kbd "C-p") #'previous-line)
-
+;;(define-key evil-insert-state-map   (kbd "C-n") #'next-line)
+;;(define-key evil-insert-state-map   (kbd "C-p") #'previous-line)
 
 ;; focus on the buffer with a mouse
 
@@ -313,6 +318,7 @@
 ;; org-mode stuffy stuff
 
 (setq org-directory "/home/vagrant/grive/orgmode")
+:
 
 ;;(add-to-list 'auto-mode-alist '("\\.org.txt\\'" . org-mode))
 
@@ -329,6 +335,13 @@
 (global-set-key "\C-ca" 'org-agenda)
 ;;(global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-cb" 'org-iswitchb)
+
+
+
+(global-set-key (kbd "C-;") 'avy-goto-char)
+(global-set-key (kbd "C-'") 'avy-goto-char-2)
+
+;;(global-set-key (kbd "C-SPC") 'evil-complete-next)
 
 ;; do not prompt when executing code
 
@@ -610,10 +623,10 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/work-todo.org" "~/grive/orgmode/spock-def-files.org" "~/grive/orgmode/todo.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/silly.org" "~/grive/orgmode/clojure.org")))
+    ("~/grive/orgmode/work-todo.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/spock-def-files.org" "~/grive/orgmode/todo.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/silly.org" "~/grive/orgmode/clojure.org")))
  '(package-selected-packages
    (quote
-    (evil-cleverparens yaml-mode workgroups2 persp-mode evil-snipe helm-ag nyan-mode cyberpunk-theme autumn-light-theme afternoon-theme evil-escape rainbow-identifiers rainbow-delimiters helm-projectile evil-leader clj-refactor))))
+    (evil-avy avy evil-cleverparens yaml-mode workgroups2 persp-mode evil-snipe helm-ag nyan-mode cyberpunk-theme autumn-light-theme afternoon-theme evil-escape rainbow-identifiers rainbow-delimiters helm-projectile evil-leader clj-refactor))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
