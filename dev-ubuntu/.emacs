@@ -41,6 +41,7 @@
     clj-refactor
     rainbow-delimiters
     rainbow-identifiers
+    ace-window
 ;;    persp-mode
 ;;    workgroups2
     nyan-mode
@@ -87,8 +88,9 @@
 
 ;;(set-default-font "Monospace-16")
 ;;(set-default-font "DejaVu Sans Mono 13")
-(set-default-font "DejaVu Sans Mono 15")
+;;(set-default-font "DejaVu Sans Mono 15")
 ;;(set-default-font "DejaVu Sans Mono 12")
+(set-default-font "DejaVu Sans Mono 10")
 
 ;; This will cause dired to default to Normal mode
 
@@ -137,6 +139,10 @@
 
 (evil-avy-mode 1)
 
+(require 'ace-window)
+
+(setq aw-dispatch-always t)
+
 ;; projectile
 (require 'projectile)
 
@@ -154,6 +160,11 @@
 
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook #'rainbow-identifiers-mode)
+
+;; electric pair
+
+(electric-pair-mode 1)
+(setq electric-pair-delete-adjacent-pairs t)
 
 ;; helm
 
@@ -277,7 +288,10 @@
 
 ;; line numbers
 
-(add-hook 'clojure-mode-hook (lambda () (linum-mode 1)))
+(add-hook 'clojure-mode-hook (lambda ()
+                               (linum-mode 1)
+                               (electric-pair-mode 1)
+                               (setq electric-pair-delete-adjacent-pairs t)))
 (add-hook 'python-mode-hook (lambda () (linum-mode 1)))
 
 ;; todo, rebind ` in ibuffer 
@@ -340,6 +354,7 @@
 
 (global-set-key (kbd "C-;") 'avy-goto-char)
 (global-set-key (kbd "C-'") 'avy-goto-char-2)
+(global-set-key (kbd "C-l") 'avy-goto-line)
 
 ;;(global-set-key (kbd "C-SPC") 'evil-complete-next)
 
@@ -514,6 +529,7 @@
 (define-prefix-command 'my-backquote-keymap)
 (define-key my-backquote-keymap (vector ?`) 'my-insert-backquote)
 (define-key my-backquote-keymap (vector ?q) 'rs-term-exit-scroll-mode)
+(define-key my-backquote-keymap (vector ?w) 'ace-window)
 (define-key my-backquote-keymap (vector ?b) 'ibuffer)
 (define-key my-backquote-keymap (vector ?9) 'edit-dot-emacs)
 (define-key my-backquote-keymap (vector ?0) 'reload-dot-emacs)
@@ -567,6 +583,7 @@
 
 (evil-leader/set-key
   "=" 'open-org-todo
+  "w" 'ace-window
   "e" 'eshell
   "t" 'my-terminal-mode
 
@@ -626,7 +643,7 @@
     ("~/grive/orgmode/work-todo.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/spock-def-files.org" "~/grive/orgmode/todo.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/silly.org" "~/grive/orgmode/clojure.org")))
  '(package-selected-packages
    (quote
-    (evil-avy avy evil-cleverparens yaml-mode workgroups2 persp-mode evil-snipe helm-ag nyan-mode cyberpunk-theme autumn-light-theme afternoon-theme evil-escape rainbow-identifiers rainbow-delimiters helm-projectile evil-leader clj-refactor))))
+    (zone-nyan ace-window evil-avy avy evil-cleverparens yaml-mode workgroups2 persp-mode evil-snipe helm-ag nyan-mode cyberpunk-theme autumn-light-theme afternoon-theme evil-escape rainbow-identifiers rainbow-delimiters helm-projectile evil-leader clj-refactor))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
