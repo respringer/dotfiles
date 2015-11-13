@@ -41,6 +41,7 @@
     clj-refactor
     rainbow-delimiters
     rainbow-identifiers
+    ;;avy-window
 ;;    persp-mode
 ;;    workgroups2
     nyan-mode
@@ -87,7 +88,7 @@
 
 ;;(set-default-font "Monospace-16")
 ;;(set-default-font "DejaVu Sans Mono 13")
-(set-default-font "DejaVu Sans Mono 15")
+;;(set-default-font "DejaVu Sans Mono 15")
 ;;(set-default-font "DejaVu Sans Mono 12")
 
 ;; This will cause dired to default to Normal mode
@@ -133,17 +134,14 @@
 
 ;; avy
 
-(require 'evil-avy)
-
-(evil-avy-mode 1)
+;;(require 'evil-avy)
+;;(evil-avy-mode 1)
 
 ;; projectile
 (require 'projectile)
 
 (projectile-global-mode)
 (projectile-mode 1)
-
-(projectile-add-known-project "/home/vagrant/ripcord/spock")
 
 ;;
 
@@ -157,47 +155,47 @@
 
 ;; helm
 
-(add-to-list 'load-path "/home/vagrant/emacs-async")
-(add-to-list 'load-path "/home/vagrant/helm")
+;;(add-to-list 'load-path "/home/vagrant/emacs-async")
+;;(add-to-list 'load-path "/home/vagrant/helm")
 
-(require 'helm-config)
+;;(require 'helm-config)
 
-(helm-mode 1)
+;;(helm-mode 1)
 
-(setq projectile-completion-system 'helm)
-(helm-projectile-on)
-
-(global-set-key (kbd "M-x") 'helm-M-x)
-(setq helm-M-x-fuzzy-match t)
-
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "C-x b") 'helm-mini)
-(setq helm-buffers-fuzzy-matching t
-      helm-recentf-fuzzy-match    t)
-
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-c h o") 'helm-occur)
-(global-set-key (kbd "C-h SPC") 'helm-all-mark-rings)
-(global-set-key (kbd "C-c h x") 'helm-register)
-(global-set-key (kbd "C-c h h") 'helm-google-suggest)
-(global-set-key (kbd "C-c h M-:") 'helm-eval-expression-with-eldoc)
-
-(setq helm-semantic-fuzzy-matching t
-      helm-locate-fuzzy-match    t
-      helm-apropos-fuzzy-match    t
-      helm-lisp-fuzzy-completion    t
-      helm-imenu-fuzzy-match    t)
-
-(add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
-
-(require 'helm-eshell)
-(add-hook 'eshell-mode-hook
-	  #'(lambda () (define-key eshell-mode-map (kbd "C-c C-l") 'helm-eshell-history)))
+;; (setq projectile-completion-system 'helm)
+;; (helm-projectile-on)
+;; 
+;; (global-set-key (kbd "M-x") 'helm-M-x)
+;; (setq helm-M-x-fuzzy-match t)
+;; 
+;; (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+;; (global-set-key (kbd "C-x b") 'helm-mini)
+;; (setq helm-buffers-fuzzy-matching t
+;;       helm-recentf-fuzzy-match    t)
+;; 
+;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
+;; (global-set-key (kbd "C-c h o") 'helm-occur)
+;; (global-set-key (kbd "C-h SPC") 'helm-all-mark-rings)
+;; (global-set-key (kbd "C-c h x") 'helm-register)
+;; (global-set-key (kbd "C-c h h") 'helm-google-suggest)
+;; (global-set-key (kbd "C-c h M-:") 'helm-eval-expression-with-eldoc)
+;; 
+;; (setq helm-semantic-fuzzy-matching t
+;;       helm-locate-fuzzy-match    t
+;;       helm-apropos-fuzzy-match    t
+;;       helm-lisp-fuzzy-completion    t
+;;       helm-imenu-fuzzy-match    t)
+;; 
+;; (add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
+;; 
+;; (require 'helm-eshell)
+;; (add-hook 'eshell-mode-hook
+;; 	  #'(lambda () (define-key eshell-mode-map (kbd "C-c C-l") 'helm-eshell-history)))
 
 (define-key shell-mode-map (kbd "C-c C-l") 'helm-comint-input-ring)
 (define-key minibuffer-local-map (kbd "C-c C-l") 'helm-minibuffer-history)
 
-(require 'helm-ag)
+;;(require 'helm-ag)
 
 ;; smartparens and evil-cleverparens
 
@@ -222,7 +220,7 @@
 
 ;; align cljlet
 
-(require 'align-cljlet)  
+;;(require 'align-cljlet)  
 
 ;; backup files
 
@@ -239,7 +237,7 @@
 
 ;;(load-theme 'afternoon t)
 ;;(disable-theme 'autumn-light t)
-(load-theme 'cyberpunk t)
+;;(load-theme 'cyberpunk t)
 
 ;; disable the tool bar
 (menu-bar-mode -1)
@@ -318,7 +316,7 @@
 ;; org-mode stuffy stuff
 
 (setq org-directory "/home/vagrant/grive/orgmode")
-:
+
 
 ;;(add-to-list 'auto-mode-alist '("\\.org.txt\\'" . org-mode))
 
@@ -532,7 +530,7 @@
 (define-key my-backquote-keymap (vector ? ) 'rs-term-enter-scroll-mode)
 
 (define-key my-backquote-keymap (vector ?c) 'rs-capture-task)
-(define-key my-backquote-keymap (vector ?a) 'align-cljlet)
+;;(define-key my-backquote-keymap (vector ?a) 'align-cljlet)
 (define-key my-backquote-keymap (vector ?s) 'split-window-below)
 (define-key my-backquote-keymap (vector ?v) 'split-window-right)
 ;;(define-key my-backquote-keymap (vector ?x) 'helm-M-x)
@@ -587,7 +585,7 @@
   "b" 'ibuffer
 ;;  "i" 'helm-buffers-list
 
-  "a" 'align-cljlet
+;;  "a" 'align-cljlet
 
   "h" 'previous-buffer
   "j" 'my-next-window
