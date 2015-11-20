@@ -34,6 +34,7 @@
     evil-leader
     evil-escape
     evil-snipe
+    evil-surround
     projectile
     helm-projectile
     helm-ag
@@ -86,11 +87,13 @@
 (global-evil-leader-mode)
 (evil-mode 1)
 
+(message "here")
+
 ;;(set-default-font "Monospace-16")
 ;;(set-default-font "DejaVu Sans Mono 13")
 ;;(set-default-font "DejaVu Sans Mono 15")
-;;(set-default-font "DejaVu Sans Mono 12")
-(set-default-font "DejaVu Sans Mono 10")
+(set-default-font "DejaVu Sans Mono 12")
+;;(set-default-font "DejaVu Sans Mono 10")
 
 ;; This will cause dired to default to Normal mode
 
@@ -142,6 +145,11 @@
 (require 'ace-window)
 
 (setq aw-dispatch-always t)
+
+;; evil-surround
+
+(require 'evil-surround)
+(global-evil-surround-mode 1)
 
 ;; projectile
 (require 'projectile)
@@ -234,6 +242,33 @@
 ;; align cljlet
 
 (require 'align-cljlet)  
+
+;; indent a defun
+
+(defun indent-buffer ()
+  "Indent the currently visited buffer."
+  (interactive)
+  (indent-region (point-min) (point-max)))
+
+(defun indent-region-or-buffer ()
+  "Indent a region if selected, otherwise the whole buffer."
+  (interactive)
+  (save-excursion
+    (if (region-active-p)
+        (progn
+          (indent-region (region-beginning) (region-end))
+          (message "Indented selected region."))
+      (progn
+        (indent-buffer)
+        (message "Indented buffer.")))))
+
+(defun indent-defun ()
+  "Indent the current defun."
+  (interactive)
+  (save-restriction
+    (widen)
+    (narrow-to-defun)
+    (indent-buffer)))
 
 ;; backup files
 
@@ -355,8 +390,6 @@
 (global-set-key (kbd "C-;") 'avy-goto-char)
 (global-set-key (kbd "C-'") 'avy-goto-char-2)
 (global-set-key (kbd "C-l") 'avy-goto-line)
-
-;;(global-set-key (kbd "C-SPC") 'evil-complete-next)
 
 ;; do not prompt when executing code
 
@@ -522,12 +555,28 @@
   (interactive)
   (find-file "/home/vagrant/grive/orgmode/work-todo.org"))
 
+(defun open-secondary-org-todo ()
+  (interactive)
+  (find-file "/home/vagrant/grive/orgmode/secondary-work-todo.org"))
+
+(defun dired-orgmode ()
+  (interactive)
+  (dired "/home/vagrant/grive/orgmode"))
+
+(defun open-org-for-current-jira ()
+  (interactive)
+  (find-file "/home/vagrant/grive/orgmode/jiras/opsc-6988-spock-agent-install.org"))
+
 ;;  Hotkeys
 
 ;; i want a backquote as a prefix key
 
 (define-prefix-command 'my-backquote-keymap)
 (define-key my-backquote-keymap (vector ?`) 'my-insert-backquote)
+(define-key my-backquote-keymap (vector ?!) 'open-org-for-current-jira)
+(define-key my-backquote-keymap (vector ?^) 'grive-sync)
+(define-key my-backquote-keymap (vector ?*) 'open-org-todo)
+(define-key my-backquote-keymap (vector ?&) 'open-secondary-org-todo)
 (define-key my-backquote-keymap (vector ?q) 'rs-term-exit-scroll-mode)
 (define-key my-backquote-keymap (vector ?w) 'ace-window)
 (define-key my-backquote-keymap (vector ?b) 'ibuffer)
@@ -550,12 +599,14 @@
 (define-key my-backquote-keymap (vector ?c) 'rs-capture-task)
 (define-key my-backquote-keymap (vector ?a) 'align-cljlet)
 (define-key my-backquote-keymap (vector ?s) 'split-window-below)
+(define-key my-backquote-keymap (vector ?d) 'indent-defun)
 (define-key my-backquote-keymap (vector ?v) 'split-window-right)
 ;;(define-key my-backquote-keymap (vector ?x) 'helm-M-x)
 
 (define-key my-backquote-keymap (vector ?,) 'rename-buffer)
 (define-key my-backquote-keymap (vector ?/) 'helm-projectile-ag)
 (define-key my-backquote-keymap (vector ?=) 'open-org-todo)
+(define-key my-backquote-keymap (vector ?.) 'dot-emacs-sync)
 
 (define-key my-backquote-keymap (kbd "<up>") 'enlarge-window)
 (define-key my-backquote-keymap (kbd "<down>") 'shrink-window)
@@ -582,13 +633,18 @@
 ;; helm-find-files
 
 (evil-leader/set-key
+  "!" 'open-org-for-current-jira
+  "^" 'grive-sync
+  "*" 'open-org-todo
+  "&" 'open-secondary-org-todo
   "=" 'open-org-todo
   "w" 'ace-window
   "e" 'eshell
   "t" 'my-terminal-mode
 
   "s" 'save-buffer
-  "d" 'cider-doc
+  ;;"d" 'cider-doc
+  "d" 'indent-defun
 ;;  "f" 'helm-find-files
   "f" 'find-file
 ;;  "g" 'helm-keyboard-quit
@@ -615,7 +671,7 @@
 
   "3" 'my-previous-window
   "4" 'my-next-window
-  "5" 'other-frame
+  "5" 'new-frame
 
   "9" 'edit-dot-emacs
   "0" 'reload-dot-emacs
@@ -623,6 +679,7 @@
   "[" 'split-window-below
   "]" 'split-window-right
 
+  "." 'dot-emacs-sync
   "/" 'helm-projectile-ag
 
   "<up>"     'shrink-window
@@ -640,13 +697,13 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/work-todo.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/spock-def-files.org" "~/grive/orgmode/todo.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/silly.org" "~/grive/orgmode/clojure.org")))
+    ("~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
-    (zone-nyan ace-window evil-avy avy evil-cleverparens yaml-mode workgroups2 persp-mode evil-snipe helm-ag nyan-mode cyberpunk-theme autumn-light-theme afternoon-theme evil-escape rainbow-identifiers rainbow-delimiters helm-projectile evil-leader clj-refactor))))
+    (evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(scroll-bar ((t (:background "black" :foreground "spring green")))))
+ )
