@@ -557,6 +557,14 @@
   (interactive)
   (find-file "/home/vagrant/grive/orgmode/work-todo.org"))
 
+(defun open-standups-org ()
+  (interactive)
+  (find-file "/home/vagrant/grive/orgmode/standups.org"))
+
+(defun open-emacs-notes-org ()
+  (interactive)
+  (find-file "/home/vagrant/grive/orgmode/emacs-notes.org"))
+
 (defun open-secondary-org-todo ()
   (interactive)
   (find-file "/home/vagrant/grive/orgmode/secondary-work-todo.org"))
@@ -639,6 +647,9 @@
   "^" 'grive-sync
   "*" 'open-org-todo
   "&" 'open-secondary-org-todo
+
+  ")" 'open-standups-org
+  
   "=" 'open-org-todo
   "w" 'ace-window
   "e" 'eshell
@@ -681,6 +692,7 @@
   "[" 'split-window-below
   "]" 'split-window-right
 
+  "," 'open-emacs-notes-org
   "." 'dot-emacs-sync
   "/" 'helm-projectile-ag
 
@@ -699,7 +711,7 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/secondary-work-todo.org" "~/grive/orgmode/work-todo.org")))
+    ("~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
     (evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
