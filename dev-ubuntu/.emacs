@@ -589,9 +589,11 @@
 (define-key my-backquote-keymap (vector ?&) 'open-secondary-org-todo)
 (define-key my-backquote-keymap (vector ?q) 'rs-term-exit-scroll-mode)
 (define-key my-backquote-keymap (vector ?w) 'ace-window)
+(define-key my-backquote-keymap (vector ?t) 'my-terminal-mode)
 (define-key my-backquote-keymap (vector ?b) 'ibuffer)
 (define-key my-backquote-keymap (vector ?9) 'edit-dot-emacs)
 (define-key my-backquote-keymap (vector ?0) 'reload-dot-emacs)
+(define-key my-backquote-keymap (vector ?o) 'dired-orgmode)
 (define-key my-backquote-keymap (vector ?p) 'projectile-find-file)
 
 (define-key my-backquote-keymap (vector ?f) 'find-file)
@@ -662,6 +664,7 @@
   "f" 'find-file
 ;;  "g" 'helm-keyboard-quit
 
+  "o" 'dired-orgmode
   "p" 'projectile-find-file
 ;;  "]" 'helm-buffers-list
 
@@ -711,7 +714,7 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/secondary-work-todo.org")))
+    ("~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/component.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
     (evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
