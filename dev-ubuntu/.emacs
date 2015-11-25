@@ -1,6 +1,9 @@
 ;; TO DO
-;;         friendly way to exit insert mode like fj or something
-;;         
+;;
+;;    evil + lispy + paredit
+;;    get more into cider
+;;    get more into clj refactor
+;;    https://www.reddit.com/r/emacs/comments/3hvx2l/as_an_evil_user_should_i_learn_paredit_or_lispy/
 ;;
 ;; Package stuff
 ;;
@@ -40,6 +43,8 @@
     helm-ag
     cider
     clj-refactor
+    lispy
+    smartparens
     rainbow-delimiters
     rainbow-identifiers
     ace-window
@@ -166,15 +171,24 @@
 
 (global-visual-line-mode 1)
 
+;; lispy
+
+(require 'lispy)
+;; Note: lispy is active in insert mode in evil
+(add-hook 'clojure-mode-hook (lambda () (lispy-mode 1)))
+(add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
+
+(require 'smartparens-config)
+
 ;; rainbow delimiters
 
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook #'rainbow-identifiers-mode)
 
 ;; electric pair
-
-(electric-pair-mode 1)
-(setq electric-pair-delete-adjacent-pairs t)
+;; trying to use lispy + paredit instead
+;;(electric-pair-mode 1)
+;;(setq electric-pair-delete-adjacent-pairs t)
 
 ;; helm
 
@@ -635,6 +649,16 @@
 
 
 (define-key evil-normal-state-map (kbd "M-.") 'cider-find-var)
+
+;; keep dired up to date
+
+;; Auto refresh buffers
+(global-auto-revert-mode 1)
+
+;; Also auto refresh dired, but be quiet about it
+(setq global-auto-revert-non-file-buffers t)
+(setq auto-revert-verbose nil)
+
  
 ;; it looks like 3 relavant helms are
 ;;
@@ -705,6 +729,33 @@
   "<right>"  'enlarge-window-horizontally
 )
 
+;; some org-mode stuff for evil
+
+(define-key evil-normal-state-map (kbd "]a") 'org-insert-heading)
+(define-key evil-normal-state-map (kbd "]h") 'org-metaright)
+(define-key evil-normal-state-map (kbd "[h") 'org-metaleft)
+(define-key evil-normal-state-map (kbd "]j") 'org-metadown)
+(define-key evil-normal-state-map (kbd "[j") 'org-metaup)
+(define-key evil-normal-state-map (kbd "]k") 'outline-demote)
+(define-key evil-normal-state-map (kbd "[k") 'outline-promote)
+(define-key evil-normal-state-map (kbd "]o") 'outline-next-visible-heading)
+(define-key evil-normal-state-map (kbd "[o") 'outline-previous-visible-heading)
+(define-key evil-normal-state-map (kbd "]t") 'outline-forward-same-level)
+(define-key evil-normal-state-map (kbd "[t") 'outline-backward-same-level)
+(define-key evil-normal-state-map (kbd "]b") 'org-next-block)
+(define-key evil-normal-state-map (kbd "[b") 'org-previous-block)
+(define-key evil-normal-state-map (kbd "]r") 'org-table-move-row-down)
+(define-key evil-normal-state-map (kbd "[r") 'org-table-move-row-up)
+(define-key evil-normal-state-map (kbd "]c") 'org-table-move-column-right)
+(define-key evil-normal-state-map (kbd "[c") 'org-table-move-column-left)
+(define-key evil-normal-state-map (kbd "]f") 'org-table-next-field)
+(define-key evil-normal-state-map (kbd "[f") 'org-table-previous-field)
+(define-key evil-normal-state-map (kbd "]l") 'org-next-link)
+(define-key evil-normal-state-map (kbd "[l") 'org-previous-link)
+(define-key evil-normal-state-map (kbd "]u") 'org-down-element)
+(define-key evil-normal-state-map (kbd "[u") 'org-up-element)
+
+
 ;;(setq cljr--debug-mode)
 
 (custom-set-variables
@@ -714,10 +765,10 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/component.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/secondary-work-todo.org")))
+    ("~/grive/orgmode/work-todo.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
-    (evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
+    (smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
