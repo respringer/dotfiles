@@ -45,6 +45,7 @@
     clj-refactor
     lispy
     smartparens
+    evil-smartparens
     rainbow-delimiters
     rainbow-identifiers
     ace-window
@@ -73,7 +74,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 ;; persp mode - not too cool
 
-;;(require 'persp-mode)
+
 ;;(persp-mode 1)
 
 ;; workgroups2
@@ -97,12 +98,13 @@
 ;;(set-default-font "Monospace-16")
 ;;(set-default-font "DejaVu Sans Mono 13")
 ;;(set-default-font "DejaVu Sans Mono 15")
-(set-default-font "DejaVu Sans Mono 12")
-;;(set-default-font "DejaVu Sans Mono 10")
+;; (set-default-font "DejaVu Sans Mono 12")
+;; (set-default-font "DejaVu Sans Mono 10")
+(set-default-font "DejaVu Sans Mono 9")
 
 ;; This will cause dired to default to Normal mode
 
-(setq evil-normal-state-modes (append evil-motion-state-modes evil-normal-state-modes))
+;; (setq evil-normal-state-modes (append evil-motion-state-modes evil-normal-state-modes))
 (setq evil-motion-state-modes nil)
 
 (evil-escape-mode 1)
@@ -166,10 +168,14 @@
 
 ;;
 
-;;(require 'smartparens)
-;;(require 'smartparens-config)
-
 (global-visual-line-mode 1)
+
+;;
+
+(require 'smartparens)
+(require 'smartparens-config)
+(smartparens-global-mode 1)
+(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
 
 ;; lispy
 
@@ -178,7 +184,6 @@
 (add-hook 'clojure-mode-hook (lambda () (lispy-mode 1)))
 (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
 
-(require 'smartparens-config)
 
 ;; rainbow delimiters
 
@@ -225,6 +230,10 @@
 
 (add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
 
+(require 'helm-descbinds)
+
+(global-set-key (kbd "C-h b") 'helm-descbinds)
+
 (require 'helm-eshell)
 (add-hook 'eshell-mode-hook
 	  #'(lambda () (define-key eshell-mode-map (kbd "C-c C-l") 'helm-eshell-history)))
@@ -239,7 +248,6 @@
 ;;(require 'smartparens-config)
 
 ;;(add-hook 'smartparens-mode #'evil-cleverparens-mode)
-
 
 ;; edit and reload .emacs
 
@@ -755,6 +763,8 @@
 (define-key evil-normal-state-map (kbd "]u") 'org-down-element)
 (define-key evil-normal-state-map (kbd "[u") 'org-up-element)
 
+(global-set-key (kbd "<kp-subtract>") 'text-scale-decrease)
+(global-set-key (kbd "<kp-add>") 'text-scale-increase)
 
 ;;(setq cljr--debug-mode)
 
@@ -765,10 +775,10 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/work-todo.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/secondary-work-todo.org")))
+    ("~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
-    (smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
+    (evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
