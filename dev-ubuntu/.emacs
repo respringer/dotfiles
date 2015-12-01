@@ -118,6 +118,20 @@
 ;(setq-default evil-escape-key-sequence "jk")
 (setq evil-escape-unordered-key-sequence 1)
 
+;; evil-search-highlight-persist
+
+(require 'highlight)
+(require 'evil-search-highlight-persist)
+(global-evil-search-highlight-persist t)
+
+;; To only display string whose length is greater than or equal to 3
+;; (setq evil-search-highlight-string-min-len 3)
+
+;; which key
+
+(require 'which-key)
+(which-key-mode)
+ 
 (require 'clj-refactor)
 (add-hook 'clojure-mode-hook (lambda ()
                                (clj-refactor-mode 1)
@@ -184,6 +198,8 @@
 (add-hook 'clojure-mode-hook (lambda () (lispy-mode 1)))
 (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
 
+;; make lispy use the normal undo tree stuff
+(lispy-define-key lispy-mode-map "u" 'undo-tree-undo)
 
 ;; rainbow delimiters
 
@@ -784,7 +800,7 @@
     ("~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
-    (evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
+    (which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
