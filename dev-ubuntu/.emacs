@@ -537,6 +537,8 @@
       (quote (("default"
                ("Org" ;; all org-related buffers
                 (mode . org-mode))
+               ("Clojure" ;; all org-related buffers
+                (mode . clojure-mode))
                ("Programming" ;; prog stuff not already in MyProjectX
                 (or
                  (mode . c-mode)
@@ -552,9 +554,35 @@
                 (mode . dired-mode))
                ))))
 
+;; do not show empty groups by default
+(setq ibuffer-show-empty-filter-groups nil)
+
+;; keep the filter list up to date
 (add-hook 'ibuffer-mode-hook
-  (lambda ()
-    (ibuffer-switch-to-saved-filter-groups "default")))
+	  '(lambda ()
+	     (ibuffer-auto-mode 1)
+	     (ibuffer-switch-to-saved-filter-groups "home")))
+
+(setq mp/ibuffer-collapsed-groups (list "Helm" "*Internal*" "Default"))
+
+(defadvice ibuffer (after collapse-helm)
+  (dolist (group mp/ibuffer-collapsed-groups)
+	  (progn
+	    (goto-char 1)
+	    (when (search-forward (concat "[ " group " ]") (point-max) t)
+	      (progn
+		(move-beginning-of-line nil)
+		(ibuffer-toggle-filter-group)
+		)
+	      )
+	    )
+	  )
+    (goto-char 1)
+    (search-forward "[ " (point-max) t)
+  )
+
+(ad-activate 'ibuffer)
+
 
 ;; term stuff
 
@@ -797,7 +825,7 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
+    ("~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
     (which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
