@@ -267,6 +267,10 @@
 
 (require 'align-cljlet)  
 
+;; cider
+
+(setq cider-prompt-for-symbol nil)
+
 ;; indent a defun
 
 (defun indent-buffer ()
@@ -615,6 +619,7 @@
 (define-key my-backquote-keymap (vector ?b) 'ibuffer)
 (define-key my-backquote-keymap (vector ?9) 'edit-dot-emacs)
 (define-key my-backquote-keymap (vector ?0) 'reload-dot-emacs)
+(define-key my-backquote-keymap (vector ?u) 'cljr-find-usages)
 (define-key my-backquote-keymap (vector ?o) 'dired-orgmode)
 (define-key my-backquote-keymap (vector ?p) 'projectile-find-file)
 
@@ -704,6 +709,7 @@
 
   "x" 'helm-M-x
 
+  "u" 'cljr-find-usages
   "i" 'ibuffer
   "b" 'ibuffer
 ;;  "i" 'helm-buffers-list
