@@ -37,22 +37,24 @@
     evil-leader
     evil-escape
     evil-snipe
-    evil-surround
+    ;;    evil-surround
+    aggressive-indent
     projectile
     helm-projectile
     helm-ag
+    hydra
     cider
     clj-refactor
     lispy
     smartparens
-    evil-smartparens
+    ;;    evil-smartparens
     rainbow-delimiters
     rainbow-identifiers
     ace-window
-;;    persp-mode
-;;    workgroups2
+    ;;    persp-mode
+    ;;    workgroups2
     nyan-mode
-  ) "a list of packages to ensure are installed at launch.")
+    ) "a list of packages to ensure are installed at launch.")
 
 ; method to check if all packages are installed
 (defun packages-installed-p ()
@@ -156,6 +158,11 @@
 ;; OPTIONAL: Replaces evil-mode's f/F/t/T motions with evil-snipe
 ;;(evil-snipe-override-mode 1)
 
+;; aggresive-indent
+
+;; (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
+;; (add-hook 'clojure-mode-hook #'aggressive-indent-mode)
+(global-aggressive-indent-mode)
 
 ;; avy
 
@@ -168,9 +175,8 @@
 (setq aw-dispatch-always t)
 
 ;; evil-surround
-
-(require 'evil-surround)
-(global-evil-surround-mode 1)
+;;(require 'evil-surround)
+;;(global-evil-surround-mode 1)
 
 ;; projectile
 (require 'projectile)
@@ -189,7 +195,7 @@
 (require 'smartparens)
 (require 'smartparens-config)
 (smartparens-global-mode 1)
-(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+;;(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
 
 ;; lispy
 
@@ -200,6 +206,8 @@
 
 ;; make lispy use the normal undo tree stuff
 (lispy-define-key lispy-mode-map "u" 'undo-tree-undo)
+(lispy-set-key-theme '(special paredit c-digits))
+;; (lispy-set-key-theme '(paredit))
 
 ;; rainbow delimiters
 
@@ -258,12 +266,6 @@
 (define-key minibuffer-local-map (kbd "C-c C-l") 'helm-minibuffer-history)
 
 (require 'helm-ag)
-
-;; smartparens and evil-cleverparens
-
-;;(require 'smartparens-config)
-
-;;(add-hook 'smartparens-mode #'evil-cleverparens-mode)
 
 ;; edit and reload .emacs
 
@@ -368,9 +370,9 @@
 ;; line numbers
 
 (add-hook 'clojure-mode-hook (lambda ()
-                               (linum-mode 1)
-                               (electric-pair-mode 1)
-                               (setq electric-pair-delete-adjacent-pairs t)))
+                               (linum-mode 1)))
+                               ;;  (electric-pair-mode 1)
+                             ;;  (setq electric-pair-delete-adjacent-pairs t)))
 (add-hook 'python-mode-hook (lambda () (linum-mode 1)))
 
 ;; todo, rebind ` in ibuffer 
@@ -381,17 +383,30 @@
 
 ;; change mode-line color by evil state
 (lexical-let ((default-color (cons (face-background 'mode-line)
-                                    (face-foreground 'mode-line))))
-    (add-hook 'post-command-hook
-    (lambda ()
-        (let ((color (cond ((minibufferp) default-color)
-                        ;;((evil-insert-state-p) '("#e80000" . "#ffffff"))
-                        ((evil-insert-state-p) '("#480000" . "#ffffff"))
-                        ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
-                        ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
-                        (t default-color))))
-        (set-face-background 'mode-line (car color))
-        (set-face-foreground 'mode-line (cdr color))))))
+                                   (face-foreground 'mode-line))))
+  (add-hook 'post-command-hook
+            (lambda ()
+              (let ((color (cond ((minibufferp) default-color)
+                                 ;;((evil-insert-state-p) '("#e80000" . "#ffffff"))
+                                 ((evil-insert-state-p) '("#480000" . "#ffffff"))
+                                 ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
+                                 ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
+                                 (t default-color))))
+                (set-face-background 'mode-line (car color))
+                (set-face-foreground 'mode-line (cdr color))))))
+
+(require 'hydra)
+
+(defhydra hydra-yank-pop ()
+  "yank"
+  ("C-y" yank nil)
+  ("M-y" yank-pop nil)
+  ("y" (yank-pop 1) "next")
+  ("Y" (yank-pop -1) "prev")
+  ("l" helm-show-kill-ring "list" :color blue))
+
+(global-set-key (kbd "C-y") #'hydra-yank-pop/yank)
+(global-set-key (kbd "M-y") #'hydra-pank-pop/yank-pop)
 
 ;; my hybrid mode
 
@@ -741,13 +756,13 @@
   "s" 'save-buffer
   ;;"d" 'cider-doc
   "d" 'indent-defun
-;;  "f" 'helm-find-files
+  ;;  "f" 'helm-find-files
   "f" 'find-file
-;;  "g" 'helm-keyboard-quit
+  ;;  "g" 'helm-keyboard-quit
 
   "o" 'dired-orgmode
   "p" 'projectile-find-file
-;;  "]" 'helm-buffers-list
+  ;;  "]" 'helm-buffers-list
 
   "<tab>" 'helm-keyboard-quit
 
@@ -756,7 +771,7 @@
   "u" 'cljr-find-usages
   "i" 'ibuffer
   "b" 'ibuffer
-;;  "i" 'helm-buffers-list
+  ;;  "i" 'helm-buffers-list
 
   "a" 'align-cljlet
 
@@ -785,33 +800,33 @@
   "<down>"   'enlarge-window
   "<left>"   'shrink-window-horizontally
   "<right>"  'enlarge-window-horizontally
-)
+  )
 
 ;; some org-mode stuff for evil
 
-(define-key evil-normal-state-map (kbd "]a") 'org-insert-heading)
-(define-key evil-normal-state-map (kbd "]h") 'org-metaright)
-(define-key evil-normal-state-map (kbd "[h") 'org-metaleft)
-(define-key evil-normal-state-map (kbd "]j") 'org-metadown)
-(define-key evil-normal-state-map (kbd "[j") 'org-metaup)
-(define-key evil-normal-state-map (kbd "]k") 'outline-demote)
-(define-key evil-normal-state-map (kbd "[k") 'outline-promote)
-(define-key evil-normal-state-map (kbd "]o") 'outline-next-visible-heading)
-(define-key evil-normal-state-map (kbd "[o") 'outline-previous-visible-heading)
-(define-key evil-normal-state-map (kbd "]t") 'outline-forward-same-level)
-(define-key evil-normal-state-map (kbd "[t") 'outline-backward-same-level)
-(define-key evil-normal-state-map (kbd "]b") 'org-next-block)
-(define-key evil-normal-state-map (kbd "[b") 'org-previous-block)
-(define-key evil-normal-state-map (kbd "]r") 'org-table-move-row-down)
-(define-key evil-normal-state-map (kbd "[r") 'org-table-move-row-up)
-(define-key evil-normal-state-map (kbd "]c") 'org-table-move-column-right)
-(define-key evil-normal-state-map (kbd "[c") 'org-table-move-column-left)
-(define-key evil-normal-state-map (kbd "]f") 'org-table-next-field)
-(define-key evil-normal-state-map (kbd "[f") 'org-table-previous-field)
-(define-key evil-normal-state-map (kbd "]l") 'org-next-link)
-(define-key evil-normal-state-map (kbd "[l") 'org-previous-link)
-(define-key evil-normal-state-map (kbd "]u") 'org-down-element)
-(define-key evil-normal-state-map (kbd "[u") 'org-up-element)
+;; (define-key evil-normal-state-map (kbd "]a") 'org-insert-heading)
+;; (define-key evil-normal-state-map (kbd "]h") 'org-metaright)
+;; (define-key evil-normal-state-map (kbd "[h") 'org-metaleft)
+;; (define-key evil-normal-state-map (kbd "]j") 'org-metadown)
+;; (define-key evil-normal-state-map (kbd "[j") 'org-metaup)
+;; (define-key evil-normal-state-map (kbd "]k") 'outline-demote)
+;; (define-key evil-normal-state-map (kbd "[k") 'outline-promote)
+;; (define-key evil-normal-state-map (kbd "]o") 'outline-next-visible-heading)
+;; (define-key evil-normal-state-map (kbd "[o") 'outline-previous-visible-heading)
+;; (define-key evil-normal-state-map (kbd "]t") 'outline-forward-same-level)
+;; (define-key evil-normal-state-map (kbd "[t") 'outline-backward-same-level)
+;; (define-key evil-normal-state-map (kbd "]b") 'org-next-block)
+;; (define-key evil-normal-state-map (kbd "[b") 'org-previous-block)
+;; (define-key evil-normal-state-map (kbd "]r") 'org-table-move-row-down)
+;; (define-key evil-normal-state-map (kbd "[r") 'org-table-move-row-up)
+;; (define-key evil-normal-state-map (kbd "]c") 'org-table-move-column-right)
+;; (define-key evil-normal-state-map (kbd "[c") 'org-table-move-column-left)
+;; (define-key evil-normal-state-map (kbd "]f") 'org-table-next-field)
+;; (define-key evil-normal-state-map (kbd "[f") 'org-table-previous-field)
+;; (define-key evil-normal-state-map (kbd "]l") 'org-next-link)
+;; (define-key evil-normal-state-map (kbd "[l") 'org-previous-link)
+;; (define-key evil-normal-state-map (kbd "]u") 'org-down-element)
+;; (define-key evil-normal-state-map (kbd "[u") 'org-up-element)
 
 (global-set-key (kbd "<kp-subtract>") 'text-scale-decrease)
 (global-set-key (kbd "<kp-add>") 'text-scale-increase)
@@ -828,7 +843,7 @@
     ("~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
-    (which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
+    (hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
