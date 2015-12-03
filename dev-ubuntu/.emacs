@@ -47,6 +47,7 @@
     clj-refactor
     lispy
     smartparens
+    evil-cleverparens
     ;;    evil-smartparens
     rainbow-delimiters
     rainbow-identifiers
@@ -62,13 +63,13 @@
         when (not (package-installed-p p)) do (return nil)
         finally (return t)))
 
-; if not all packages are installed, check one by one and install the missing ones.
+;; if not all packages are installed, check one by one and install the missing ones.
 (unless (packages-installed-p)
-  ; check for new packages (package versions)
+  ;; check for new packages (package versions)
   (message "%s" "Emacs is now refreshing its package database...")
   (package-refresh-contents)
   (message "%s" " done.")
-  ; install the missing packages
+  ;; install the missing packages
   (dolist (p required-packages)
     (when (not (package-installed-p p))
       (package-install p))))
@@ -102,22 +103,25 @@
 ;;(set-default-font "DejaVu Sans Mono 15")
 ;; (set-default-font "DejaVu Sans Mono 12")
 ;; (set-default-font "DejaVu Sans Mono 10")
-(set-default-font "DejaVu Sans Mono 9")
+;; (set-default-font "DejaVu Sans Mono 9")
+(set-default-font "DejaVu Sans Mono 8")
 
 ;; This will cause dired to default to Normal mode
 
 ;; (setq evil-normal-state-modes (append evil-motion-state-modes evil-normal-state-modes))
 (setq evil-motion-state-modes nil)
 
-(evil-escape-mode 1)
+;; (evil-escape-mode 1)
+(evil-escape-mode 0)
 
 ;;(setq-default evil-escape-delay 0.2)
 ;;(setq-default evil-escape-delay 2.0)
 ;; give me a couple of minutes to decide if i want to exit insert mode... heh
 (setq-default evil-escape-delay 120.0)
 
-(setq-default evil-escape-key-sequence "fj")
-;(setq-default evil-escape-key-sequence "jk")
+;; (setq-default evil-escape-key-sequence "fj")
+(setq-default evil-escape-key-sequence "M-<SPC>")
+                                        ;(setq-default evil-escape-key-sequence "jk")
 (setq evil-escape-unordered-key-sequence 1)
 
 ;; evil-search-highlight-persist
@@ -164,6 +168,26 @@
 ;; (add-hook 'clojure-mode-hook #'aggressive-indent-mode)
 (global-aggressive-indent-mode)
 
+(defun indent-cond (indent-point state)
+  (goto-char (elt state 1))
+  (let ((pos -1)
+        (base-col (current-column)))
+    (forward-char 1)
+    ;; `forward-sexp' will error if indent-point is after
+    ;; the last sexp in the current sexp.
+    (condition-case nil
+        (while (and (<= (point) indent-point)
+                    (not (eobp)))
+          (clojure-forward-logical-sexp 1)
+          (cl-incf pos))
+      ;; If indent-point is _after_ the last sexp in the
+      ;; current sexp, we detect that by catching the
+      ;; `scan-error'. In that case, we should return the
+      ;; indentation as if there were an extra sexp at point.
+      (scan-error (cl-incf pos)))
+    (+ base-col (if (evenp pos) 4 2))))
+(put-clojure-indent 'cond #'indent-cond)
+
 ;; avy
 
 (require 'evil-avy)
@@ -196,6 +220,16 @@
 (require 'smartparens-config)
 (smartparens-global-mode 1)
 ;;(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+
+;; evil smartparens looks very minimal
+
+;; evil cleverparens
+;; this is a win, now x on a delimeter deletes both delimiters
+;; however it messes up double quote stuff fairly badly
+;; (require 'evil-cleverparens)
+;; (setq evil-move-beyond-eol t)
+;; (add-hook 'emacs-lisp-mode-hook #'evil-cleverparens-mode)
+;; (add-hook 'clojure-mode-hook #'evil-cleverparens-mode)
 
 ;; lispy
 
@@ -580,23 +614,23 @@
 
 (setq mp/ibuffer-collapsed-groups (list "Helm" "*Internal*" "Default"))
 
-(defadvice ibuffer (after collapse-helm)
-  (dolist (group mp/ibuffer-collapsed-groups)
-	  (progn
-	    (goto-char 1)
-	    (when (search-forward (concat "[ " group " ]") (point-max) t)
-	      (progn
-		(move-beginning-of-line nil)
-		(ibuffer-toggle-filter-group)
-		)
-	      )
-	    )
-	  )
-    (goto-char 1)
-    (search-forward "[ " (point-max) t)
-  )
+;; (defadvice ibuffer (after collapse-helm)
+;;   (dolist (group mp/ibuffer-collapsed-groups)
+;; 	  (progn
+;; 	    (goto-char 1)
+;; 	    (when (search-forward (concat "[ " group " ]") (point-max) t)
+;; 	      (progn
+;; 		(move-beginning-of-line nil)
+;; 		(ibuffer-toggle-filter-group)
+;; 		)
+;; 	      )
+;; 	    )
+;; 	  )
+;;     (goto-char 1)
+;;     (search-forward "[ " (point-max) t)
+;;   )
 
-(ad-activate 'ibuffer)
+;; (ad-activate 'ibuffer)
 
 
 ;; term stuff
@@ -828,6 +862,7 @@
 ;; (define-key evil-normal-state-map (kbd "]u") 'org-down-element)
 ;; (define-key evil-normal-state-map (kbd "[u") 'org-up-element)
 
+(global-set-key (kbd "M-SPC") 'evil-escape)
 (global-set-key (kbd "<kp-subtract>") 'text-scale-decrease)
 (global-set-key (kbd "<kp-add>") 'text-scale-increase)
 
@@ -840,7 +875,7 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
+    ("~/grive/orgmode/work-todo.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
     (hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
