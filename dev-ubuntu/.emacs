@@ -53,7 +53,7 @@
     rainbow-identifiers
     ace-window
     ;;    persp-mode
-    ;;    workgroups2
+    workgroups2
     nyan-mode
     ) "a list of packages to ensure are installed at launch.")
 
@@ -82,8 +82,8 @@
 
 ;; workgroups2
 
-;;(require 'workgroups2)
-;;(workgroups-mode 1)
+(require 'workgroups2)
+(workgroups-mode 1)
 
 ;; evil
 
@@ -800,6 +800,7 @@
 
   "<tab>" 'helm-keyboard-quit
 
+  "z" 'wg-switch-to-workgroup
   "x" 'helm-M-x
 
   "u" 'cljr-find-usages
