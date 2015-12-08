@@ -319,6 +319,10 @@
 
 (require 'align-cljlet)  
 
+;; rst mode
+
+(require 'rst)
+
 ;; cider
 
 (setq cider-prompt-for-symbol nil)
@@ -632,6 +636,26 @@
 
 ;; (ad-activate 'ibuffer)
 
+;; whitespace stuff
+
+(require 'whitespace)
+(setq whitespace-display-mappings
+      ;; all numbers are Unicode codepoint in decimal. try (insert-char 182 ) to see it
+      '(
+	(space-mark 32 [183] [46]) ; 32 SPACE, 183 MIDDLE DOT 「·」, 46 FULL STOP 「.」
+	(newline-mark 10 [182 10]) ; 10 LINE FEED
+	(tab-mark 9 [187 9] [9655 9] [92 9]) ; 9 TAB, 9655 WHITE RIGHT-POINTING TRIANGLE 「▷」
+	))
+(setq whitespace-style '(face tabs trailing tab-mark))
+(set-face-attribute 'whitespace-tab nil
+                    :background "#f0f0f0"
+                    :foreground "#00a8a8"
+                    :weight 'bold)
+(set-face-attribute 'whitespace-trailing nil
+                    :background "#e4eeff"
+                    :foreground "#183bc8"
+                    :weight 'normal)
+(add-hook 'prog-mode-hook 'whitespace-mode)
 
 ;; term stuff
 
@@ -880,7 +904,7 @@
     ("~/grive/orgmode/work-todo.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
-    (hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
+    (ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
