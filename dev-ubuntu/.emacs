@@ -78,6 +78,12 @@
 ;; persp mode - not too cool
 
 
+;; exwm
+
+;;(require 'exwm)
+;;(require 'exwm-config)
+;;(exwm-config-default)
+
 ;;(persp-mode 1)
 
 ;; workgroups2
@@ -733,6 +739,7 @@
 (define-key my-backquote-keymap (vector ?q) 'rs-term-exit-scroll-mode)
 (define-key my-backquote-keymap (vector ?w) 'ace-window)
 (define-key my-backquote-keymap (vector ?t) 'my-terminal-mode)
+(define-key my-backquote-keymap (vector ?y) 'my-term-paste)
 (define-key my-backquote-keymap (vector ?b) 'ibuffer)
 (define-key my-backquote-keymap (vector ?9) 'edit-dot-emacs)
 (define-key my-backquote-keymap (vector ?0) 'reload-dot-emacs)
@@ -904,7 +911,7 @@
     ("~/grive/orgmode/work-todo.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
-    (ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
+    (exwm ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
