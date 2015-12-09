@@ -107,10 +107,10 @@
 ;;(set-default-font "Monospace-16")
 ;;(set-default-font "DejaVu Sans Mono 13")
 ;;(set-default-font "DejaVu Sans Mono 15")
-;; (set-default-font "DejaVu Sans Mono 12")
+(set-default-font "DejaVu Sans Mono 12")
 ;; (set-default-font "DejaVu Sans Mono 10")
 ;; (set-default-font "DejaVu Sans Mono 9")
-(set-default-font "DejaVu Sans Mono 8")
+;; (set-default-font "DejaVu Sans Mono 8")
 
 ;; This will cause dired to default to Normal mode
 
