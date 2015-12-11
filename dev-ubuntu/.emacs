@@ -452,6 +452,24 @@
 (global-set-key (kbd "C-y") #'hydra-yank-pop/yank)
 (global-set-key (kbd "M-y") #'hydra-pank-pop/yank-pop)
 
+(defhydra hydra-workgroups ()
+  ("c" wg-create-workgroup)
+  ("," wg-rename-workgroup)
+  ("z" wg-switch-to-workgroup)
+  ("k" wg-kill-workgroup)
+  ("r" wg-reload-session)
+  ("l" wg-load-session)
+  ("s" wg-save-session))
+
+;; (global-set-key (kbd "C-)") 'hydra-workgroups/body)
+
+;; <prefix> c    - create workgroup
+;; <prefix> A    - rename workgroup
+;; <prefix> k    - kill workgroup
+;; <prefix> v    - switch to workgroup
+;; <prefix> C-s  - save session
+;; <prefix> C-f  - load session
+
 ;; my hybrid mode
 
 (define-key evil-insert-state-map   (kbd "C-a") #'move-beginning-of-line)
@@ -560,6 +578,10 @@
   (interactive)
   (async-shell-command "cd ~/grive && grive"))
 
+(defun refresh-ubu ()
+  (interactive)
+  (async-shell-command "sudo /root/refresh-ubu"))
+
 (defun dot-emacs-sync ()
   (interactive)
   (async-shell-command "~/bin/sync-dot-emacs.sh"))
@@ -662,6 +684,23 @@
                     :foreground "#183bc8"
                     :weight 'normal)
 (add-hook 'prog-mode-hook 'whitespace-mode)
+
+(defun rename-current-buffer-file ()
+  "Renames current buffer and file it is visiting."
+  (interactive)
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (let ((new-name (read-file-name "New name: " filename)))
+        (if (get-buffer new-name)
+            (error "A buffer named '%s' already exists!" new-name)
+          (rename-file filename new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil)
+          (message "File '%s' successfully renamed to '%s'"
+                   name (file-name-nondirectory new-name)))))))
 
 ;; term stuff
 
@@ -831,8 +870,8 @@
   ;;  "]" 'helm-buffers-list
 
   "<tab>" 'helm-keyboard-quit
-
-  "z" 'wg-switch-to-workgroup
+  ;; "z" 'wg-switch-to-workgroup
+  "z" 'hydra-workgroups/body
   "x" 'helm-M-x
 
   "u" 'cljr-find-usages
@@ -908,7 +947,7 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/work-todo.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
+    ("~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
     (exwm ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
