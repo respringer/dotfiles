@@ -453,12 +453,16 @@
 (global-set-key (kbd "M-y") #'hydra-pank-pop/yank-pop)
 
 (defhydra hydra-workgroups ()
+  "Workgroups:
+   c create    k kill     s save
+   , rename    r reload
+   z switch    f load"
   ("c" wg-create-workgroup)
   ("," wg-rename-workgroup)
   ("z" wg-switch-to-workgroup)
   ("k" wg-kill-workgroup)
   ("r" wg-reload-session)
-  ("l" wg-load-session)
+  ("f" wg-load-session)
   ("s" wg-save-session))
 
 ;; (global-set-key (kbd "C-)") 'hydra-workgroups/body)
