@@ -802,7 +802,7 @@
 (define-key my-backquote-keymap (vector ?l) 'my-previous-window)
 (define-key my-backquote-keymap (vector ? ) 'rs-term-enter-scroll-mode)
 
-(define-key my-backquote-keymap (vector ?z) 'wg-switch-to-workgroup)
+(define-key my-backquote-keymap (vector ?z) 'hydra-workgroups/body)
 (define-key my-backquote-keymap (vector ?c) 'rs-capture-task)
 (define-key my-backquote-keymap (vector ?a) 'align-cljlet)
 (define-key my-backquote-keymap (vector ?s) 'split-window-below)
