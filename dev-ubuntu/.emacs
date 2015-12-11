@@ -706,6 +706,32 @@
           (message "File '%s' successfully renamed to '%s'"
                    name (file-name-nondirectory new-name)))))))
 
+(defun run-agent-install (arg)
+  "Prompt user to enter a string, with input history support."
+  (interactive (list (read-string "Ip address last octet:")) )
+  (async-shell-command
+   (concat "/home/vagrant/ripcord/spock/test/scripts/install-agent-demo.py 10.0.3." arg)))
+
+;; (defun ssh-ubu (arg)
+;;   "Prompt user to enter a string, with input history support."
+;;   (interactive (list (read-string "Ip address last octet:")) )
+;;   (async-shell-command
+;;    (concat "ssh ubuntu@10.0.3." arg)))
+
+;; dizzee stuff
+
+(require 'dizzee)
+
+(dz-defservice my-spockd "run-spock"
+               :args ()
+               :cd "/home/vagrant/ripcord/spock")
+
+(dz-defservice my-refresh-ubu "run-refresh-ubu"
+               :args ()
+               :cd "/home/vagrant/ripcord/spock")
+
+(dz-defservice-group my-spock (my-spockd my-refresh-ubu))
+
 ;; term stuff
 
 (require 'term)
@@ -954,7 +980,7 @@
     ("~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
-    (exwm ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
+    (dizzee exwm ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
