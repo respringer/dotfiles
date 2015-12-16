@@ -389,6 +389,10 @@
 ;; Turn off backups
 
 (setq backup-inhibited t)
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
 
 ;; Add highlighting type thing for the selected region
 
@@ -712,6 +716,18 @@
   (async-shell-command
    (concat "/home/vagrant/ripcord/spock/test/scripts/install-agent-demo.py 10.0.3." arg)))
 
+(defun run-prov-demo (arg)
+  "Prompt user to enter a string, with input history support."
+  (interactive (list (read-string "Ip address last octet:")) )
+  (async-shell-command
+   (concat "/home/vagrant/ripcord/spock/test/scripts/node-install-demo.py 10.0.3." arg)))
+
+(defun unclutter-the-mouse (arg)
+  "Prompt user to enter a string, with input history support."
+  (interactive)
+  (async-shell-command
+   (concat "xdotool mousemove 1440 900")))
+
 ;; (defun ssh-ubu (arg)
 ;;   "Prompt user to enter a string, with input history support."
 ;;   (interactive (list (read-string "Ip address last octet:")) )
@@ -853,7 +869,7 @@
 (define-key evil-normal-state-map (kbd "`") 'my-backquote-keymap)
 (define-key evil-insert-state-map (kbd "`") 'my-backquote-keymap)
 (define-key evil-emacs-state-map (kbd "`") 'my-backquote-keymap)
-
+(define-key ibuffer-mode-map (kbd "`") 'my-backquote-keymap)
 
 (define-key evil-normal-state-map (kbd "M-.") 'cider-find-var)
 
@@ -938,6 +954,8 @@
   "<right>"  'enlarge-window-horizontally
   )
 
+(global-set-key (kbd "<f4>") 'evil-search-highlight-persist-remove-all)
+
 ;; some org-mode stuff for evil
 
 ;; (define-key evil-normal-state-map (kbd "]a") 'org-insert-heading)
@@ -977,7 +995,7 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
+    ("~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
     (dizzee exwm ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
