@@ -248,6 +248,8 @@
 (lispy-define-key lispy-mode-map "u" 'undo-tree-undo)
 ;; (lispy-set-key-theme '(special paredit c-digits))
 ;; lispy keybinds are >>> than paredit
+;; for instance, [ is bound to lispy-backwards in lispy
+;; but it inserts the square bracket in the paredit emulation mode
 (lispy-set-key-theme '(special lispy c-digits))
 ;; (lispy-set-key-theme '(paredit))
 
