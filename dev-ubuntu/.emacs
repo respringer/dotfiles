@@ -77,8 +77,14 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 ;; persp mode - not too cool
 
+;; (setq-default cursor-type 'bar)
+(setq evil-insert-state-cursor '((bar . 5) "purple")
+      evil-normal-state-cursor '((bar . 5) "green"))
+;; evil-normal-state-cursor '(box "purple"))
 
-;; exwm
+(blink-cursor-mode -1)
+
+;; exw`m
 
 ;;(require 'exwm)
 ;;(require 'exwm-config)
@@ -746,7 +752,8 @@
 
 (defun run-lein-test ()
   (interactive)
-  (async-shell-command "/home/vagrant/bin/run-lein-test"))
+  (async-shell-command "/home/vagrant/bin/run-lein-test"
+                       "run-lein-test"))
 
 ;; dizzee stuff
 
@@ -1015,7 +1022,7 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
+    ("~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
     (dizzee exwm ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
