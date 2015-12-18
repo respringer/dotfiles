@@ -716,19 +716,19 @@
 
 (defun run-agent-install (arg)
   "Prompt user to enter a string, with input history support."
-  (interactive (list (read-string "Ip address last octet:")) )
+  (interactive (list (read-string "Ip address last octet: ")) )
   (async-shell-command
    (concat "/home/vagrant/ripcord/spock/test/scripts/install-agent-demo.py 10.0.3." arg)))
 
 (defun run-prov-demo (arg)
   "Prompt user to enter a string, with input history support."
-  (interactive (list (read-string "Ip address last octet:")) )
+  (interactive (list (read-string "Ip address last octet: ")) )
   (async-shell-command
    (concat "/home/vagrant/ripcord/spock/test/scripts/node-install-demo.py 10.0.3." arg)))
 
 (defun run-create-unmanaged (arg)
   "Prompt user to enter a string, with input history support."
-  (interactive (list (read-string "Ip address last octet:")) )
+  (interactive (list (read-string "Ip address last octet: ")) )
   (async-shell-command
    (concat "/home/vagrant/ripcord/spock/test/scripts/create-unmanaged-cluster.py 10.0.3." arg)))
 
@@ -743,6 +743,10 @@
 ;;   (interactive (list (read-string "Ip address last octet:")) )
 ;;   (async-shell-command
 ;;    (concat "ssh ubuntu@10.0.3." arg)))
+
+(defun run-lein-test ()
+  (interactive)
+  (async-shell-command "/home/vagrant/bin/run-lein-test"))
 
 ;; dizzee stuff
 
@@ -825,12 +829,17 @@
 
 ;; i want a backquote as a prefix key
 
+;; this is for automated stuff
+(define-prefix-command 'my-backquote-automation-keymap)
+(define-key my-backquote-automation-keymap (vector ?+) 'run-lein-test)
+
 (define-prefix-command 'my-backquote-keymap)
 (define-key my-backquote-keymap (vector ?`) 'my-insert-backquote)
 (define-key my-backquote-keymap (vector ?!) 'open-org-for-current-jira)
 (define-key my-backquote-keymap (vector ?^) 'grive-sync)
 (define-key my-backquote-keymap (vector ?*) 'open-org-todo)
 (define-key my-backquote-keymap (vector ?&) 'open-secondary-org-todo)
+(define-key my-backquote-keymap (vector ?+) 'my-backquote-automation-keymap)
 (define-key my-backquote-keymap (vector ?q) 'rs-term-exit-scroll-mode)
 (define-key my-backquote-keymap (vector ?w) 'ace-window)
 (define-key my-backquote-keymap (vector ?t) 'my-terminal-mode)
@@ -841,6 +850,7 @@
 (define-key my-backquote-keymap (vector ?u) 'cljr-find-usages)
 (define-key my-backquote-keymap (vector ?o) 'dired-orgmode)
 (define-key my-backquote-keymap (vector ?p) 'projectile-find-file)
+
 
 (define-key my-backquote-keymap (vector ?f) 'find-file)
 ;;(define-key my-backquote-keymap (vector ?g) 'helm-keyboard-quit)
