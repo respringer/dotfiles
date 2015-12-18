@@ -246,7 +246,9 @@
 
 ;; make lispy use the normal undo tree stuff
 (lispy-define-key lispy-mode-map "u" 'undo-tree-undo)
-(lispy-set-key-theme '(special paredit c-digits))
+;; (lispy-set-key-theme '(special paredit c-digits))
+;; lispy keybinds are >>> than paredit
+(lispy-set-key-theme '(special lispy c-digits))
 ;; (lispy-set-key-theme '(paredit))
 
 ;; rainbow delimiters
@@ -721,6 +723,12 @@
   (interactive (list (read-string "Ip address last octet:")) )
   (async-shell-command
    (concat "/home/vagrant/ripcord/spock/test/scripts/node-install-demo.py 10.0.3." arg)))
+
+(defun run-create-unmanaged (arg)
+  "Prompt user to enter a string, with input history support."
+  (interactive (list (read-string "Ip address last octet:")) )
+  (async-shell-command
+   (concat "/home/vagrant/ripcord/spock/test/scripts/create-unmanaged-cluster.py 10.0.3." arg)))
 
 (defun unclutter-the-mouse (arg)
   "Prompt user to enter a string, with input history support."
