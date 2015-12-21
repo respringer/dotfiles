@@ -155,7 +155,7 @@
                                (clj-refactor-mode 1)
                                ;;(yas-minor-mode 1) ; for adding require/use/import
                                ;; insert keybinding setup here
-;;			                   (cljr-add-keybindings-with-prefix "C-c C-m")
+			       ;;			                   (cljr-add-keybindings-with-prefix "C-c C-m")
                                ;; eg. rename files with `C-c C-m rf`.
                                ))
 
@@ -165,6 +165,11 @@
 (add-hook 'js-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
 (add-hook 'python-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
 (evil-set-initial-state 'ibuffer-mode 'normal)
+
+;; zone
+
+(require 'zone-nyan)
+(setq zone-programs [zone-nyan])
 
 ;; evil-snipe
 
@@ -273,6 +278,9 @@
 
 (add-to-list 'load-path "/home/vagrant/emacs-async")
 (add-to-list 'load-path "/home/vagrant/helm")
+(add-to-list 'load-path "/home/vagrant/.emacs.d/fireplace")
+
+(require 'fireplace)
 
 (require 'helm-config)
 
@@ -851,7 +859,8 @@
 (define-key my-backquote-keymap (vector ?w) 'ace-window)
 (define-key my-backquote-keymap (vector ?t) 'my-terminal-mode)
 (define-key my-backquote-keymap (vector ?y) 'my-term-paste)
-(define-key my-backquote-keymap (vector ?b) 'ibuffer)
+(define-key my-backquote-keymap (vector ?b) 'helm-buffers-list)
+(define-key my-backquote-keymap (vector ?B) 'ibuffer)
 (define-key my-backquote-keymap (vector ?9) 'edit-dot-emacs)
 (define-key my-backquote-keymap (vector ?0) 'reload-dot-emacs)
 (define-key my-backquote-keymap (vector ?u) 'cljr-find-usages)
@@ -909,8 +918,7 @@
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
 
- 
-;; it looks like 3 relavant helms are
+;; it looks like 3 relevant helms are
 ;;
 ;; helm-mini
 ;; helm-buffers-list
@@ -949,7 +957,8 @@
 
   "u" 'cljr-find-usages
   "i" 'ibuffer
-  "b" 'ibuffer
+  "b" 'helm-buffers-list
+  "B" 'ibuffer
   ;;  "i" 'helm-buffers-list
 
   "a" 'align-cljlet
@@ -1022,10 +1031,10 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
+    ("~/grive/orgmode/work-todo.org" "~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
-    (dizzee exwm ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
+    (zone-nyan dizzee exwm ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
