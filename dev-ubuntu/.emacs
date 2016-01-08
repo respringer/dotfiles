@@ -220,6 +220,8 @@
 ;;(require 'evil-surround)
 ;;(global-evil-surround-mode 1)
 
+;; (require 'key-leap)
+
 ;; projectile
 (require 'projectile)
 
@@ -781,11 +783,15 @@
 (defun run-lein-install-spock ()
   (interactive)
   (async-shell-command "/home/vagrant/bin/lein-install-spock"
-                       "lein-install-spock"))
+                       "*lein-install-spock*"))
 
 ;; dizzee stuff
 
 (require 'dizzee)
+
+(dz-defservice my-opscenter "run-opscenter"
+               :args ()
+               :cd "/home/vagrant/ripcord/opscenterd")
 
 (dz-defservice my-spockd "run-spock"
                :args ()
@@ -796,6 +802,7 @@
                :cd "/home/vagrant/ripcord/spock")
 
 (dz-defservice-group my-spock (my-spockd my-refresh-ubu))
+(dz-defservice-group my-ospock (my-opscenter my-refresh-ubu))
 
 ;; term stuff
 
@@ -909,7 +916,7 @@
 (define-key my-backquote-keymap (vector ?s) 'split-window-below)
 (define-key my-backquote-keymap (vector ?d) 'indent-defun)
 (define-key my-backquote-keymap (vector ?v) 'split-window-right)
-;;(define-key my-backquote-keymap (vector ?x) 'helm-M-x)
+(define-key my-backquote-keymap (vector ?x) 'helm-M-x)
 
 (define-key my-backquote-keymap (vector ?,) 'rename-buffer)
 (define-key my-backquote-keymap (vector ?/) 'helm-projectile-ag)
@@ -1054,13 +1061,13 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/music.org" "~/grive/orgmode/spock-opscd.org" "~/grive/orgmode/jiras/opsc-6738-run-wo-port.org" "~/grive/orgmode/window-manager.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/apt-caching.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/fonts.org" "~/grive/orgmode/jira-work-process.org" "~/grive/orgmode/jiras/opsc-7362-spock-loves-dse-5.org" "~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
+    ("~/grive/orgmode/lisphaskell.org" "~/grive/orgmode/spock-timeouts.org" "~/grive/orgmode/jiras/opsc-6738-run-wo-port.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/java-exceptions.org" "~/grive/orgmode/music.org" "~/grive/orgmode/spock-opscd.org" "~/grive/orgmode/window-manager.org" "~/grive/orgmode/apt-caching.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/fonts.org" "~/grive/orgmode/jira-work-process.org" "~/grive/orgmode/jiras/opsc-7362-spock-loves-dse-5.org" "~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
-    (zone-nyan dizzee exwm ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
+    (key-leap zone-nyan dizzee exwm ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(evil-search-highlight-persist-highlight-face ((t (:background "blue4")))))
