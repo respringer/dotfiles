@@ -151,7 +151,7 @@
                                (clj-refactor-mode 1)
                                ;;(yas-minor-mode 1) ; for adding require/use/import
                                ;; insert keybinding setup here
-			       ;;			                   (cljr-add-keybindings-with-prefix "C-c C-m")
+			       ;; (cljr-add-keybindings-with-prefix "C-c C-m")
                                ;; eg. rename files with `C-c C-m rf`.
                                ))
 
@@ -931,6 +931,7 @@
 (define-key my-backquote-keymap (vector ?=) 'open-org-todo)
 (define-key my-backquote-keymap (vector ?.) 'dot-emacs-sync)
 
+(define-key my-backquote-keymap (kbd "SPC") 'other-window)
 (define-key my-backquote-keymap (kbd "<up>") 'enlarge-window)
 (define-key my-backquote-keymap (kbd "<down>") 'shrink-window)
 (define-key my-backquote-keymap (kbd "<left>") 'shrink-window-horizontally)
@@ -965,6 +966,7 @@
 ;; helm-find-files
 
 (evil-leader/set-key
+  "`" 'other-window
   "!" 'open-org-for-current-jira
   "$" 'open-standups-org
   "^" 'grive-sync
