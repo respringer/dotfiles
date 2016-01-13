@@ -75,7 +75,6 @@
       (package-install p))))
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
-;; persp mode - not too cool
 
 ;; (setq-default cursor-type 'bar)
 (setq evil-insert-state-cursor '((bar . 5) "purple")
@@ -89,8 +88,6 @@
 ;;(require 'exwm)
 ;;(require 'exwm-config)
 ;;(exwm-config-default)
-
-;;(persp-mode 1)
 
 ;; workgroups2
 
@@ -107,8 +104,6 @@
 ;; enable evil-leader before enabling evil
 (global-evil-leader-mode)
 (evil-mode 1)
-
-(message "here")
 
 ;;(set-default-font "Monospace-16")
 ;;(set-default-font "DejaVu Sans Mono 13")
@@ -150,7 +145,7 @@
 
 (require 'which-key)
 (which-key-mode)
- 
+
 (require 'clj-refactor)
 (add-hook 'clojure-mode-hook (lambda ()
                                (clj-refactor-mode 1)
@@ -182,7 +177,11 @@
 
 ;; aggresive-indent
 
-;; (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
+(add-hook 'emacs-lisp-mode-hook
+	  (lambda ()
+	    (setq indent-tabs-mode nil)
+            ))
+
 ;; (add-hook 'clojure-mode-hook #'aggressive-indent-mode)
 (global-aggressive-indent-mode)
 
@@ -888,6 +887,7 @@
 (define-prefix-command 'my-backquote-keymap)
 (define-key my-backquote-keymap (vector ?`) 'my-insert-backquote)
 (define-key my-backquote-keymap (vector ?!) 'open-org-for-current-jira)
+(define-key my-backquote-keymap (vector ?*) 'open-standups-org)
 (define-key my-backquote-keymap (vector ?^) 'grive-sync)
 (define-key my-backquote-keymap (vector ?*) 'open-org-todo)
 (define-key my-backquote-keymap (vector ?&) 'open-secondary-org-todo)
@@ -966,6 +966,7 @@
 
 (evil-leader/set-key
   "!" 'open-org-for-current-jira
+  "$" 'open-standups-org
   "^" 'grive-sync
   "*" 'open-org-todo
   "&" 'open-secondary-org-todo
@@ -1070,7 +1071,7 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/jar-resources.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/ergo-stuff.org" "~/grive/orgmode/lisphaskell.org" "~/grive/orgmode/spock-timeouts.org" "~/grive/orgmode/jiras/opsc-6738-run-wo-port.org" "~/grive/orgmode/java-exceptions.org" "~/grive/orgmode/music.org" "~/grive/orgmode/spock-opscd.org" "~/grive/orgmode/window-manager.org" "~/grive/orgmode/apt-caching.org" "~/grive/orgmode/fonts.org" "~/grive/orgmode/jira-work-process.org" "~/grive/orgmode/jiras/opsc-7362-spock-loves-dse-5.org" "~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
+    ("~/grive/orgmode/standups.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/jar-resources.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/ergo-stuff.org" "~/grive/orgmode/lisphaskell.org" "~/grive/orgmode/spock-timeouts.org" "~/grive/orgmode/jiras/opsc-6738-run-wo-port.org" "~/grive/orgmode/java-exceptions.org" "~/grive/orgmode/music.org" "~/grive/orgmode/spock-opscd.org" "~/grive/orgmode/window-manager.org" "~/grive/orgmode/apt-caching.org" "~/grive/orgmode/fonts.org" "~/grive/orgmode/jira-work-process.org" "~/grive/orgmode/jiras/opsc-7362-spock-loves-dse-5.org" "~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
     (key-leap zone-nyan dizzee exwm ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
