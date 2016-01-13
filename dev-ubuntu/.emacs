@@ -901,7 +901,7 @@
 (define-prefix-command 'my-backquote-keymap)
 (define-key my-backquote-keymap (vector ?`) 'my-insert-backquote)
 (define-key my-backquote-keymap (vector ?!) 'open-org-for-current-jira)
-(define-key my-backquote-keymap (vector ?*) 'open-standups-org)
+(define-key my-backquote-keymap (vector ?$) 'open-standups-org)
 (define-key my-backquote-keymap (vector ?^) 'grive-sync)
 (define-key my-backquote-keymap (vector ?*) 'open-org-todo)
 (define-key my-backquote-keymap (vector ?&) 'open-secondary-org-todo)
