@@ -758,11 +758,13 @@
   (async-shell-command
    (concat "/home/vagrant/ripcord/spock/test/scripts/node-install-demo.py 10.0.3." arg)))
 
-(defun run-dse-demo (arg)
+(defun run-dse-demo ()
   "Prompt user to enter a string, with input history support."
-  (interactive (list (read-string "DSE install demo - Ip address last octet: ")) )
+                                        ;(interactive (list (read-string "DSE install demo - Ip address last octet: ")) )
+  (interactive)
   (async-shell-command
-   (concat "/home/vagrant/ripcord/spock/test/scripts/dse-workload-demo.py 10.0.3." arg)))
+                                        ;   (concat "/home/vagrant/ripcord/spock/test/scripts/dse-workload-demo.py 10.0.3." arg)))
+   (concat "/home/vagrant/bin/run-dse-test")))
 
 (defun run-create-unmanaged (arg)
   "Prompt user to enter a string, with input history support."
