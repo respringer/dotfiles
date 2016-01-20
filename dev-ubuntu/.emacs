@@ -256,7 +256,7 @@
 
 (require 'lispy)
 ;; Note: lispy is active in insert mode in evil
-(add-hook 'clojure-mode-hook (lambda () (lispy-mode 1)))
+;;(add-hook 'clojure-mode-hook (lambda () (lispy-mode 1)))
 ;;(add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
 
 ;; make lispy use the normal undo tree stuff
@@ -307,6 +307,8 @@
 
 (global-set-key (kbd "M-x") 'helm-M-x)
 (setq helm-M-x-fuzzy-match t)
+(setq helm-split-window-in-side-p t)
+(setq helm-split-window-default-side 'below)
 
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 (global-set-key (kbd "C-x b") 'helm-mini)
@@ -831,13 +833,13 @@
 (defun rs-term-enter-scroll-mode ()
   (interactive)
   (term-line-mode)
-  (evil-normal-state)) 
+  (evil-normal-state))
 
 (defun rs-term-exit-scroll-mode ()
   (interactive)
   (end-of-buffer)
   (term-char-mode)
-  (evil-insert-state)) 
+  (evil-insert-state))
 
 (define-key term-mode-map (kbd "C-c C-j") 'jnm/term-toggle-mode)
 (define-key term-mode-map (kbd "C-c C-k") 'jnm/term-toggle-mode)
@@ -908,6 +910,8 @@
 (define-key my-backquote-keymap (vector ?&) 'open-secondary-org-todo)
 (define-key my-backquote-keymap (vector ?+) 'my-backquote-automation-keymap)
 (define-key my-backquote-keymap (vector ?q) 'rs-term-exit-scroll-mode)
+(define-key my-backquote-keymap (vector ?Q) 'rs-term-enter-scroll-mode)
+
 (define-key my-backquote-keymap (vector ?w) 'ace-window)
 (define-key my-backquote-keymap (vector ?t) 'my-terminal-mode)
 (define-key my-backquote-keymap (vector ?y) 'my-term-paste)
@@ -931,7 +935,6 @@
 ;;(define-key my-backquote-keymap (vector ?k) 'my-previous-window)
 ;;(define-key my-backquote-keymap (vector ?l) 'next-buffer)
 (define-key my-backquote-keymap (vector ?l) 'my-previous-window)
-(define-key my-backquote-keymap (vector ? ) 'rs-term-enter-scroll-mode)
 
 (define-key my-backquote-keymap (vector ?z) 'hydra-workgroups/body)
 (define-key my-backquote-keymap (vector ?c) 'rs-capture-task)
@@ -1090,7 +1093,7 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/standups.org" "~/grive/orgmode/spock-opscd.org" "~/grive/orgmode/meld.org" "~/grive/orgmode/strace.org" "~/grive/orgmode/yasnippet.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/jar-resources.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/ergo-stuff.org" "~/grive/orgmode/lisphaskell.org" "~/grive/orgmode/spock-timeouts.org" "~/grive/orgmode/jiras/opsc-6738-run-wo-port.org" "~/grive/orgmode/java-exceptions.org" "~/grive/orgmode/music.org" "~/grive/orgmode/window-manager.org" "~/grive/orgmode/apt-caching.org" "~/grive/orgmode/fonts.org" "~/grive/orgmode/jira-work-process.org" "~/grive/orgmode/jiras/opsc-7362-spock-loves-dse-5.org" "~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
+    ("~/grive/orgmode/git.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/spock-opscd.org" "~/grive/orgmode/meld.org" "~/grive/orgmode/strace.org" "~/grive/orgmode/yasnippet.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/jar-resources.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/ergo-stuff.org" "~/grive/orgmode/lisphaskell.org" "~/grive/orgmode/spock-timeouts.org" "~/grive/orgmode/jiras/opsc-6738-run-wo-port.org" "~/grive/orgmode/java-exceptions.org" "~/grive/orgmode/music.org" "~/grive/orgmode/window-manager.org" "~/grive/orgmode/apt-caching.org" "~/grive/orgmode/fonts.org" "~/grive/orgmode/jira-work-process.org" "~/grive/orgmode/jiras/opsc-7362-spock-loves-dse-5.org" "~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
     (clojure-snippets yasnippet key-leap zone-nyan dizzee exwm ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
