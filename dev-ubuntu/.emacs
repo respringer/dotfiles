@@ -46,6 +46,7 @@
     cider
     clj-refactor
     lispy
+;;    magit
     smartparens
     evil-cleverparens
     ;;    evil-smartparens
@@ -364,6 +365,11 @@
 ;; rst mode
 
 (require 'rst)
+
+
+;; magit
+
+;;(require 'magit)
 
 ;; cider
 
@@ -872,6 +878,10 @@
   (interactive)
   (find-file "/home/vagrant/grive/orgmode/emacs-notes.org"))
 
+(defun open-magit-org ()
+  (interactive)
+  (find-file "/home/vagrant/grive/orgmode/magit.org"))
+
 (defun open-secondary-org-todo ()
   (interactive)
   (find-file "/home/vagrant/grive/orgmode/secondary-work-todo.org"))
@@ -928,7 +938,7 @@
 
 
 (define-key my-backquote-keymap (vector ?f) 'find-file)
-;;(define-key my-backquote-keymap (vector ?g) 'helm-keyboard-quit)
+(define-key my-backquote-keymap (vector ?g) 'magit-status)
 ;;(define-key my-backquote-keymap (vector ?h) 'previous-buffer)
 (define-key my-backquote-keymap (vector ?h) 'my-next-window)
 ;;(define-key my-backquote-keymap (vector ?j) 'my-next-window)
@@ -946,12 +956,15 @@
 (define-key my-backquote-keymap (vector ?d) 'indent-defun)
 (define-key my-backquote-keymap (vector ?v) 'split-window-right)
 (define-key my-backquote-keymap (vector ?x) 'helm-M-x)
+(define-key my-backquote-keymap (vector ?M) 'open-magit-org)
 
 (define-key my-backquote-keymap (vector ?,) 'rename-buffer)
 (define-key my-backquote-keymap (vector ?/) 'helm-projectile-ag)
 (define-key my-backquote-keymap (vector ?=) 'open-org-todo)
 (define-key my-backquote-keymap (vector ?.) 'dot-emacs-sync)
 
+(define-key my-backquote-keymap (kbd ";") 'avy-goto-char)
+(define-key my-backquote-keymap (kbd "'") 'avy-goto-char-2)
 (define-key my-backquote-keymap (kbd "SPC") 'other-window)
 (define-key my-backquote-keymap (kbd "<up>") 'enlarge-window)
 (define-key my-backquote-keymap (kbd "<down>") 'shrink-window)
@@ -995,7 +1008,7 @@
   "&" 'open-secondary-org-todo
 
   ")" 'open-standups-org
-  
+
   "=" 'open-org-todo
   "w" 'ace-window
   "e" 'eshell
@@ -1006,7 +1019,7 @@
   "d" 'indent-defun
   ;;  "f" 'helm-find-files
   "f" 'find-file
-  ;;  "g" 'helm-keyboard-quit
+  "g" 'magit-status
 
   "o" 'dired-orgmode
   "p" 'projectile-find-file
@@ -1030,8 +1043,9 @@
   "k" 'my-previous-window
   "K" 'kill-this-buffer
   "l" 'next-buffer
+  "M" 'open-magit-org
   ";" 'avy-goto-char
-  "'" 'avy-goto-char-2
+  ":" 'avy-goto-char-2
 
   "c" 'rs-capture-task
 
@@ -1096,10 +1110,10 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/standups.org" "~/grive/orgmode/ssl.org" "~/grive/orgmode/git.org" "~/grive/orgmode/spock-opscd.org" "~/grive/orgmode/meld.org" "~/grive/orgmode/strace.org" "~/grive/orgmode/yasnippet.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/jar-resources.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/ergo-stuff.org" "~/grive/orgmode/lisphaskell.org" "~/grive/orgmode/spock-timeouts.org" "~/grive/orgmode/jiras/opsc-6738-run-wo-port.org" "~/grive/orgmode/java-exceptions.org" "~/grive/orgmode/music.org" "~/grive/orgmode/window-manager.org" "~/grive/orgmode/apt-caching.org" "~/grive/orgmode/fonts.org" "~/grive/orgmode/jira-work-process.org" "~/grive/orgmode/jiras/opsc-7362-spock-loves-dse-5.org" "~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
+    ("~/grive/orgmode/standups.org" "~/grive/orgmode/magit.org" "~/grive/orgmode/ssl.org" "~/grive/orgmode/git.org" "~/grive/orgmode/spock-opscd.org" "~/grive/orgmode/meld.org" "~/grive/orgmode/strace.org" "~/grive/orgmode/yasnippet.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/jar-resources.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/ergo-stuff.org" "~/grive/orgmode/lisphaskell.org" "~/grive/orgmode/spock-timeouts.org" "~/grive/orgmode/jiras/opsc-6738-run-wo-port.org" "~/grive/orgmode/java-exceptions.org" "~/grive/orgmode/music.org" "~/grive/orgmode/window-manager.org" "~/grive/orgmode/apt-caching.org" "~/grive/orgmode/fonts.org" "~/grive/orgmode/jira-work-process.org" "~/grive/orgmode/jiras/opsc-7362-spock-loves-dse-5.org" "~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
-    (clojure-snippets yasnippet key-leap zone-nyan dizzee exwm ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
+    (magit clojure-snippets yasnippet key-leap zone-nyan dizzee exwm ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
