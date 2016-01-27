@@ -817,15 +817,15 @@
                :args ()
                :cd "/home/vagrant/ripcord/opscenterd")
 
-(dz-defservice my-spockd "run-spock"
-               :args ()
-               :cd "/home/vagrant/ripcord/spock")
+;;(dz-defservice my-spockd "run-spock"
+;;:args ()
+;;:cd "/home/vagrant/ripcord/spock")
 
 (dz-defservice my-refresh-ubu "run-refresh-ubu"
                :args ()
                :cd "/home/vagrant/ripcord/spock")
 
-(dz-defservice-group my-spock (my-spockd my-refresh-ubu))
+;;(dz-defservice-group my-spock (my-spockd my-refresh-ubu))
 (dz-defservice-group my-ospock (my-opscenter my-refresh-ubu))
 
 ;; term stuff
@@ -911,7 +911,7 @@
 (define-key my-backquote-automation-keymap (vector ?3) 'run-create-unmanaged)
 (define-key my-backquote-automation-keymap (vector ?4) 'run-dse-demo)
 (define-key my-backquote-automation-keymap (vector ?5) 'my-opscenter-restart)
-(define-key my-backquote-automation-keymap (vector ?6) 'my-spock-restart)
+                                        ;(define-key my-backquote-automation-keymap (vector ?6) 'my-spock-restart)
 (define-key my-backquote-automation-keymap (vector ?0) 'run-lein-install-spock)
 
 (define-prefix-command 'my-backquote-keymap)
@@ -1110,7 +1110,7 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/standups.org" "~/grive/orgmode/magit.org" "~/grive/orgmode/ssl.org" "~/grive/orgmode/git.org" "~/grive/orgmode/spock-opscd.org" "~/grive/orgmode/meld.org" "~/grive/orgmode/strace.org" "~/grive/orgmode/yasnippet.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/jar-resources.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/ergo-stuff.org" "~/grive/orgmode/lisphaskell.org" "~/grive/orgmode/spock-timeouts.org" "~/grive/orgmode/jiras/opsc-6738-run-wo-port.org" "~/grive/orgmode/java-exceptions.org" "~/grive/orgmode/music.org" "~/grive/orgmode/window-manager.org" "~/grive/orgmode/apt-caching.org" "~/grive/orgmode/fonts.org" "~/grive/orgmode/jira-work-process.org" "~/grive/orgmode/jiras/opsc-7362-spock-loves-dse-5.org" "~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
+    ("~/grive/orgmode/standups.org" "~/grive/orgmode/lxc.org" "~/grive/orgmode/centos.org" "~/grive/orgmode/magit.org" "~/grive/orgmode/ssl.org" "~/grive/orgmode/git.org" "~/grive/orgmode/spock-opscd.org" "~/grive/orgmode/meld.org" "~/grive/orgmode/strace.org" "~/grive/orgmode/yasnippet.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/jar-resources.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/ergo-stuff.org" "~/grive/orgmode/lisphaskell.org" "~/grive/orgmode/spock-timeouts.org" "~/grive/orgmode/jiras/opsc-6738-run-wo-port.org" "~/grive/orgmode/java-exceptions.org" "~/grive/orgmode/music.org" "~/grive/orgmode/window-manager.org" "~/grive/orgmode/apt-caching.org" "~/grive/orgmode/fonts.org" "~/grive/orgmode/jira-work-process.org" "~/grive/orgmode/jiras/opsc-7362-spock-loves-dse-5.org" "~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
     (magit clojure-snippets yasnippet key-leap zone-nyan dizzee exwm ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
