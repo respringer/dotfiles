@@ -933,6 +933,7 @@
 (define-key my-backquote-keymap (vector ?B) 'ibuffer)
 (define-key my-backquote-keymap (vector ?9) 'edit-dot-emacs)
 (define-key my-backquote-keymap (vector ?0) 'reload-dot-emacs)
+(define-key my-backquote-keymap (kbd "-") 'toggle-truncate-lines)
 (define-key my-backquote-keymap (vector ?u) 'cljr-find-usages)
 (define-key my-backquote-keymap (vector ?o) 'dired-orgmode)
 (define-key my-backquote-keymap (vector ?p) 'projectile-find-file)
@@ -1023,6 +1024,7 @@
 
   ")" 'open-standups-org
 
+  "-" 'toggle-truncate-lines ;; back and forth from word wrap
   "=" 'open-org-todo
   "w" 'ace-window
   "e" 'eshell
@@ -1127,7 +1129,7 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/standups.org" "~/grive/orgmode/keyboards.org" "~/grive/orgmode/opscd.org" "~/grive/orgmode/spock-opscd.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/jython.org" "~/grive/orgmode/java-aot.org" "~/grive/orgmode/meld.org" "~/grive/orgmode/ergo-stuff.org" "~/grive/orgmode/python-logging.org" "~/grive/orgmode/git.org" "~/grive/orgmode/strace.org" "~/grive/orgmode/lxc.org" "~/grive/orgmode/centos.org" "~/grive/orgmode/magit.org" "~/grive/orgmode/ssl.org" "~/grive/orgmode/yasnippet.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/jar-resources.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/lisphaskell.org" "~/grive/orgmode/spock-timeouts.org" "~/grive/orgmode/jiras/opsc-6738-run-wo-port.org" "~/grive/orgmode/java-exceptions.org" "~/grive/orgmode/music.org" "~/grive/orgmode/window-manager.org" "~/grive/orgmode/apt-caching.org" "~/grive/orgmode/fonts.org" "~/grive/orgmode/jira-work-process.org" "~/grive/orgmode/jiras/opsc-7362-spock-loves-dse-5.org" "~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
+    ("~/grive/orgmode/keyboards.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/opscd.org" "~/grive/orgmode/spock-opscd.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/jython.org" "~/grive/orgmode/java-aot.org" "~/grive/orgmode/meld.org" "~/grive/orgmode/ergo-stuff.org" "~/grive/orgmode/python-logging.org" "~/grive/orgmode/git.org" "~/grive/orgmode/strace.org" "~/grive/orgmode/lxc.org" "~/grive/orgmode/centos.org" "~/grive/orgmode/magit.org" "~/grive/orgmode/ssl.org" "~/grive/orgmode/yasnippet.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/jar-resources.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/lisphaskell.org" "~/grive/orgmode/spock-timeouts.org" "~/grive/orgmode/jiras/opsc-6738-run-wo-port.org" "~/grive/orgmode/java-exceptions.org" "~/grive/orgmode/music.org" "~/grive/orgmode/window-manager.org" "~/grive/orgmode/apt-caching.org" "~/grive/orgmode/fonts.org" "~/grive/orgmode/jira-work-process.org" "~/grive/orgmode/jiras/opsc-7362-spock-loves-dse-5.org" "~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
     (magit clojure-snippets yasnippet key-leap zone-nyan dizzee exwm ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
