@@ -43,10 +43,11 @@
     helm-projectile
     helm-ag
     hydra
+    helm-swoop
     cider
     clj-refactor
     lispy
-;;    magit
+    ;;    magit
     smartparens
     evil-cleverparens
     ;;    evil-smartparens
@@ -240,7 +241,7 @@
 
 (require 'smartparens)
 (require 'smartparens-config)
-(smartparens-global-mode 1)
+;;(smartparens-global-mode 1)
 ;;(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
 
 ;; evil smartparens looks very minimal
@@ -262,7 +263,6 @@
 
 ;; make lispy use the normal undo tree stuff
 (lispy-define-key lispy-mode-map "u" 'undo-tree-undo)
-;; (lispy-set-key-theme '(special paredit c-digits))
 ;; lispy keybinds are >>> than paredit
 ;; for instance, [ is bound to lispy-backwards in lispy
 ;; but it inserts the square bracket in the paredit emulation mode
@@ -273,11 +273,6 @@
 
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook #'rainbow-identifiers-mode)
-
-;; electric pair
-;; trying to use lispy + paredit instead
-;;(electric-pair-mode 1)
-;;(setq electric-pair-delete-adjacent-pairs t)
 
 (defvar xah-right-brackets nil "list of close bracket chars.")
 (setq xah-right-brackets '("\)" "]" "}" ">" "〕" "】" "〗" "〉" "》" "」" "』" "”" "’" "›" "»" "\"" "\'" ":"))
@@ -352,7 +347,19 @@
 (define-key minibuffer-local-map (kbd "C-c C-l") 'helm-minibuffer-history)
 
 (require 'helm-ag)
+(require 'helm-swoop)
 
+;; When doing evil-search, hand the word over to helm-swoop
+(define-key evil-motion-state-map (kbd "M-i") 'helm-swoop-from-evil-search)
+
+;; If you prefer fuzzy matching
+(setq helm-swoop-use-fuzzy-match t)
+
+;; Change the keybinds to whatever you like :)
+(global-set-key (kbd "M-i") 'helm-swoop)
+(global-set-key (kbd "M-I") 'helm-swoop-back-to-last-point)
+(global-set-key (kbd "C-c M-i") 'helm-multi-swoop)
+(global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
 ;; edit and reload .emacs
 
 (defun edit-dot-emacs ()
@@ -474,11 +481,9 @@
 
 (add-hook 'clojure-mode-hook (lambda ()
                                (linum-mode 1)))
-                               ;;  (electric-pair-mode 1)
-                             ;;  (setq electric-pair-delete-adjacent-pairs t)))
 (add-hook 'python-mode-hook (lambda () (linum-mode 1)))
 
-;; todo, rebind ` in ibuffer 
+;; todo, rebind ` in ibuffer
 ;;(add-hook 'ibuffer-mode-hook
 ;;          (lambda ()
 ;;            (define-key 1)))
@@ -944,7 +949,8 @@
 (define-key my-backquote-keymap (vector ?0) 'reload-dot-emacs)
 (define-key my-backquote-keymap (kbd "-") 'toggle-truncate-lines)
 (define-key my-backquote-keymap (vector ?u) 'cljr-find-usages)
-(define-key my-backquote-keymap (vector ?o) 'dired-orgmode)
+(define-key my-backquote-keymap (vector ?i) 'helm-swoop)
+(define-key my-backquote-keymap (vector ?o) 'dired-orgeode)
 (define-key my-backquote-keymap (vector ?p) 'projectile-find-file)
 
 
@@ -1056,7 +1062,7 @@
   "x" 'helm-M-x
 
   "u" 'cljr-find-usages
-  "i" 'ibuffer
+  "i" 'helm-swoop
   "b" 'helm-buffers-list
   "B" 'ibuffer
   ;;  "i" 'helm-buffers-list
@@ -1137,10 +1143,10 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/keyboards.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/squid.org" "~/grive/orgmode/centos.org" "~/grive/orgmode/opscd.org" "~/grive/orgmode/spock-opscd.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/jython.org" "~/grive/orgmode/java-aot.org" "~/grive/orgmode/meld.org" "~/grive/orgmode/ergo-stuff.org" "~/grive/orgmode/python-logging.org" "~/grive/orgmode/git.org" "~/grive/orgmode/strace.org" "~/grive/orgmode/lxc.org" "~/grive/orgmode/magit.org" "~/grive/orgmode/ssl.org" "~/grive/orgmode/yasnippet.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/jar-resources.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/lisphaskell.org" "~/grive/orgmode/spock-timeouts.org" "~/grive/orgmode/jiras/opsc-6738-run-wo-port.org" "~/grive/orgmode/java-exceptions.org" "~/grive/orgmode/music.org" "~/grive/orgmode/window-manager.org" "~/grive/orgmode/apt-caching.org" "~/grive/orgmode/fonts.org" "~/grive/orgmode/jira-work-process.org" "~/grive/orgmode/jiras/opsc-7362-spock-loves-dse-5.org" "~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
+    ("~/grive/orgmode/standups.org" "~/grive/orgmode/debugging.org" "~/grive/orgmode/wireshark.org" "~/grive/orgmode/clojure-java-interop.org" "~/grive/orgmode/keyboards.org" "~/grive/orgmode/cloud-usage.org" "~/grive/orgmode/ssl.org" "~/grive/orgmode/opscd.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/jenkins.org" "~/grive/orgmode/spock-cluster-import.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/lein.org" "~/grive/orgmode/spock-opscd.org" "~/grive/orgmode/intellij.org" "~/grive/orgmode/aws-spock.org" "~/grive/orgmode/ctool.org" "~/grive/orgmode/squid.org" "~/grive/orgmode/centos.org" "~/grive/orgmode/jython.org" "~/grive/orgmode/java-aot.org" "~/grive/orgmode/meld.org" "~/grive/orgmode/ergo-stuff.org" "~/grive/orgmode/python-logging.org" "~/grive/orgmode/git.org" "~/grive/orgmode/strace.org" "~/grive/orgmode/lxc.org" "~/grive/orgmode/magit.org" "~/grive/orgmode/yasnippet.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/jar-resources.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/lisphaskell.org" "~/grive/orgmode/spock-timeouts.org" "~/grive/orgmode/jiras/opsc-6738-run-wo-port.org" "~/grive/orgmode/java-exceptions.org" "~/grive/orgmode/music.org" "~/grive/orgmode/window-manager.org" "~/grive/orgmode/apt-caching.org" "~/grive/orgmode/fonts.org" "~/grive/orgmode/jira-work-process.org" "~/grive/orgmode/jiras/opsc-7362-spock-loves-dse-5.org" "~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
-    (magit clojure-snippets yasnippet key-leap zone-nyan dizzee exwm ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
+    (helm-swoop magit clojure-snippets yasnippet key-leap zone-nyan dizzee exwm ox-rst hydra aggressive-indent which-key evil-search-highlight-persist evil-smartparens helm-descbinds smartparens lispy evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-cleverparens evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
