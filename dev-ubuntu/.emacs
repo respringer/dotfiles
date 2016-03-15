@@ -8,6 +8,9 @@
 ;; Package stuff
 ;;
 ;;
+;; cool quote from the arcanesentiment blog:
+;;
+;;   When I feel stupid or ignorant, I study to become less so, but when I feel wise, I do nothing.
 
 (require 'cl) ;; needed for loop
 
