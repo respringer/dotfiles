@@ -57,10 +57,10 @@ modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
 --    awful.layout.suit.floating,
-    awful.layout.suit.tile
+--    awful.layout.suit.tile
 --    awful.layout.suit.tile.left,
 --    awful.layout.suit.tile.bottom,
---    awful.layout.suit.tile.top,
+    awful.layout.suit.tile.top
 --    awful.layout.suit.fair,
 --    awful.layout.suit.fair.horizontal,
 --    awful.layout.suit.spiral,
@@ -203,20 +203,21 @@ awful.screen.connect_for_each_screen(function(s)
     -- Add widgets to the wibox
     mywibox[s]:setup {
         layout = wibox.layout.align.horizontal,
-        { -- Left widgets
-            layout = wibox.layout.fixed.horizontal,
-            mylauncher,
-            mytaglist[s],
-            mypromptbox[s],
-        },
-        mytasklist[s], -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
             wibox.widget.systray(),
             mytextclock,
-            mylayoutbox[s],
+            mypromptbox[s],
+--            mylayoutbox[s],
         },
+        mytasklist[s], -- Middle widget
+        { -- Left widgets
+            layout = wibox.layout.fixed.horizontal,
+            mytaglist[s],
+            mylauncher,
+        },
+
     }
 end)
 -- }}}
@@ -252,8 +253,14 @@ globalkeys = awful.util.table.join(
         end,
         {description = "focus previous by index", group = "client"}
     ),
-    awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
-              {description = "show main menu", group = "awesome"}),
+--    awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
+--             {description = "show main menu", group = "awesome"}),
+
+    awful.key({ modkey,           }, "w",
+	        function ()
+			  awful.client.focus.byidx( 1)
+		      if client.focus then client.focus:raise() end
+			end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
@@ -462,7 +469,8 @@ awful.rules.rules = {
 
     -- Add titlebars to normal clients and dialogs
     { rule_any = {type = { "normal", "dialog" }
-      }, properties = { titlebars_enabled = true }
+      -- }, properties = { titlebars_enabled = true }
+      }, properties = { titlebars_enabled = false }
     },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
