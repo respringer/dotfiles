@@ -39,23 +39,24 @@
     evil
     evil-leader
     evil-escape
-	evil-search-highlight-persist
+    evil-search-highlight-persist
     evil-snipe
-	evil-avy
-	dizzee
+    evil-avy
+    dizzee
     ;;    evil-surround
-	cyberpunk-theme
-	align-cljlet
+    cyberpunk-theme
+    align-cljlet
     aggressive-indent
     projectile
-	highlight
+    highlight
     helm-projectile
-	helm-descbinds
+    helm-descbinds
     helm-ag
     hydra
     helm-swoop
     cider
     clj-refactor
+    bm
     ;;lispy
     ;;    magit
     ;;smartparens
@@ -145,6 +146,11 @@
 (setq-default evil-escape-key-sequence "M-<SPC>")
                                         ;(setq-default evil-escape-key-sequence "jk")
 (setq evil-escape-unordered-key-sequence 1)
+
+
+;; Make evil treat _ as part of a word
+(with-eval-after-load 'evil
+  (defalias #'forward-evil-word #'forward-evil-symbol))
 
 ;; evil-search-highlight-persist
 
@@ -239,8 +245,8 @@
 (projectile-global-mode)
 (projectile-mode 1)
 
-;;(projectile-add-known-project "/home/vagrant/ripcord/spock")
-(projectile-add-known-project "/home/vagrant/ripcord")
+;;(projectile-add-known-project "/home/ryan/ripcord/spock")
+(projectile-add-known-project "/home/ryan/ripcord")
 
 ;;
 
@@ -252,6 +258,12 @@
 ;;(require 'smartparens-config)
 ;;(smartparens-global-mode 1)
 ;;(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+
+;; bookmark stuff
+
+(global-set-key (kbd "<C-f2>") 'bm-toggle)
+(global-set-key (kbd "<f2>")   'bm-next)
+(global-set-key (kbd "<S-f2>") 'bm-previous)
 
 ;; evil smartparens looks very minimal
 
@@ -293,9 +305,9 @@
 
 ;; helm
 
-(add-to-list 'load-path "/home/vagrant/emacs-async")
-(add-to-list 'load-path "/home/vagrant/helm")
-(add-to-list 'load-path "/home/vagrant/.emacs.d/fireplace")
+(add-to-list 'load-path "/home/ryan/emacs-async")
+(add-to-list 'load-path "/home/ryan/helm")
+(add-to-list 'load-path "/home/ryan/.emacs.d/fireplace")
 
 (require 'helm-config)
 
@@ -549,7 +561,7 @@
 
 ;; org-mode stuffy stuff
 
-(setq org-directory "/home/vagrant/grive/orgmode")
+(setq org-directory "/home/ryan/grive/orgmode")
 :
 
 ;;(add-to-list 'auto-mode-alist '("\\.org.txt\\'" . org-mode))
@@ -750,23 +762,23 @@
   "Prompt user to enter a string, with input history support."
   (interactive (list (read-string "Ip address last octet: ")) )
   (async-shell-command
-   (concat "/home/vagrant/ripcord/spock/test/scripts/install-agent-demo.py 10.0.3." arg)))
+   (concat "/home/ryan/ripcord/spock/test/scripts/install-agent-demo.py 10.0.3." arg)))
 
 (defun run-prov-demo (arg)
   "Prompt user to enter a string, with input history support."
   (interactive (list (read-string "Ip address last octet: ")) )
   (async-shell-command
-   (concat "/home/vagrant/ripcord/spock/test/scripts/node-install-demo.py 10.0.3." arg)))
+   (concat "/home/ryan/ripcord/spock/test/scripts/node-install-demo.py 10.0.3." arg)))
 
 (defun run-dse-demo ()
   "run the dse demo"
   (interactive)
-  (async-shell-command "/home/vagrant/bin/run-dse-test" "run-dse-test"))
+  (async-shell-command "/home/ryan/bin/run-dse-test" "run-dse-test"))
 
 (defun run-create-unmanaged ()
   "Prompt user to enter a string, with input history support."
   (interactive)
-  (async-shell-command "/home/vagrant/bin/run-create-unmanaged" "run-create-unmanaged"))
+  (async-shell-command "/home/ryan/bin/run-create-unmanaged" "run-create-unmanaged"))
 
 (defun ttt ()
   (interactive)
@@ -790,12 +802,12 @@
 
 (defun run-lein-test ()
   (interactive)
-  (async-shell-command "/home/vagrant/bin/run-lein-test"
+  (async-shell-command "/home/ryan/bin/run-lein-test"
                        "run-lein-test"))
 
 (defun run-lein-install-spock ()
   (interactive)
-  (async-shell-command "/home/vagrant/bin/lein-install-spock"
+  (async-shell-command "/home/ryan/bin/lein-install-spock"
                        "*lein-install-spock*")
   (message "DONE"))
 
@@ -805,15 +817,15 @@
 
 (dz-defservice my-opscenter "refresh-opsc"
                :args ()
-               :cd "/home/vagrant/ripcord/opscenterd")
+               :cd "/home/ryan/ripcord/opscenterd")
 
 ;;(dz-defservice my-spockd "run-spock
 ;;:args ()
-;;:cd "/home/vagrant/ripcord/spock")
+;;:cd "/home/ryan/ripcord/spock")
 
 (dz-defservice my-refresh-ubu "run-refresh-ubu"
                :args ()
-               :cd "/home/vagrant/ripcord/spock")
+               :cd "/home/ryan/ripcord/spock")
 
 ;;(dz-defservice-group my-spock (my-spockd my-refresh-ubu))
 ;;(dz-defservice-group my-ospock (my-opscenter my-refresh-ubu))
@@ -859,31 +871,31 @@
 
 (defun open-org-todo ()
   (interactive)
-  (find-file "/home/vagrant/grive/orgmode/work-todo.org"))
+  (find-file "/home/ryan/grive/orgmode/work-todo.org"))
 
 (defun open-standups-org ()
   (interactive)
-  (find-file "/home/vagrant/grive/orgmode/standups.org"))
+  (find-file "/home/ryan/grive/orgmode/standups.org"))
 
 (defun open-emacs-notes-org ()
   (interactive)
-  (find-file "/home/vagrant/grive/orgmode/emacs-notes.org"))
+  (find-file "/home/ryan/grive/orgmode/emacs-notes.org"))
 
 (defun open-magit-org ()
   (interactive)
-  (find-file "/home/vagrant/grive/orgmode/magit.org"))
+  (find-file "/home/ryan/grive/orgmode/magit.org"))
 
 (defun open-secondary-org-todo ()
   (interactive)
-  (find-file "/home/vagrant/grive/orgmode/secondary-work-todo.org"))
+  (find-file "/home/ryan/grive/orgmode/secondary-work-todo.org"))
 
 (defun dired-orgmode ()
   (interactive)
-  (dired "/home/vagrant/grive/orgmode"))
+  (dired "/home/ryan/grive/orgmode"))
 
 (defun open-org-for-current-jira ()
   (interactive)
-  (find-file "/home/vagrant/grive/orgmode/jiras/opsc-6988-spock-agent-install.org"))
+  (find-file "/home/ryan/grive/orgmode/jiras/opsc-6988-spock-agent-install.org"))
 
 (defun rs-clean-slate ()
   (interactive)
@@ -1120,10 +1132,10 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/grive/orgmode/opscd-backups.org" "~/grive/orgmode/opscd-dashboard.org" "~/grive/orgmode/standups.org" "~/grive/orgmode/support/email-1.org" "~/grive/orgmode/arch-linux.org" "~/grive/orgmode/work-mac.org" "~/grive/orgmode/zfs.org" "~/grive/orgmode/cassandra-schemas.org" "~/grive/orgmode/opscd-metrics.org" "~/grive/orgmode/emacs-notmuch.org" "~/grive/orgmode/wishlist.org" "~/grive/orgmode/zendesk.org" "~/grive/orgmode/agent-source-5-2-4.org" "~/grive/orgmode/support.org" "~/grive/orgmode/ubuntu-zfs.org" "~/grive/orgmode/archive-standups.org" "~/grive/orgmode/tc.org" "~/grive/orgmode/freebsd-dummynet.org" "~/grive/orgmode/freebsd.org" "~/grive/orgmode/strace.org" "~/grive/orgmode/freebsd-zfs.org" "~/grive/orgmode/openbsd-pf.org" "~/grive/orgmode/ssl-cheatsheet.org" "~/grive/orgmode/jiras/opsc-8851.org" "~/grive/orgmode/jython.org" "~/grive/orgmode/opscd.org" "~/grive/orgmode/writeup-encryption.org" "~/grive/orgmode/dse-auth.org" "~/grive/orgmode/v.org" "~/grive/orgmode/ctool.org" "~/grive/orgmode/netty-source.org" "~/grive/orgmode/tcp.org" "~/grive/orgmode/wireshark.org" "~/grive/orgmode/lxc-networking.org" "~/grive/orgmode/vpn.org" "~/grive/orgmode/posix-sockets.org" "~/grive/orgmode/jiras/opsc-8851-new-approach.org" "~/grive/orgmode/iptables.org" "~/grive/orgmode/python-requests.org" "~/grive/orgmode/squid.org" "~/grive/orgmode/lcm-http-proxy.org" "~/grive/orgmode/spock-package-proxy.org" "~/grive/orgmode/apt-caching.org" "~/grive/orgmode/opscd-docs.org" "~/grive/orgmode/pydev.org" "~/grive/orgmode/curl.org" "~/grive/orgmode/jiras/opsc-8851-bad-deb.org" "~/grive/orgmode/eclipse.org" "~/grive/orgmode/netty.org" "~/grive/orgmode/jar-resources.org" "~/grive/orgmode/jiras/opsc-8851-with-eclipse.org" "~/grive/orgmode/opscd-configs.org" "~/grive/orgmode/keyboard-layout.org" "~/grive/orgmode/python-urllib2.org" "~/grive/orgmode/jiras/opsc-8851-local.org" "~/grive/orgmode/java-ubuntu.org" "~/grive/orgmode/opscd-jenkins-build.org" "~/grive/orgmode/stocks.org" "~/grive/orgmode/fluxbox.org" "~/grive/orgmode/vacation.org" "~/grive/orgmode/opscd-unit-tests.org" "~/grive/orgmode/jira.org" "~/grive/orgmode/jiras/opsc-8943-cluster-conf.org" "~/grive/orgmode/dse-5.org" "~/grive/orgmode/lxc.org" "~/grive/orgmode/ldap.org" "~/grive/orgmode/work-process.org" "~/grive/orgmode/spock-repo-creds.org" "~/grive/orgmode/slack.org" "~/grive/orgmode/apt.org" "~/grive/orgmode/openstack.org" "~/grive/orgmode/java-type-notation.org" "~/grive/orgmode/http.org" "~/grive/orgmode/clojure-strings.org" "~/grive/orgmode/opscd-auth.org" "~/grive/orgmode/cluster-identifiers.org" "~/grive/orgmode/all-the-securities.org" "~/grive/orgmode/clojure-idioms.org" "~/grive/orgmode/clojure-async.org" "~/grive/orgmode/mount.org" "~/grive/orgmode/workday.org" "~/grive/orgmode/ryan-ldap.org" "~/grive/orgmode/jiras/opsc-7362-spock-loves-dse-5.org" "~/grive/orgmode/nginx.org" "~/grive/orgmode/performance-psychology.org" "~/grive/orgmode/git.org" "~/grive/orgmode/clj-ssh.org" "~/grive/orgmode/java-pushbackreader.org" "~/grive/orgmode/spock-cascade-deletion.org" "~/grive/orgmode/spock-termination.org" "~/grive/orgmode/clojure-multimethods.org" "~/grive/orgmode/spock-aft.org" "~/grive/orgmode/java-gc.org" "~/grive/orgmode/jenkins.org" "~/grive/orgmode/twisted.org" "~/grive/orgmode/typing.org" "~/grive/orgmode/opscd-cluster-config.org" "~/grive/orgmode/jiras/opsc-8473-seeds.org" "~/grive/orgmode/git-cherry-pick.org" "~/grive/orgmode/datastax.org" "~/grive/orgmode/jiras/opsc-8430-moar-dse-defs.org" "~/grive/orgmode/boot-scripts.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/cluster-registration.org" "~/grive/orgmode/keytool.org" "~/grive/orgmode/opscd-send-api-response.org" "~/grive/orgmode/spock-sqlite.org" "~/grive/orgmode/opscd-process.org" "~/grive/orgmode/java-jce.org" "~/grive/orgmode/opsc-config-encryption.org" "~/grive/orgmode/apple-account.org" "~/grive/orgmode/keyboards.org" "~/grive/orgmode/spock-testing.org" "~/grive/orgmode/spock-field-encryption.org" "~/grive/orgmode/ctn-encryption.org" "~/grive/orgmode/clojure-macros.org" "~/grive/orgmode/spock-filter-jobs.org" "~/grive/orgmode/opsc-afts.org" "~/grive/orgmode/yum.org" "~/grive/orgmode/clojure-symbols.org" "~/grive/orgmode/clojure-vars.org" "~/grive/orgmode/clojure-functions.org" "~/grive/orgmode/clojure-keywords.org" "~/grive/orgmode/intellij.org" "~/grive/orgmode/music.org" "~/grive/orgmode/spock-api-common.org" "~/grive/orgmode/debug-ctn.org" "~/grive/orgmode/spock-cacerts.org" "~/grive/orgmode/eap.org" "~/grive/orgmode/spock-opscd.org" "~/grive/orgmode/debugging.org" "~/grive/orgmode/clojure-java-interop.org" "~/grive/orgmode/cloud-usage.org" "~/grive/orgmode/ssl.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/spock-cluster-import.org" "~/grive/orgmode/lein.org" "~/grive/orgmode/aws-spock.org" "~/grive/orgmode/centos.org" "~/grive/orgmode/java-aot.org" "~/grive/orgmode/meld.org" "~/grive/orgmode/ergo-stuff.org" "~/grive/orgmode/python-logging.org" "~/grive/orgmode/magit.org" "~/grive/orgmode/yasnippet.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/lisphaskell.org" "~/grive/orgmode/spock-timeouts.org" "~/grive/orgmode/jiras/opsc-6738-run-wo-port.org" "~/grive/orgmode/java-exceptions.org" "~/grive/orgmode/window-manager.org" "~/grive/orgmode/fonts.org" "~/grive/orgmode/jira-work-process.org" "~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
+    ("~/grive/orgmode/standups.org" "~/grive/orgmode/window-manager.org" "~/grive/orgmode/apt-caching.org" "~/grive/orgmode/lxd.org" "~/grive/orgmode/lcm-add-new-template.org" "~/grive/orgmode/jiras/opsc-10101.org" "~/grive/orgmode/dse-5.org" "~/grive/orgmode/dse51-dashboard.org" "~/grive/orgmode/java-jvm-options.org" "~/grive/orgmode/java-gc.org" "~/grive/orgmode/lcm-cassandra-env-sh.org" "~/grive/orgmode/archive-standups.org" "~/grive/orgmode/opscd-afts.org" "~/grive/orgmode/stocks.org" "~/grive/orgmode/pizza.org" "~/grive/orgmode/nss-library.org" "~/grive/orgmode/firefox.org" "~/grive/orgmode/opscd-backups.org" "~/grive/orgmode/opscd-metrics.org" "~/grive/orgmode/nodejs.org" "~/grive/orgmode/haskell-lens.org" "~/grive/orgmode/opscd-bestpractice.org" "~/grive/orgmode/agent-monitor.org" "~/grive/orgmode/lcm-kerberos.org" "~/grive/orgmode/opscd-node-cleanup.org" "~/grive/orgmode/stocks-ipo.org" "~/grive/orgmode/arch-linux.org" "~/grive/orgmode/arch-kernel.org" "~/grive/orgmode/cql-permissions.org" "~/grive/orgmode/gpg.org" "~/grive/orgmode/opscd-jython.org" "~/grive/orgmode/file-doc-ticket.org" "~/grive/orgmode/knowledge-base.org" "~/grive/orgmode/aws-elb.org" "~/grive/orgmode/agent-heapdump-oom.org" "~/grive/orgmode/freebsd-firewalls.org" "~/grive/orgmode/ldap.org" "~/grive/orgmode/freebsd-upgrade.org" "~/grive/orgmode/freebsd-kernel.org" "~/grive/orgmode/wget.org" "~/grive/orgmode/curl.org" "~/grive/orgmode/grep-tricks.org" "~/grive/orgmode/agent-diagnostic-tarball.org" "~/grive/orgmode/lcm-import.org" "~/grive/orgmode/opscd-emails.org" "~/grive/orgmode/vpn.org" "~/grive/orgmode/opscd-build.org" "~/grive/orgmode/agent-config-processing.org" "~/grive/orgmode/arch-opscd.org" "~/grive/orgmode/zfs.org" "~/grive/orgmode/opscd-dashboard.org" "~/grive/orgmode/support/email-1.org" "~/grive/orgmode/work-mac.org" "~/grive/orgmode/cassandra-schemas.org" "~/grive/orgmode/emacs-notmuch.org" "~/grive/orgmode/wishlist.org" "~/grive/orgmode/zendesk.org" "~/grive/orgmode/agent-source-5-2-4.org" "~/grive/orgmode/support.org" "~/grive/orgmode/ubuntu-zfs.org" "~/grive/orgmode/tc.org" "~/grive/orgmode/freebsd-dummynet.org" "~/grive/orgmode/freebsd.org" "~/grive/orgmode/strace.org" "~/grive/orgmode/freebsd-zfs.org" "~/grive/orgmode/openbsd-pf.org" "~/grive/orgmode/ssl-cheatsheet.org" "~/grive/orgmode/jiras/opsc-8851.org" "~/grive/orgmode/jython.org" "~/grive/orgmode/opscd.org" "~/grive/orgmode/writeup-encryption.org" "~/grive/orgmode/dse-auth.org" "~/grive/orgmode/v.org" "~/grive/orgmode/ctool.org" "~/grive/orgmode/netty-source.org" "~/grive/orgmode/tcp.org" "~/grive/orgmode/wireshark.org" "~/grive/orgmode/lxc-networking.org" "~/grive/orgmode/posix-sockets.org" "~/grive/orgmode/jiras/opsc-8851-new-approach.org" "~/grive/orgmode/iptables.org" "~/grive/orgmode/python-requests.org" "~/grive/orgmode/squid.org" "~/grive/orgmode/lcm-http-proxy.org" "~/grive/orgmode/spock-package-proxy.org" "~/grive/orgmode/opscd-docs.org" "~/grive/orgmode/pydev.org" "~/grive/orgmode/jiras/opsc-8851-bad-deb.org" "~/grive/orgmode/eclipse.org" "~/grive/orgmode/netty.org" "~/grive/orgmode/jar-resources.org" "~/grive/orgmode/jiras/opsc-8851-with-eclipse.org" "~/grive/orgmode/opscd-configs.org" "~/grive/orgmode/keyboard-layout.org" "~/grive/orgmode/python-urllib2.org" "~/grive/orgmode/jiras/opsc-8851-local.org" "~/grive/orgmode/java-ubuntu.org" "~/grive/orgmode/opscd-jenkins-build.org" "~/grive/orgmode/fluxbox.org" "~/grive/orgmode/vacation.org" "~/grive/orgmode/opscd-unit-tests.org" "~/grive/orgmode/jira.org" "~/grive/orgmode/jiras/opsc-8943-cluster-conf.org" "~/grive/orgmode/lxc.org" "~/grive/orgmode/work-process.org" "~/grive/orgmode/spock-repo-creds.org" "~/grive/orgmode/slack.org" "~/grive/orgmode/apt.org" "~/grive/orgmode/openstack.org" "~/grive/orgmode/java-type-notation.org" "~/grive/orgmode/http.org" "~/grive/orgmode/clojure-strings.org" "~/grive/orgmode/opscd-auth.org" "~/grive/orgmode/cluster-identifiers.org" "~/grive/orgmode/all-the-securities.org" "~/grive/orgmode/clojure-idioms.org" "~/grive/orgmode/clojure-async.org" "~/grive/orgmode/mount.org" "~/grive/orgmode/workday.org" "~/grive/orgmode/ryan-ldap.org" "~/grive/orgmode/jiras/opsc-7362-spock-loves-dse-5.org" "~/grive/orgmode/nginx.org" "~/grive/orgmode/performance-psychology.org" "~/grive/orgmode/git.org" "~/grive/orgmode/clj-ssh.org" "~/grive/orgmode/java-pushbackreader.org" "~/grive/orgmode/spock-cascade-deletion.org" "~/grive/orgmode/spock-termination.org" "~/grive/orgmode/clojure-multimethods.org" "~/grive/orgmode/spock-aft.org" "~/grive/orgmode/jenkins.org" "~/grive/orgmode/twisted.org" "~/grive/orgmode/typing.org" "~/grive/orgmode/opscd-cluster-config.org" "~/grive/orgmode/jiras/opsc-8473-seeds.org" "~/grive/orgmode/git-cherry-pick.org" "~/grive/orgmode/datastax.org" "~/grive/orgmode/jiras/opsc-8430-moar-dse-defs.org" "~/grive/orgmode/boot-scripts.org" "~/grive/orgmode/notes.org" "~/grive/orgmode/cluster-registration.org" "~/grive/orgmode/keytool.org" "~/grive/orgmode/opscd-send-api-response.org" "~/grive/orgmode/spock-sqlite.org" "~/grive/orgmode/opscd-process.org" "~/grive/orgmode/java-jce.org" "~/grive/orgmode/opsc-config-encryption.org" "~/grive/orgmode/apple-account.org" "~/grive/orgmode/keyboards.org" "~/grive/orgmode/spock-testing.org" "~/grive/orgmode/spock-field-encryption.org" "~/grive/orgmode/ctn-encryption.org" "~/grive/orgmode/clojure-macros.org" "~/grive/orgmode/spock-filter-jobs.org" "~/grive/orgmode/opsc-afts.org" "~/grive/orgmode/yum.org" "~/grive/orgmode/clojure-symbols.org" "~/grive/orgmode/clojure-vars.org" "~/grive/orgmode/clojure-functions.org" "~/grive/orgmode/clojure-keywords.org" "~/grive/orgmode/intellij.org" "~/grive/orgmode/music.org" "~/grive/orgmode/spock-api-common.org" "~/grive/orgmode/debug-ctn.org" "~/grive/orgmode/spock-cacerts.org" "~/grive/orgmode/eap.org" "~/grive/orgmode/spock-opscd.org" "~/grive/orgmode/debugging.org" "~/grive/orgmode/clojure-java-interop.org" "~/grive/orgmode/cloud-usage.org" "~/grive/orgmode/ssl.org" "~/grive/orgmode/clojure.org" "~/grive/orgmode/spock-cluster-import.org" "~/grive/orgmode/lein.org" "~/grive/orgmode/aws-spock.org" "~/grive/orgmode/centos.org" "~/grive/orgmode/java-aot.org" "~/grive/orgmode/meld.org" "~/grive/orgmode/ergo-stuff.org" "~/grive/orgmode/python-logging.org" "~/grive/orgmode/magit.org" "~/grive/orgmode/yasnippet.org" "~/grive/orgmode/emacs-usage.org" "~/grive/orgmode/work-todo.org" "~/grive/orgmode/lisphaskell.org" "~/grive/orgmode/spock-timeouts.org" "~/grive/orgmode/jiras/opsc-6738-run-wo-port.org" "~/grive/orgmode/java-exceptions.org" "~/grive/orgmode/fonts.org" "~/grive/orgmode/jira-work-process.org" "~/grive/orgmode/jiras/opsc-7306-uber-create-cluster.org" "~/grive/orgmode/workgroups.org" "~/grive/orgmode/jiras/opsc-7245-agent-install.org" "~/grive/orgmode/component.org" "~/grive/orgmode/emacs-clojure.org" "~/grive/orgmode/jiras/opsc-6988-spock-agent-install.org" "~/grive/orgmode/emacs-notes.org" "~/grive/orgmode/secondary-work-todo.org")))
  '(package-selected-packages
    (quote
-    (helm-swoop magit key-leap zone-nyan dizzee ox-rst hydra aggressive-indent evil-search-highlight-persist helm-descbinds evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
+    (bm helm-swoop magit key-leap zone-nyan dizzee ox-rst hydra aggressive-indent evil-search-highlight-persist helm-descbinds evil-surround yaml-mode workgroups2 rainbow-identifiers rainbow-delimiters persp-mode nyan-mode helm-projectile helm-ag focus evil-snipe evil-leader evil-escape evil-avy esxml cyberpunk-theme clj-refactor autumn-light-theme afternoon-theme ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
