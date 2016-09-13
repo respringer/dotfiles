@@ -3,7 +3,8 @@ Set $mod Mod1
 font DejaVu Sans Mono Book 14
 gaps inner 15
 gaps outer 25
-new_window pixel 10
+#new_window pixel 10
+new_window pixel 5
 focus_follows_mouse  no
 
 #don't move to neighbouring screen with hjkl
@@ -22,6 +23,8 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec termite -e fish
+bindsym $mod+e exec emacsclient -c -n
+bindsym $mod+w exec firefox
 
 # kill focused window
 bindsym $mod+c kill
@@ -112,7 +115,7 @@ mode "Gaps" {
      bindsym minus gaps inner current minus 5
 
      bindsym 0 gaps inner current plus 5
-     bindsym 9 gaps outer current minus 5
+     bindsym 9 gaps inner current minus 5
      bindsym 8 gaps outer current plus 5
      bindsym 7 gaps outer current minus 5
 
