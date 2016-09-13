@@ -1,0 +1,62 @@
+
+! vim: set filetype=xdefaults :
+
+! special
+*.foreground:   #939381
+*.background:   #242a2b
+*.cursorColor:  #939381
+
+! black
+*.color0:       #5e5e5e
+*.color8:       #5e5e5e
+
+! red
+*.color1:       #5c4033
+*.color9:       #674839
+
+! green
+*.color2:       #6e794f
+*.color10:      #6e794f
+
+! yellow
+*.color3:       #8d8150
+*.color11:      #8d8150
+
+! blue
+*.color4:       #3b474e
+*.color12:      #3b474e
+
+! magenta
+*.color5:       #554c41
+*.color13:      #554c41
+
+! cyan
+*.color6:       #495355
+*.color14:      #495355
+
+! white
+*.color7:       #939381
+*.color15:      #939381
+
+! ROFI COLORS
+rofi.bg:                #242a2b
+rofi.bg-active:         #242a2b
+rofi.bg-urgent:         #242a2b
+rofi.bgalt:             #242a2b
+rofi.bc:                #939381
+rofi.bw:                0
+rofi.fg:                #939381
+rofi.fg-active:         #939381
+rofi.hlbg:              #939381
+rofi.hlbg-active:       #939381
+rofi.hlbg-urgent:       #939381
+rofi.hlfg:              #242a2b
+rofi.hlfg-active:       #242a2b
+rofi.hlfg-urgent:       #242a2b
+rofi.hide-scrollbar:    true
+rofi.lines:             4
+rofi.separator-style:   none
+rofi.fullscreen:        false
+rofi.padding:           5
+rofi.font:              Dina 8
+rofi.width:             378
