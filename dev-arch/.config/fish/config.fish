@@ -1,0 +1,1 @@
+set -gx PATH /home/ryan/.nvm/versions/node/v4.4.7/bin /home/ryan/bin /usr/local/sbin /usr/local/bin /usr/bin /usr/lib/jvm/default/bin /usr/bin/site_perl /usr/bin/vendor_perl /usr/bin/core_perl /home/ryan/intellij/idea-IC-143.1821.5/bin /home/ryan/git-repos/automaton/bin /home/ryan/git-repos/gingham /home/ryan/ec/eclipse
