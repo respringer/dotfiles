@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#lxc stop ubu1604
+#lxc delete ubu1604
+#lxc launch ubuntu:16.04 ubu1604 -c security.privileged=true
+
+lxc stop ubu1404
+#lxc stop ubu1404-node2
+lxc delete ubu1404
+#lxc delete ubu1404-node2
+lxc copy ubu1404-1 ubu1404
+#lxc copy ubu1404-1 ubu1404-node2
+lxc start ubu1404
+#lxc start ubu1404-node2
+
