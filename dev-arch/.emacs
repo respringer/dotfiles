@@ -133,7 +133,8 @@
 
 (setq evil-motion-state-modes nil)
 
-;; (evil-escape-mode 1)
+(require 'evil-escape)
+(evil-escape-mode 1)
 ;;(evil-escape-mode 0)
 
 ;; give me a couple of minutes to decide if i want to exit insert mode... heh
@@ -320,6 +321,16 @@
 (global-set-key (kbd "C-c M-i") 'helm-multi-swoop)
 (global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
 
+
+;; require general
+
+;;(require 'general)
+
+;;(general-define-key
+;; :keymaps 'evil-insert-state-map
+;; (general-chord "jk") 'evil-normal-state
+;; (general-chord "kj") 'evil-normal-state)
+
 ;; edit and reload .emacs
 
 (defun edit-dot-emacs ()
@@ -445,6 +456,7 @@
 
 ;; my hybrid mode
 
+(define-key evil-insert-state-map   (kbd "C-SPC") #'evil-escape)
 (define-key evil-insert-state-map   (kbd "C-a") #'move-beginning-of-line)
 (define-key evil-insert-state-map   (kbd "C-b") #'backward-char)
 (define-key evil-insert-state-map   (kbd "C-d") #'delete-char)
@@ -720,6 +732,10 @@
   (interactive)
   (insert "`"))
 
+(defun my-insert-quote ()
+  (interactive)
+  (insert "'"))
+
 (define-key evil-normal-state-map (kbd "<kp-add>") 'my-backquote-automation-keymap)
 (define-key evil-normal-state-map (kbd "C-p") 'projectile-find-file)
 
@@ -798,11 +814,14 @@
   "<right>"  'enlarge-window-horizontally
   )
 
-(global-set-key (kbd "M-SPC") 'evil-escape)
+(global-set-key (kbd "C-SPC") 'evil-escape)
 (global-set-key (kbd "C-<f9>") 'text-scale-decrease)
 (global-set-key (kbd "C-<f10>") 'text-scale-increase)
 (global-set-key (kbd "<kp-subtract>") 'text-scale-decrease)
 (global-set-key (kbd "<kp-add>") 'my-backquote-automation-keymap)
+
+(define-key evil-insert-state-map   (kbd "'") #'evil-escape)
+(define-key evil-insert-state-map   (kbd "C-'") #'my-insert-quote)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -811,4 +830,10 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (cider js3-mode bm helm-swoop ox-rst aggressive-indent helm-descbinds yaml-mode rainbow-delimiters nyan-mode helm-projectile helm-ag evil-snipe evil-leader evil-escape evil-avy cyberpunk-theme clj-refactor))))
+    (general cider js3-mode bm helm-swoop ox-rst aggressive-indent helm-descbinds yaml-mode rainbow-delimiters nyan-mode helm-projectile helm-ag evil-snipe evil-leader evil-escape evil-avy cyberpunk-theme clj-refactor))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
