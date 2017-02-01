@@ -123,7 +123,10 @@
 (setq scroll-conservatively 10000)
 (setq auto-window-vscroll nil)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; focus on the buffer with a mouse
+(setq mouse-autoselect-window t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; Theme
 ;;
@@ -158,6 +161,30 @@
 (setq display-time-day-and-date t
       display-time-24hr-format t)
 (display-time)
+
+(nyan-mode 1)
+(setq nyan-wavy-trail nil)
+
+;; whitespace stuff
+
+(require 'whitespace)
+(setq whitespace-display-mappings
+      ;; all numbers are Unicode codepoint in decimal. try (insert-char 182 ) to see it
+      '(
+        (space-mark 32 [183] [46]) ; 32 SPACE, 183 MIDDLE DOT 「·」, 46 FULL STOP 「.」
+        (newline-mark 10 [182 10]) ; 10 LINE FEED
+        (tab-mark 9 [187 9] [9655 9] [92 9]) ; 9 TAB, 9655 WHITE RIGHT-POINTING TRIANGLE 「▷」
+        ))
+(setq whitespace-style '(face tabs trailing tab-mark))
+(set-face-attribute 'whitespace-tab nil
+                    :background "#f0f0f0"
+                    :foreground "#00a8a8"
+                    :weight 'bold)
+(set-face-attribute 'whitespace-trailing nil
+                    :background "#e4eeff"
+                    :foreground "#183bc8"
+                    :weight 'normal)
+(add-hook 'prog-mode-hook 'whitespace-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -216,9 +243,6 @@
 (add-hook 'js-mode-hook       #'(lambda () (modify-syntax-entry ?_ "w")))
 (add-hook 'python-mode-hook   #'(lambda () (modify-syntax-entry ?_ "w")))
 
-;; Make ibuffer start in normal mode
-(evil-set-initial-state 'ibuffer-mode 'normal)
-
 ;; snipe
 (require 'evil-snipe)
 (evil-snipe-mode 1)
@@ -229,6 +253,35 @@
 ;; avy
 (require 'evil-avy)
 (evil-avy-mode 1)
+
+(global-set-key (kbd "C-;") 'avy-goto-char)
+(global-set-key (kbd "C-'") 'avy-goto-char-2)
+(global-set-key (kbd "C-l") 'avy-goto-line)
+
+;; change mode-line color by evil state
+(lexical-let ((default-color (cons (face-background 'mode-line)
+                                   (face-foreground 'mode-line))))
+  (add-hook 'post-command-hook
+            (lambda ()
+              (let ((color (cond ((minibufferp) default-color)
+                                 ;;((evil-insert-state-p) '("#e80000" . "#ffffff"))
+                                 ((evil-insert-state-p) '("#480000" . "#ffffff"))
+                                 ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
+                                 ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
+                                 (t default-color))))
+                (set-face-background 'mode-line (car color))
+                (set-face-foreground 'mode-line (cdr color))))))
+
+;; Make some emacs commands available in insert mode
+
+(define-key evil-insert-state-map   (kbd "C-a") #'move-beginning-of-line)
+(define-key evil-insert-state-map   (kbd "C-b") #'backward-char)
+(define-key evil-insert-state-map   (kbd "C-d") #'delete-char)
+(define-key evil-insert-state-map   (kbd "C-e") #'move-end-of-line)
+(define-key evil-insert-state-map   (kbd "C-f") #'forward-char)
+(define-key evil-insert-state-map   (kbd "C-k") #'kill-line)
+;;(define-key evil-insert-state-map   (kbd "C-n") #'next-line)
+;;(define-key evil-insert-state-map   (kbd "C-p") #'previous-line)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -406,40 +459,13 @@
 (global-set-key (kbd "C-c M-i") 'helm-multi-swoop)
 (global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
 
-; change mode-line color by evil state
-(lexical-let ((default-color (cons (face-background 'mode-line)
-                                   (face-foreground 'mode-line))))
-  (add-hook 'post-command-hook
-            (lambda ()
-              (let ((color (cond ((minibufferp) default-color)
-                                 ;;((evil-insert-state-p) '("#e80000" . "#ffffff"))
-                                 ((evil-insert-state-p) '("#480000" . "#ffffff"))
-                                 ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
-                                 ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
-                                 (t default-color))))
-                (set-face-background 'mode-line (car color))
-                (set-face-foreground 'mode-line (cdr color))))))
-
-;; my hybrid mode
-
-(define-key evil-insert-state-map   (kbd "C-SPC") #'evil-escape)
-(define-key evil-insert-state-map   (kbd "C-a") #'move-beginning-of-line)
-(define-key evil-insert-state-map   (kbd "C-b") #'backward-char)
-(define-key evil-insert-state-map   (kbd "C-d") #'delete-char)
-(define-key evil-insert-state-map   (kbd "C-e") #'move-end-of-line)
-(define-key evil-insert-state-map   (kbd "C-f") #'forward-char)
-(define-key evil-insert-state-map   (kbd "C-k") #'kill-line)
-;;(define-key evil-insert-state-map   (kbd "C-n") #'next-line)
-;;(define-key evil-insert-state-map   (kbd "C-p") #'previous-line)
-
-;; focus on the buffer with a mouse
-
-(setq mouse-autoselect-window t)
-
-;; org-mode stuffy stuff
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Org mode
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq org-directory "/home/ryan/grive/orgmode")
-
 (setq org-default-notes-file (concat org-directory "/notes.org"))
 
 (defun rs-capture-task ()
@@ -451,19 +477,42 @@
 
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
-;;(global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-cb" 'org-iswitchb)
-
-
-
-(global-set-key (kbd "C-;") 'avy-goto-char)
-(global-set-key (kbd "C-'") 'avy-goto-char-2)
-(global-set-key (kbd "C-l") 'avy-goto-line)
 
 (defun grive-sync ()
   (interactive)
   (async-shell-command "cd ~/grive; and grive"))
   ;;(async-shell-command "cd ~/grive && grive"))
+
+(defun open-org-todo ()
+  (interactive)
+  (find-file "/home/ryan/grive/orgmode/work-todo.org"))
+
+(defun open-standups-org ()
+  (interactive)
+  (find-file "/home/ryan/grive/orgmode/standups.org"))
+
+(defun open-emacs-notes-org ()
+  (interactive)
+  (find-file "/home/ryan/grive/orgmode/emacs-notes.org"))
+
+(defun open-magit-org ()
+  (interactive)
+  (find-file "/home/ryan/grive/orgmode/magit.org"))
+
+(defun open-secondary-org-todo ()
+  (interactive)
+  (find-file "/home/ryan/grive/orgmode/secondary-work-todo.org"))
+
+(defun dired-orgmode ()
+  (interactive)
+  (dired "/home/ryan/grive/orgmode"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Launch some command line scripts
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun refresh-ubu ()
   (interactive)
@@ -472,99 +521,6 @@
 (defun dot-emacs-sync ()
   (interactive)
   (async-shell-command "~/bin/sync-dot-emacs.sh"))
-
-;; buffer gestion
-
-(defun kill-other-buffers ()
-  "Kill all other buffers."
-  (interactive)
-  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
-
-;;  Terminal Mode Tweaks
-
-(defun my-terminal-mode ()
-  (interactive)
-  (ansi-term "/bin/bash"))
-
-(defun my-next-window ()
-  (interactive)
-  (other-window 1))
-
-(defun my-previous-window ()
-  (interactive)
-  (other-window -1))
-
-;; ibuffer stuff
-
-(setq ibuffer-saved-filter-groups
-      (quote (("default"
-               ("Org" ;; all org-related buffers
-                (mode . org-mode))
-               ("Clojure" ;; all org-related buffers
-                (mode . clojure-mode))
-               ("Programming" ;; prog stuff not already in MyProjectX
-                (or
-                 (mode . c-mode)
-                 (mode . c++-mode)
-                 (mode . perl-mode)
-                 (mode . python-mode)
-                 (mode . emacs-lisp-mode)))
-               ("LaTeX"
-                (mode . latex-mode))
-               ("Terminals"
-                (mode . term-mode))
-               ("Directories"
-                (mode . dired-mode))
-               ))))
-
-;; do not show empty groups by default
-(setq ibuffer-show-empty-filter-groups nil)
-
-;; keep the filter list up to date
-(add-hook 'ibuffer-mode-hook
-          '(lambda ()
-             (ibuffer-auto-mode 1)
-             (ibuffer-switch-to-saved-filter-groups "home")))
-
-(setq mp/ibuffer-collapsed-groups (list "Helm" "*Internal*" "Default"))
-
-;; whitespace stuff
-
-(require 'whitespace)
-(setq whitespace-display-mappings
-      ;; all numbers are Unicode codepoint in decimal. try (insert-char 182 ) to see it
-      '(
-        (space-mark 32 [183] [46]) ; 32 SPACE, 183 MIDDLE DOT 「·」, 46 FULL STOP 「.」
-        (newline-mark 10 [182 10]) ; 10 LINE FEED
-        (tab-mark 9 [187 9] [9655 9] [92 9]) ; 9 TAB, 9655 WHITE RIGHT-POINTING TRIANGLE 「▷」
-        ))
-(setq whitespace-style '(face tabs trailing tab-mark))
-(set-face-attribute 'whitespace-tab nil
-                    :background "#f0f0f0"
-                    :foreground "#00a8a8"
-                    :weight 'bold)
-(set-face-attribute 'whitespace-trailing nil
-                    :background "#e4eeff"
-                    :foreground "#183bc8"
-                    :weight 'normal)
-(add-hook 'prog-mode-hook 'whitespace-mode)
-
-(defun rename-current-buffer-file ()
-  "Renames current buffer and file it is visiting."
-  (interactive)
-  (let ((name (buffer-name))
-        (filename (buffer-file-name)))
-    (if (not (and filename (file-exists-p filename)))
-        (error "Buffer '%s' is not visiting a file!" name)
-      (let ((new-name (read-file-name "New name: " filename)))
-        (if (get-buffer new-name)
-            (error "A buffer named '%s' already exists!" new-name)
-          (rename-file filename new-name 1)
-          (rename-buffer new-name)
-          (set-visited-file-name new-name)
-          (set-buffer-modified-p nil)
-          (message "File '%s' successfully renamed to '%s'"
-                   name (file-name-nondirectory new-name)))))))
 
 (defun run-agent-install (arg)
   "Prompt user to enter a string, with input history support."
@@ -605,47 +561,58 @@
                        "*lein-install-spock*")
   (message "DONE"))
 
-;; term stuff
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Buffer management
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(nyan-mode 1)
-(setq nyan-wavy-trail nil)
+;; Auto refresh buffers [ maybe when contents are changed outside
+;; of emacs ]
+(global-auto-revert-mode 1)
 
-(defun open-org-todo ()
+(defun kill-other-buffers ()
+  "Kill all other buffers."
   (interactive)
-  (find-file "/home/ryan/grive/orgmode/work-todo.org"))
+  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
-(defun open-standups-org ()
+(defun rename-current-buffer-file ()
+  "Renames current buffer and file it is visiting."
   (interactive)
-  (find-file "/home/ryan/grive/orgmode/standups.org"))
-
-(defun open-emacs-notes-org ()
-  (interactive)
-  (find-file "/home/ryan/grive/orgmode/emacs-notes.org"))
-
-(defun open-magit-org ()
-  (interactive)
-  (find-file "/home/ryan/grive/orgmode/magit.org"))
-
-(defun open-secondary-org-todo ()
-  (interactive)
-  (find-file "/home/ryan/grive/orgmode/secondary-work-todo.org"))
-
-(defun dired-orgmode ()
-  (interactive)
-  (dired "/home/ryan/grive/orgmode"))
-
-(defun open-org-for-current-jira ()
-  (interactive)
-  (find-file "/home/ryan/grive/orgmode/jiras/opsc-6988-spock-agent-install.org"))
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (let ((new-name (read-file-name "New name: " filename)))
+        (if (get-buffer new-name)
+            (error "A buffer named '%s' already exists!" new-name)
+          (rename-file filename new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil)
+          (message "File '%s' successfully renamed to '%s'"
+                   name (file-name-nondirectory new-name)))))))
 
 (defun rs-clean-slate ()
   (interactive)
   (open-standups-org)
   (kill-other-buffers))
 
-;;  Hotkeys
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Key bindings
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; i want a backquote as a prefix key
+(defun my-insert-backquote ()
+  (interactive)
+  (insert "`"))
+
+(defun my-insert-quote ()
+  (interactive)
+  (insert "'"))
+
+;; Use backquote as a prefix key
 
 ;; this is for automated stuff
 (define-prefix-command 'my-backquote-automation-keymap)
@@ -694,14 +661,6 @@
 (define-key my-backquote-keymap (kbd "<left>") 'shrink-window-horizontally)
 (define-key my-backquote-keymap (kbd "<right>") 'enlarge-window-horizontally)
 
-(defun my-insert-backquote ()
-  (interactive)
-  (insert "`"))
-
-(defun my-insert-quote ()
-  (interactive)
-  (insert "'"))
-
 (define-key evil-normal-state-map (kbd "<kp-add>") 'my-backquote-automation-keymap)
 (define-key evil-normal-state-map (kbd "C-p") 'projectile-find-file)
 
@@ -716,12 +675,7 @@
 
 (define-key evil-normal-state-map (kbd "M-.") 'cider-find-var)
 
-;; keep dired up to date
-
-;; Auto refresh buffers
-(global-auto-revert-mode 1)
-
-;; Also auto refresh dired, but be quiet about it
+; Also auto refresh dired, but be quiet about it
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
 
@@ -756,7 +710,6 @@
   "u" 'cljr-find-usages
   "i" 'helm-swoop
   "b" 'helm-buffers-list
-  "B" 'ibuffer
 
   "a" 'align-cljlet
 
@@ -780,14 +733,16 @@
   "<right>"  'enlarge-window-horizontally
   )
 
-(global-set-key (kbd "C-SPC") 'evil-escape)
 (global-set-key (kbd "C-<f9>") 'text-scale-decrease)
 (global-set-key (kbd "C-<f10>") 'text-scale-increase)
 (global-set-key (kbd "<kp-subtract>") 'text-scale-decrease)
 (global-set-key (kbd "<kp-add>") 'my-backquote-automation-keymap)
 
-;;(define-key evil-insert-state-map   (kbd "'") #'evil-escape)
-;;(define-key evil-insert-state-map   (kbd "C-'") #'my-insert-quote)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Emacs "Custom" settings
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -796,7 +751,8 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (general cider js3-mode bm helm-swoop ox-rst aggressive-indent helm-descbinds yaml-mode rainbow-delimiters nyan-mode helm-projectile helm-ag evil-snipe evil-leader evil-escape evil-avy cyberpunk-theme clj-refactor))))
+    (cider bm helm-swoop ox-rst aggressive-indent helm-descbinds yaml-mode rainbow-delimiters nyan-mode helm-projectile helm-ag evil-snipe evil-leader evil-escape evil-avy cyberpunk-theme))))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
