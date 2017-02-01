@@ -1,80 +1,56 @@
-;; TO DO
-;;
-;; Package stuff
-;;
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; Section One: Packages
 ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'cl) ;; needed for loop
-
+;; cl provides loop
+(require 'cl)
 (require 'package)
 
 (add-to-list
     'package-archives
     '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
-;; This had a funky cert problem
-;;(add-to-list 'package-archives
-;;             '("marmalade" . "http://marmalade-repo.org/packages/") t)
-
 (package-initialize)
 
 ;; really good: evil, evil-leader
-;; good: projectile, helm projectile
-;; clojure: cider, clj-refactor
-;;  for lein, check out the versions at: https://clojars.org/cider/cider-nrepl/versions
-;;                                  and: https://clojars.org/refactor-nrepl/versions
-;;  for cider, clj-refactor with java 1.7, do this before lein repl:
-;;       export JAVA_OPTS="-XX:MaxPermSize=128m"
-
-;; to check out: guide-key, hydra, rainbow identifiers
-
-;; Maybe for later
-;;
-;;  dizzee
-;;  evil-surround
-;;  hydra
-
-;; Maybe to replace
-;;
-;;  helm
-;;  helm-ag
-;;  helm-descbinds
-;;  helm-projectile
-;;  helm-swoop
-
-;; Maybe remove
-;;
-;;  highlight
-;;  bm
-;;  workgroups2
-;;  js3-mode
 
 (defvar required-packages
   '(
+    ;; Code formatting
+    aggressive-indent
+    align-cljlet
+
+    ;; vim emulation
     evil
     evil-leader
     evil-escape
+
+    ;; vim navigation
+    ;; TODO avy might be a superset of snipe
+    ;; maybe remove snipe
     evil-snipe
     evil-avy
+
+    ;; theme
     cyberpunk-theme
-    align-cljlet
-    aggressive-indent
-    projectile
+    rainbow-delimiters
+    nyan-mode
     highlight
+
+    ;; navigation
+    bm
+
+    ;; clojure
+    cider
+
+    ;; maybe replace helm with ivy
+    projectile
     helm-projectile
     helm-descbinds
     helm-ag
     helm-swoop
-    cider
-    clj-refactor
-    bm
-    rainbow-delimiters
-    workgroups2
-    nyan-mode
-    js3-mode
     )
     "a list of packages to ensure are installed at launch.")
 
@@ -97,52 +73,128 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
-;; (setq-default cursor-type 'bar)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Try to avoid emacs creating files everywhere
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; no lock files
+(setq create-lockfiles nil)
+
+;; Turn off auto-saves
+(setq auto-save-default nil)
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
+;; backup files
+(setq make-backup-files nil)
+(setq backup-inhibited t)
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; General Settings
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; edit and reload .emacs
+(defun edit-dot-emacs ()
+  "Load the .emacs file into a buffer for editing."
+  (interactive)
+  (find-file "~/.emacs"))
+
+(defun reload-dot-emacs ()
+  (interactive)
+  (if (bufferp (get-file-buffer "~/.emacs"))
+    (save-buffer (get-buffer "~/.emacs")))
+  (load-file "~/.emacs"))
+
+;; No bell at all
+(setq ring-bell-function 'ignore)
+
+;; No tabs! - spaces only
+(setq tab-width 4)
+(setq indent-tabs-mode nil)
+
+;; sane scrolling
+(setq scroll-step 1)
+(setq scroll-conservatively 10000)
+(setq auto-window-vscroll nil)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Theme
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq evil-insert-state-cursor '((bar . 5) "purple")
       evil-normal-state-cursor '((bar . 5) "green"))
 
 (blink-cursor-mode -1)
 
-;; shell-script mode
+(load-theme 'cyberpunk t)
 
-(defun rs-sh-mode-hook ()
-  "My config for sh mode."
-  (interactive)
-  (set-key "\t" (lambda () (interactive) (insert-char 32 4))) ;; [tab] inserts four spaces
-  (setq sh-basic-offset 4
-        sh-indentation 4))
-(add-hook 'sh-mode-hook 'rs-sh-mode-hook)
+(require 'highlight)
 
+(set-default-font "DejaVu Sans Mono 16")
+
+(global-visual-line-mode 1)
+
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
+;; disable the tool bar
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+
+; Add highlighting type thing for the selected region
+(transient-mark-mode 1)
+
+(show-paren-mode)
+
+;; display a clock
+(setq display-time-day-and-date t
+      display-time-24hr-format t)
+(display-time)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; evil
+;; Better interaction with i3
 ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(load-file "~/git-repos/frames-only-mode/frames-only-mode.el")
+(require 'frames-only-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Vim emulation
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'evil)
 (require 'evil-leader)
 
 (evil-leader/set-leader "<SPC>")
 (setq evil-leader/in-all-states t)
-;; enable evil-leader before enabling evil
+
+;; We should enable evil-leader before enabling evil
 (global-evil-leader-mode)
 (evil-mode 1)
 
-;;(set-default-font "Monospace-16")
-(set-default-font "DejaVu Sans Mono 16")
-
 ;; This will cause dired to default to Normal mode
-
 (setq evil-motion-state-modes nil)
 
 (require 'evil-escape)
 (evil-escape-mode 1)
-;;(evil-escape-mode 0)
 
-;; give me a couple of minutes to decide if i want to exit insert mode... heh
-;;(setq-default evil-escape-delay 120.0)
+;; give me a couple of minutes to decide
+;; if i want to exit insert mode... heh
+(setq-default evil-escape-delay 120.0)
 
-;; (setq-default evil-escape-key-sequence "fj")
-;;(setq-default evil-escape-key-sequence "M-<SPC>")
-;;(setq-default evil-escape-key-sequence "jk")
+(setq-default evil-escape-key-sequence "jf")
 ;;(setq evil-escape-unordered-key-sequence 1)
 
 ;; Make movement keys work like they should
@@ -158,40 +210,31 @@
 (with-eval-after-load 'evil
   (defalias #'forward-evil-word #'forward-evil-symbol))
 
-(require 'highlight)
-
-;; To only display string whose length is greater than or equal to 3
-;; (setq evil-search-highlight-string-min-len 3)
-
-(load-file "~/git-repos/frames-only-mode/frames-only-mode.el")
-(require 'frames-only-mode)
-
-
-(require 'clj-refactor)
-(add-hook 'clojure-mode-hook (lambda ()
-                               (clj-refactor-mode 1)
-                               ;;(yas-minor-mode 1) ; for adding require/use/import
-                               ;; insert keybinding setup here
-                               ;; (cljr-add-keybindings-with-prefix "C-c C-m")
-                               ;; eg. rename files with `C-c C-m rf`.
-                               ))
-
 ;; include underscore as a word character for evil for * searches
 
-(add-hook 'clojure-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
-(add-hook 'js-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
-(add-hook 'python-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+(add-hook 'clojure-mode-hook  #'(lambda () (modify-syntax-entry ?_ "w")))
+(add-hook 'js-mode-hook       #'(lambda () (modify-syntax-entry ?_ "w")))
+(add-hook 'python-mode-hook   #'(lambda () (modify-syntax-entry ?_ "w")))
+
+;; Make ibuffer start in normal mode
 (evil-set-initial-state 'ibuffer-mode 'normal)
 
-;; evil-snipe
-
+;; snipe
 (require 'evil-snipe)
 (evil-snipe-mode 1)
 
 ;; OPTIONAL: Replaces evil-mode's f/F/t/T motions with evil-snipe
 ;;(evil-snipe-override-mode 1)
 
-;; aggresive-indent
+;; avy
+(require 'evil-avy)
+(evil-avy-mode 1)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Clojure
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
@@ -199,7 +242,9 @@
             ))
 
 (add-hook 'clojure-mode-hook #'aggressive-indent-mode)
-;;(global-aggressive-indent-mode)
+
+(add-to-list 'auto-mode-alist '("\\.edn\\'" . clojure-mode))
+(add-to-list 'auto-mode-alist '("\\.boot\\'" . clojure-mode))
 
 (defun indent-cond (indent-point state)
   (goto-char (elt state 1))
@@ -221,44 +266,88 @@
     (+ base-col (if (evenp pos) 4 2))))
 (put-clojure-indent 'cond #'indent-cond)
 
-;; avy
+(require 'align-cljlet)
 
-(require 'evil-avy)
+;; cider
 
-(evil-avy-mode 1)
+(setq cider-prompt-for-symbol nil)
 
-;; projectile
-(require 'projectile)
+(defun indent-buffer ()
+  "Indent the currently visited buffer."
+  (interactive)
+  (indent-region (point-min) (point-max)))
 
-(projectile-global-mode)
-(projectile-mode 1)
+(defun indent-region-or-buffer ()
+  "Indent a region if selected, otherwise the whole buffer."
+  (interactive)
+  (save-excursion
+    (if (region-active-p)
+        (progn
+          (indent-region (region-beginning) (region-end))
+          (message "Indented selected region."))
+      (progn
+        (indent-buffer)
+        (message "Indented buffer.")))))
 
-;;(projectile-add-known-project "/home/ryan/ripcord/spock")
-(projectile-add-known-project "/home/ryan/ripcord")
+(defun indent-defun ()
+  "Indent the current defun."
+  (interactive)
+  (save-restriction
+    (widen)
+    (narrow-to-defun)
+    (indent-buffer)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
+;; Shell Scripting
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-visual-line-mode 1)
+(defun rs-sh-mode-hook ()
+  "My config for sh mode."
+  (interactive)
+  (set-key "\t" (lambda () (interactive) (insert-char 32 4))) ;; [tab] inserts four spaces
+  (setq sh-basic-offset 4
+        sh-indentation 4))
+(add-hook 'sh-mode-hook 'rs-sh-mode-hook)
 
-;; bookmark stuff
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; RST
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'rst)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Bookmark
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (global-set-key (kbd "<C-f2>") 'bm-toggle)
 (global-set-key (kbd "<f2>")   'bm-next)
 (global-set-key (kbd "<S-f2>") 'bm-previous)
 
-(global-set-key (kbd "<f6>")   'other-window)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Projectile
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; rainbow delimiters
+(require 'projectile)
 
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-;;(add-hook 'prog-mode-hook #'rainbow-identifiers-mode)
+(projectile-global-mode)
+(projectile-mode 1)
 
-;; js3
+(projectile-add-known-project "/home/ryan/ripcord")
+;;(projectile-add-known-project "/home/ryan/ripcord/spock")
 
-(autoload 'js3-mode "js3" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js3-mode))
-
-;; helm
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Helm
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (add-to-list 'load-path "/home/ryan/emacs-async")
 (add-to-list 'load-path "/home/ryan/helm")
@@ -288,20 +377,16 @@
 (global-set-key (kbd "C-c h M-:") 'helm-eval-expression-with-eldoc)
 
 (setq helm-semantic-fuzzy-matching t
-      helm-locate-fuzzy-match    t
-      helm-apropos-fuzzy-match    t
-      helm-lisp-fuzzy-completion    t
-      helm-imenu-fuzzy-match    t)
+      helm-locate-fuzzy-match      t
+      helm-apropos-fuzzy-match     t
+      helm-lisp-fuzzy-completion   t
+      helm-imenu-fuzzy-match       t)
 
 (add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
 
 (require 'helm-descbinds)
 
 (global-set-key (kbd "C-h b") 'helm-descbinds)
-
-(require 'helm-eshell)
-(add-hook 'eshell-mode-hook
-          #'(lambda () (define-key eshell-mode-map (kbd "C-c C-l") 'helm-eshell-history)))
 
 (define-key shell-mode-map (kbd "C-c C-l") 'helm-comint-input-ring)
 (define-key minibuffer-local-map (kbd "C-c C-l") 'helm-minibuffer-history)
@@ -321,126 +406,7 @@
 (global-set-key (kbd "C-c M-i") 'helm-multi-swoop)
 (global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
 
-
-;; require general
-
-;;(require 'general)
-
-;;(general-define-key
-;; :keymaps 'evil-insert-state-map
-;; (general-chord "jk") 'evil-normal-state
-;; (general-chord "kj") 'evil-normal-state)
-
-;; edit and reload .emacs
-
-(defun edit-dot-emacs ()
-  "Load the .emacs file into a buffer for editing."
-  (interactive)
-  (find-file "~/.emacs"))
-
-(defun reload-dot-emacs ()
-
-  (interactive)
-  (if (bufferp (get-file-buffer "~/.emacs"))
-    (save-buffer (get-buffer "~/.emacs")))
-  (load-file "~/.emacs"))
-
-;; align cljlet
-
-(require 'align-cljlet)
-
-;; rst mode
-(require 'rst)
-
-;; cider
-
-(setq cider-prompt-for-symbol nil)
-
-;; indent a defun
-
-(defun indent-buffer ()
-  "Indent the currently visited buffer."
-  (interactive)
-  (indent-region (point-min) (point-max)))
-
-(defun indent-region-or-buffer ()
-  "Indent a region if selected, otherwise the whole buffer."
-  (interactive)
-  (save-excursion
-    (if (region-active-p)
-        (progn
-          (indent-region (region-beginning) (region-end))
-          (message "Indented selected region."))
-      (progn
-        (indent-buffer)
-        (message "Indented buffer.")))))
-
-(defun indent-defun ()
-  "Indent the current defun."
-  (interactive)
-  (save-restriction
-    (widen)
-    (narrow-to-defun)
-    (indent-buffer)))
-
-;; backup files
-
-(setq make-backup-files nil)
-
-;; no lock files either
-
-(setq create-lockfiles nil)
-
-;; No tabs! - spaces only
-
-(setq tab-width 4)
-(setq indent-tabs-mode nil)
-
-;; No bell at all
-
-(setq ring-bell-function 'ignore)
-
-(load-theme 'cyberpunk t)
-
-;; disable the tool bar
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-
-;; Turn off auto-saves
-
-(setq auto-save-default nil)
-
-;; Turn off backups
-
-(setq backup-inhibited t)
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
-
-;; Add highlighting type thing for the selected region
-
-(transient-mark-mode 1)
-
-(show-paren-mode)
-
-;; sane scrolling
-
-(setq scroll-step 1)
-(setq scroll-conservatively 10000)
-(setq auto-window-vscroll nil)
-
-(add-to-list 'auto-mode-alist '("\\.edn\\'" . clojure-mode))
-(add-to-list 'auto-mode-alist '("\\.boot\\'" . clojure-mode))
-
-;; display a clock
-
-(setq display-time-day-and-date t
-      display-time-24hr-format t)
-(display-time)
-
-;; change mode-line color by evil state
+; change mode-line color by evil state
 (lexical-let ((default-color (cons (face-background 'mode-line)
                                    (face-foreground 'mode-line))))
   (add-hook 'post-command-hook
@@ -820,8 +786,8 @@
 (global-set-key (kbd "<kp-subtract>") 'text-scale-decrease)
 (global-set-key (kbd "<kp-add>") 'my-backquote-automation-keymap)
 
-(define-key evil-insert-state-map   (kbd "'") #'evil-escape)
-(define-key evil-insert-state-map   (kbd "C-'") #'my-insert-quote)
+;;(define-key evil-insert-state-map   (kbd "'") #'evil-escape)
+;;(define-key evil-insert-state-map   (kbd "C-'") #'my-insert-quote)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
