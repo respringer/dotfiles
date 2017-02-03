@@ -317,7 +317,7 @@
       ;; indentation as if there were an extra sexp at point.
       (scan-error (cl-incf pos)))
     (+ base-col (if (evenp pos) 4 2))))
-(put-clojure-indent 'cond #'indent-cond)
+;; (put-clojure-indent 'cond #'indent-cond)
 
 (require 'align-cljlet)
 
