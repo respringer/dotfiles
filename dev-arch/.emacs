@@ -195,6 +195,8 @@
 (load-file "~/git-repos/frames-only-mode/frames-only-mode.el")
 (require 'frames-only-mode)
 
+(setq frames-only-mode-use-windows-for-completion nil)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; Vim emulation
@@ -669,6 +671,11 @@
 
 (define-key evil-normal-state-map (kbd "`") 'my-backquote-keymap)
 (define-key evil-insert-state-map (kbd "`") 'my-backquote-keymap)
+(define-key evil-insert-state-map (kbd "S-<SPC>") 'evil-escape)
+(define-key evil-insert-state-map (kbd "C-<SPC>") 'evil-escape)
+
+;;(global-set-key (kbd "S-<SPC>") 'evil-escape)
+
 (define-key evil-insert-state-map (kbd "C-j") 'evil-normal-state)
 (define-key evil-emacs-state-map (kbd "`") 'my-backquote-keymap)
 (define-key ibuffer-mode-map (kbd "`") 'my-backquote-keymap)
@@ -737,6 +744,7 @@
 (global-set-key (kbd "C-<f10>") 'text-scale-increase)
 (global-set-key (kbd "<kp-subtract>") 'text-scale-decrease)
 (global-set-key (kbd "<kp-add>") 'my-backquote-automation-keymap)
+(global-set-key (kbd "S-<SPC>") 'evil-escape)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
