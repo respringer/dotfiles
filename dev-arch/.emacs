@@ -45,12 +45,15 @@
     ;; clojure
     cider
 
+    ;; ivy
+    ivy
+
     ;; maybe replace helm with ivy
-    projectile
-    helm-projectile
-    helm-descbinds
-    helm-ag
-    helm-swoop
+    ;;projectile
+    ;;helm-projectile
+    ;;helm-descbinds
+    ;;helm-ag
+    ;;helm-swoop
     )
     "a list of packages to ensure are installed at launch.")
 
@@ -390,13 +393,21 @@
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'projectile)
+;; (require 'projectile)
 
-(projectile-global-mode)
-(projectile-mode 1)
+;; (projectile-global-mode)
+;; (projectile-mode 1)
 
-(projectile-add-known-project "/home/ryan/ripcord")
-;;(projectile-add-known-project "/home/ryan/ripcord/spock")
+;; (projectile-add-known-project "/home/ryan/ripcord")
+;;;; (projectile-add-known-project "/home/ryan/ripcord/spock")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Ivy
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(ivy-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -404,62 +415,63 @@
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(add-to-list 'load-path "/home/ryan/emacs-async")
-(add-to-list 'load-path "/home/ryan/helm")
-
-(require 'helm-config)
-
-(helm-mode 1)
-
-(setq projectile-completion-system 'helm)
-(helm-projectile-on)
-
-(global-set-key (kbd "M-x") 'helm-M-x)
-(setq helm-M-x-fuzzy-match t)
-(setq helm-split-window-in-side-p t)
-(setq helm-split-window-default-side 'below)
-
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "C-x b") 'helm-mini)
-(setq helm-buffers-fuzzy-matching t
-      helm-recentf-fuzzy-match    t)
-
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-c h o") 'helm-occur)
-(global-set-key (kbd "C-h SPC") 'helm-all-mark-rings)
-(global-set-key (kbd "C-c h x") 'helm-register)
-(global-set-key (kbd "C-c h h") 'helm-google-suggest)
-(global-set-key (kbd "C-c h M-:") 'helm-eval-expression-with-eldoc)
-
-(setq helm-semantic-fuzzy-matching t
-      helm-locate-fuzzy-match      t
-      helm-apropos-fuzzy-match     t
-      helm-lisp-fuzzy-completion   t
-      helm-imenu-fuzzy-match       t)
-
-(add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
-
-(require 'helm-descbinds)
-
-(global-set-key (kbd "C-h b") 'helm-descbinds)
-
-(define-key shell-mode-map (kbd "C-c C-l") 'helm-comint-input-ring)
-(define-key minibuffer-local-map (kbd "C-c C-l") 'helm-minibuffer-history)
-
-(require 'helm-ag)
-(require 'helm-swoop)
-
-;; When doing evil-search, hand the word over to helm-swoop
-(define-key evil-motion-state-map (kbd "M-i") 'helm-swoop-from-evil-search)
-
-;; If you prefer fuzzy matching
-(setq helm-swoop-use-fuzzy-match t)
-
-;; Change the keybinds to whatever you like :)
-(global-set-key (kbd "M-i") 'helm-swoop)
-(global-set-key (kbd "M-I") 'helm-swoop-back-to-last-point)
-(global-set-key (kbd "C-c M-i") 'helm-multi-swoop)
-(global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
+;; (add-to-list 'load-path "/home/ryan/emacs-async")
+;; (add-to-list 'load-path "/home/ryan/helm")
+;;
+;; (require 'helm-config)
+;;
+;; (helm-mode 1)
+;;
+;; (setq projectile-completion-system 'helm)
+;; (helm-projectile-on)
+;;
+;; (global-set-key (kbd "M-x") 'helm-M-x)
+;; (setq helm-M-x-fuzzy-match t)
+;; (setq helm-split-window-in-side-p t)
+;; (setq helm-split-window-default-side 'below)
+;;
+;; (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+;; (global-set-key (kbd "C-x b") 'helm-mini)
+;; (setq helm-buffers-fuzzy-matching t
+;;       helm-recentf-fuzzy-match    t)
+;;
+;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
+;; (global-set-key (kbd "C-c h o") 'helm-occur)
+;; (global-set-key (kbd "C-h SPC") 'helm-all-mark-rings)
+;; (global-set-key (kbd "C-c h x") 'helm-register)
+;; (global-set-key (kbd "C-c h h") 'helm-google-suggest)
+;; (global-set-key (kbd "C-c h M-:") 'helm-eval-expression-with-eldoc)
+;;
+;; (setq helm-semantic-fuzzy-matching t
+;;       helm-locate-fuzzy-match      t
+;;       helm-apropos-fuzzy-match     t
+;;       helm-lisp-fuzzy-completion   t
+;;       helm-imenu-fuzzy-match       t)
+;;
+;; (add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
+;;
+;; (require 'helm-descbinds)
+;;
+;; (global-set-key (kbd "C-h b") 'helm-descbinds)
+;;
+;; (define-key shell-mode-map (kbd "C-c C-l") 'helm-comint-input-ring)
+;; (define-key minibuffer-local-map (kbd "C-c C-l") 'helm-minibuffer-history)
+;;
+;; (require 'helm-ag)
+;; (require 'helm-swoop)
+;;
+;; ;; When doing evil-search, hand the word over to helm-swoop
+;; (define-key evil-motion-state-map (kbd "M-i") 'helm-swoop-from-evil-search)
+;;
+;; ;; If you prefer fuzzy matching
+;; (setq helm-swoop-use-fuzzy-match t)
+;;
+;; ;; Change the keybinds to whatever you like :)
+;; (global-set-key (kbd "M-i") 'helm-swoop)
+;; (global-set-key (kbd "M-I") 'helm-swoop-back-to-last-point)
+;; (global-set-key (kbd "C-c M-i") 'helm-multi-swoop)
+;; (global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
+;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -671,14 +683,10 @@
 
 (define-key evil-normal-state-map (kbd "`") 'my-backquote-keymap)
 (define-key evil-insert-state-map (kbd "`") 'my-backquote-keymap)
-(define-key evil-insert-state-map (kbd "S-<SPC>") 'evil-escape)
-(define-key evil-insert-state-map (kbd "C-<SPC>") 'evil-escape)
-
-;;(global-set-key (kbd "S-<SPC>") 'evil-escape)
 
 (define-key evil-insert-state-map (kbd "C-j") 'evil-normal-state)
 (define-key evil-emacs-state-map (kbd "`") 'my-backquote-keymap)
-(define-key ibuffer-mode-map (kbd "`") 'my-backquote-keymap)
+;;(define-key ibuffer-mode-map (kbd "`") 'my-backquote-keymap)
 
 (define-key evil-normal-state-map (kbd "M-.") 'cider-find-var)
 
@@ -695,56 +703,56 @@
 ;; helm-find-files
 
 (evil-leader/set-key
-  "!" 'open-org-for-current-jira
+;;  "!" 'open-org-for-current-jira
   "$" 'open-standups-org
   "^" 'grive-sync
-  "*" 'open-org-todo
-  "&" 'open-secondary-org-todo
+;;  "*" 'open-org-todo
+;;  "&" 'open-secondary-org-todo
 
   "-" 'toggle-truncate-lines ;; back and forth from word wrap
-  "=" 'open-org-todo
+;;  "=" 'open-org-todo
 
   "s" 'save-buffer
   "d" 'indent-defun
   "f" 'find-file
 
   "o" 'dired-orgmode
-  "p" 'projectile-find-file
+;;  "p" 'projectile-find-file
 
-  "<tab>" 'helm-keyboard-quit
-  "x" 'helm-M-x
+ ;; "<tab>" 'helm-keyboard-quit
+ ;; "x" 'helm-M-x
 
-  "u" 'cljr-find-usages
-  "i" 'helm-swoop
-  "b" 'helm-buffers-list
+ ;; "u" 'cljr-find-usages
+ ;; "i" 'helm-swoop
+ ;; "b" 'helm-buffers-list
 
   "a" 'align-cljlet
 
-  "h" 'previous-buffer
-  "k" 'kill-this-buffer
-  "l" 'next-buffer
-  ";" 'avy-goto-char
-  "'" 'avy-goto-char-2
-  "\"" 'avy-goto-char
+;;  "h" 'previous-buffer
+;;  "k" 'kill-this-buffer
+;;  "l" 'next-buffer
+;;  ";" 'avy-goto-char
+;;  "'" 'avy-goto-char-2
+;;  "\"" 'avy-goto-char
 
   "9" 'edit-dot-emacs
   "0" 'reload-dot-emacs
 
-  "," 'open-emacs-notes-org
-  "." 'dot-emacs-sync
-  "/" 'helm-projectile-ag
+;;  "," 'open-emacs-notes-org
+;;  "." 'dot-emacs-sync
+ ;; "/" 'helm-projectile-ag
 
-  "<up>"     'shrink-window
-  "<down>"   'enlarge-window
-  "<left>"   'shrink-window-horizontally
-  "<right>"  'enlarge-window-horizontally
+;;  "<up>"     'shrink-window
+;;  "<down>"   'enlarge-window
+;;  "<left>"   'shrink-window-horizontally
+;;  "<right>"  'enlarge-window-horizontally
   )
 
 (global-set-key (kbd "C-<f9>") 'text-scale-decrease)
 (global-set-key (kbd "C-<f10>") 'text-scale-increase)
 (global-set-key (kbd "<kp-subtract>") 'text-scale-decrease)
 (global-set-key (kbd "<kp-add>") 'my-backquote-automation-keymap)
-(global-set-key (kbd "S-<SPC>") 'evil-escape)
+;;(global-set-key (kbd "S-<SPC>") 'evil-escape)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -759,7 +767,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (cider bm helm-swoop ox-rst aggressive-indent helm-descbinds yaml-mode rainbow-delimiters nyan-mode helm-projectile helm-ag evil-snipe evil-leader evil-escape evil-avy cyberpunk-theme))))
+    (ivy cider bm helm-swoop ox-rst aggressive-indent helm-descbinds yaml-mode rainbow-delimiters nyan-mode helm-projectile helm-ag evil-snipe evil-leader evil-escape evil-avy cyberpunk-theme))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
