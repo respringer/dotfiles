@@ -144,7 +144,7 @@
 
 (require 'highlight)
 
-(set-default-font "DejaVu Sans Mono 16")
+(set-face-attribute 'default nil :font "DejaVu Sans Mono 16")
 
 (global-visual-line-mode 1)
 
