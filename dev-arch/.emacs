@@ -34,6 +34,7 @@
     evil-avy
 
     ;; theme
+    avk-emacs-themes
     cyberpunk-theme
     rainbow-delimiters
     nyan-mode
@@ -140,7 +141,9 @@
 
 (blink-cursor-mode -1)
 
-(load-theme 'cyberpunk t)
+;;(load-theme 'cyberpunk t)
+;;(load-theme 'avk-light-theme t)
+(load-theme 'avk-daylight t)
 
 (require 'highlight)
 
@@ -493,9 +496,10 @@
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 
-(defun grive-sync ()
+(defun sync-all ()
   (interactive)
-  (async-shell-command "cd ~/grive; and grive"))
+  ;;(async-shell-command "cd ~/grive; and grive"))
+  (async-shell-command "cd ~/bin; and sync-all.sh"))
   ;;(async-shell-command "cd ~/grive && grive"))
 
 (defun open-org-todo ()
@@ -635,7 +639,7 @@
 (define-key my-backquote-keymap (vector ?`) 'my-insert-backquote)
 (define-key my-backquote-keymap (vector ?!) 'open-org-for-current-jira)
 (define-key my-backquote-keymap (vector ?$) 'open-standups-org)
-(define-key my-backquote-keymap (vector ?^) 'grive-sync)
+(define-key my-backquote-keymap (vector ?^) 'sync-all)
 (define-key my-backquote-keymap (vector ?*) 'open-org-todo)
 (define-key my-backquote-keymap (vector ?&) 'open-secondary-org-todo)
 (define-key my-backquote-keymap (vector ?+) 'my-backquote-automation-keymap)
@@ -705,7 +709,7 @@
 (evil-leader/set-key
 ;;  "!" 'open-org-for-current-jira
   "$" 'open-standups-org
-  "^" 'grive-sync
+  "^" 'sync-all
 ;;  "*" 'open-org-todo
 ;;  "&" 'open-secondary-org-todo
 
@@ -767,7 +771,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (ivy cider bm helm-swoop ox-rst aggressive-indent helm-descbinds yaml-mode rainbow-delimiters nyan-mode helm-projectile helm-ag evil-snipe evil-leader evil-escape evil-avy cyberpunk-theme))))
+    (avk-emacs-themes ivy cider bm helm-swoop ox-rst aggressive-indent helm-descbinds yaml-mode rainbow-delimiters nyan-mode helm-projectile helm-ag evil-snipe evil-leader evil-escape evil-avy cyberpunk-theme))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

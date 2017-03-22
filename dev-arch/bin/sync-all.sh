@@ -1,5 +1,4 @@
 #!/bin/bash
-~/bin/sync-dot-emacs
 
 cp -R ~/.config/fish ~/dotfiles/dev-arch/.config
 cp -R ~/.config/i3 ~/dotfiles/dev-arch/.config
@@ -19,11 +18,14 @@ cp ~/.xinitrc ~/dotfiles/dev-arch
 
 cd ~/dotfiles/dev-arch
 git add .
-git commit -m"dev-arch update"
+git commit -m"dev-arch git update"
 git push
+
+echo "Git updated"
 
 # Do a grive update
 
 cd ~/grive && grive
 
 echo "Grive synced"
+echo "sync-all.sh finished."
