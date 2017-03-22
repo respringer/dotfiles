@@ -1,10 +1,13 @@
 Set $mod Mod1
 
 font DejaVu Sans Mono Book 14
-gaps inner 15
-gaps outer 25
+#gaps inner 15
+gaps inner 0
+#gaps outer 25
+gaps outer 0
 #new_window pixel 10
-new_window pixel 5
+#new_window pixel 5
+new_window pixel 1
 focus_follows_mouse  no
 
 #don't move to neighbouring screen with hjkl
@@ -156,5 +159,11 @@ bindsym $mod+Shift+g mode "Gaps"
 #exec_always --no-startup-id killall admiral
 #exec_always --no-startup-id ~/.admiral/admiral.sh &
 #exec_always --no-startup-id feh --bg-fill /home/skr0tm/Pictures/wallpaper/legs.jpg
-exec_always --no-startup-id feh --bg-fill /home/ryan/Pictures/JraNXho.jpg
-
+#exec_always --no-startup-id feh --bg-fill /home/ryan/Pictures/JraNXho.jpg
+#exec compton --no-startup-id -b --vsync opengl --backend glx --paint-on-overlay
+exec xcompmgr &
+#exec_always --no-startup-id feh --bg-fill /home/ryan/Pictures/red-autumn.jpg
+#exec_always --no-startup-id feh --bg-fill /home/ryan/Pictures/blue-autumn.jpg
+#exec_always --no-startup-id feh --bg-fill /home/ryan/Pictures/butterfly.jpg
+exec_always --no-startup-id feh --bg-fill /home/ryan/Pictures/g.jpg
+exec setxkbmap -rules evdev -model evdev -layout us -variant altgr-intl

@@ -1,0 +1,2 @@
+#!/bin/bash
+xdotool mousemove 1440 900

@@ -1,0 +1,8 @@
+package fasd
+package fzf
+package peco
+theme bobthefish
+theme default
+theme ocean
+theme sushi
+theme toaster

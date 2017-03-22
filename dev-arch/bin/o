@@ -1,0 +1,4 @@
+#!/bin/bash
+
+egrep -ric "$1" * | egrep -v ':0$'
+
