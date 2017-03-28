@@ -141,9 +141,9 @@
 
 (blink-cursor-mode -1)
 
-;;(load-theme 'cyberpunk t)
+(load-theme 'cyberpunk t)
 ;;(load-theme 'avk-light-theme t)
-(load-theme 'avk-daylight t)
+;;(load-theme 'avk-daylight t)
 
 (require 'highlight)
 
