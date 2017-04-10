@@ -59,21 +59,21 @@
     "a list of packages to ensure are installed at launch.")
 
 ;; method to check if all packages are installed
-(defun packages-installed-p ()
-  (loop for p in required-packages
-        when (not (package-installed-p p)) do (return nil)
-        finally (return t)))
+;;(defun packages-installed-p ()
+;;  (loop for p in required-packages
+;;        when (not (package-installed-p p)) do (return nil)
+;;        finally (return t)))
 
 ;; if not all packages are installed, check one by one and install the missing ones.
-(unless (packages-installed-p)
-  ;; check for new packages (package versions)
-  (message "%s" "Emacs is now refreshing its package database...")
-  (package-refresh-contents)
-  (message "%s" " done.")
-  ;; install the missing packages
-  (dolist (p required-packages)
-    (when (not (package-installed-p p))
-      (package-install p))))
+;;(unless (packages-installed-p)
+;;  ;; check for new packages (package versions)
+;;  (message "%s" "Emacs is now refreshing its package database...")
+;;  (package-refresh-contents)
+;;  (message "%s" " done.")
+;;  ;; install the missing packages
+;;  (dolist (p required-packages)
+;;    (when (not (package-installed-p p))
+;;      (package-install p))))
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
@@ -267,19 +267,19 @@
 (global-set-key (kbd "C-l") 'avy-goto-line)
 
 ;; change mode-line color by evil state
-(lexical-let ((default-color (cons (face-background 'mode-line)
-                                   (face-foreground 'mode-line))))
-  (add-hook 'post-command-hook
-            (lambda ()
-              (let ((color (cond ((minibufferp) default-color)
-                                 ;;((evil-insert-state-p) '("#e80000" . "#ffffff"))
-                                 ((evil-insert-state-p) '("#480000" . "#ffffff"))
-                                 ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
-                                 ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
-                                 (t default-color))))
-                (set-face-background 'mode-line (car color))
-                (set-face-foreground 'mode-line (cdr color))))))
-
+;;(lexical-let ((default-color (cons (face-background 'mode-line)
+;;                                   (face-foreground 'mode-line))))
+;;  (add-hook 'post-command-hook
+;;            (lambda ()
+;;              (let ((color (cond ((minibufferp) default-color)
+;;                                 ;;((evil-insert-state-p) '("#e80000" . "#ffffff"))
+;;                                 ((evil-insert-state-p) '("#480000" . "#ffffff"))
+;;                                 ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
+;;                                 ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
+;;                                 (t default-color))))
+;;                (set-face-background 'mode-line (car color))
+;;                (set-face-foreground 'mode-line (cdr color))))))
+;;
 ;; Make some emacs commands available in insert mode
 
 (define-key evil-insert-state-map   (kbd "C-a") #'move-beginning-of-line)
