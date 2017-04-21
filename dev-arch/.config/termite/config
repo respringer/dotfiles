@@ -97,8 +97,8 @@ browser = firefox
 
 # special
 foreground      = #606060
-foreground_bold = #606060
-cursor          = #606060
+foreground_bold = #909090
+cursor          = #a0a0a0
 background      = #ffffff
 
 # black
@@ -106,17 +106,17 @@ color0  = #000000
 color8  = #808080
 
 # red
-color1  = #ff0000
+color1  = #aa0000
 color9  = #ff0000
 
 # green
 #color2  = #33ff00
 #color10 = #33ff00
-color2  = #339900
-color10 = #339900
+color2  = #336600
+color10 = #33aa00
 
 # yellow
-color3  = #ff0099
+color3  = #ff00330
 color11 = #ff0099
 
 # blue
@@ -124,13 +124,13 @@ color4  = #0066ff
 color12 = #0066ff
 
 # magenta
-color5  = #cc00ff
+color5  = #5500ff
 color13 = #cc00ff
 
 # cyan
 #color6  = #00ffff
 #color14 = #00ffff
-color6  = #0066ff
+color6  = #00aaff
 color14 = #0066ff
 
 # white
