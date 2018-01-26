@@ -1,6 +1,6 @@
 Set $mod Mod1
 
-font DejaVu Sans Mono Book 14
+#font DejaVu Sans Mono Book 14
 #gaps inner 15
 #gaps inner 0
 #gaps outer 25
@@ -25,11 +25,10 @@ client.urgent             $gray1    $gray2  $gray1    $gray2
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec termite -e fish
+#bindsym $mod+Return exec termite -e fish
+bindsym $mod+Return exec gnome-terminal
 bindsym $mod+e exec emacsclient -c -n
-#bindsym $mod+e exec emacs
-#bindsym $mod+w exec firefox
-bindsym $mod+w exec google-chrome
+bindsym $mod+w exec google-chrome-stable
 
 # kill focused window
 bindsym $mod+c kill
@@ -128,6 +127,23 @@ mode "resize" {
 
 bindsym $mod+s mode "resize"
 
+mode "Gaps" {
+     bindsym plus gaps inner current plus 5
+     bindsym minus gaps inner current minus 5
+
+     bindsym 0 gaps inner current plus 5
+     bindsym 9 gaps inner current minus 5
+     bindsym 8 gaps outer current plus 5
+     bindsym 7 gaps outer current minus 5
+
+     #bindsym 7 gaps outer current set 15
+     bindsym 6 gaps inner current set 0
+     bindsym 5 gaps outer current set 0
+
+     bindsym Return mode "default"
+     bindsym Escape mode "default"
+}
+
 # multimedia keys
 #bindsym XF86AudioRaiseVolume exec "amixer -D pulse sset Master '3%+'"
 #bindsym XF86AudioLowerVolume exec "amixer -D pulse sset Master '1%-'"
@@ -151,8 +167,4 @@ bindsym $mod+s mode "resize"
 #bindsym $mod+Shift+d exec "killall ffmpeg"
 #bindsym $mod+Shift+s exec "~/script/snippets/screencast.sh"
 
-#exec_always --no-startup-id killall lemonbar
-#exec_always --no-startup-id killall admiral
-#exec_always --no-startup-id ~/.admiral/admiral.sh &
-#exec xcompmgr &
 exec setxkbmap -rules evdev -model evdev -layout us -variant altgr-intl
