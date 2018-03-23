@@ -1,0 +1,11 @@
+# 1) sudo apt-get install xcape
+# Note: run the following two commands after the apt-get install
+# to apply them immediately, and put them in ~/.xprofile to always
+# apply them to new logins.
+
+# 2) Make CapsLock behave like Ctrl:
+setxkbmap -option ctrl:nocaps
+
+# 3) Make short-pressed Ctrl behave like Escape:
+xcape -e 'Control_L=Escape'
+
