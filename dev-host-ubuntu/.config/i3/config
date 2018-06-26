@@ -76,8 +76,7 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen toggle
 
 bindsym $mod+p exec google-chrome-stable --password-store=gnome
-# change container layout (stacked, tabbed, toggle split)
-bindsym $mod+e layout toggle split
+bindsym $mod+e exec emacsclient -c
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
