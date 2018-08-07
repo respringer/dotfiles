@@ -1,9 +1,11 @@
 ! 37 = left control
 ! 105 = right control
 ! 66 = capslock
-! 135 = right click key
+! 135 = right mouse click key
+! 108 = right alt key
 
-keycode 105 = Mode_switch
+keycode 105 = Alt_R Meta_R Alt_R Meta_R
+keycode 108 = Mode_switch
 
 keycode  24 = q Q Prior Next
 keycode  25 = w W Up Up
