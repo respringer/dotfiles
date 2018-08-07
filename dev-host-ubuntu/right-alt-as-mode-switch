@@ -10,8 +10,11 @@ keycode 108 = Mode_switch
 keycode  24 = q Q Next Next
 keycode  25 = w W Up Up
 keycode  26 = e E Prior Prior
+keycode  27 = r R Home Home
 
 keycode  38 = a A Left Left
 keycode  39 = s S Down Down
 keycode  40 = d D Right Right
+keycode  41 = f F End End
+
 
