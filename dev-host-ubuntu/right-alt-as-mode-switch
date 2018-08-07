@@ -7,9 +7,9 @@
 keycode 105 = Alt_R Meta_R Alt_R Meta_R
 keycode 108 = Mode_switch
 
-keycode  24 = q Q Prior Next
+keycode  24 = q Q Next Next
 keycode  25 = w W Up Up
-keycode  26 = e E Next Prior
+keycode  26 = e E Prior Prior
 
 keycode  38 = a A Left Left
 keycode  39 = s S Down Down
