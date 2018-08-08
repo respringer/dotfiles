@@ -1,11 +1,36 @@
+! physical layout:
+!
 ! 37 = left control
+! 133 = left windows/super
+! 64 = left alt
+! then comes space
+! 108 = right alt key
 ! 105 = right control
+!
 ! 66 = capslock
 ! 135 = right mouse click key
-! 108 = right alt key
+!
+! What we want on bottom row:
+!
+! 133 = alt
+! 64 = mode switch
+! then comes space
+! 108 = mode switch
+! 105 = alt-gr
 
-keycode 105 = Alt_R Meta_R Alt_R Meta_R
+keycode 133 = Alt_L Meta_L Alt_L Meta_L
+keycode 64 = Mode_switch
+
 keycode 108 = Mode_switch
+!keycode 105 = Alt_L Meta_L Alt_L Meta_L
+
+! modifier stuff
+
+clear control
+clear mod1
+clear mod4
+add control = Control_L
+add mod1 = Alt_L
 
 keycode  24 = q Q Home Home
 keycode  25 = w W Up Up
