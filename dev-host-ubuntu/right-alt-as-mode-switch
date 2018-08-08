@@ -17,4 +17,10 @@ keycode  39 = s S Down Down
 keycode  40 = d D Right Right
 keycode  41 = f F Next Next
 
+keycode  42 = g G g G
+keycode  43 = h H Delete Delete
+keycode  44 = j J BackSpace BackSpace
+keycode  45 = k K Return Return
+keycode  46 = l L l L
+
 
