@@ -45,6 +45,8 @@ keycode  41 = f F Next Next
 keycode  42 = g G g G
 keycode  43 = h H Delete Delete
 keycode  44 = j J BackSpace BackSpace
+
+! remember: k for "ok?", as in "ls, ok?"
 keycode  45 = k K Return Return
 keycode  46 = l L l L
 
