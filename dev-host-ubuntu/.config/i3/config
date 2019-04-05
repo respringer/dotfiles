@@ -184,3 +184,4 @@ exec --no-startup-id nm-applet
 exec setxkbmap -rules evdev -model evdev -layout us -variant altgr-intl
 exec xset r rate 250 60
 exec blueman-applet
+exec unclutter -b
