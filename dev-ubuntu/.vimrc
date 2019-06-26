@@ -1,16 +1,10 @@
-
-call plug#begin('~/.vim/plugged')
-Plug 'tpope/vim-rsi'
-Plug 'justinmk/vim-sneak'
-Plug 'guns/vim-clojure-static'
-call plug#end()
-
+" on ubuntu, install vim-gtk to enable the clipboard
 set ts=4
 set shiftwidth=4
 set ruler
 set expandtab
 set hlsearch
-set clipboard=unnamed
+set clipboard=unnamedplus
 "set mouse=a
 set t_Co=256 
 set paste
