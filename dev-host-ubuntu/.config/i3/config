@@ -4,7 +4,6 @@
 # Should you change your keyboard layout some time, delete
 # this file and re-run i3-config-wizard(1).
 #
-
 # i3 config file (v4)
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
@@ -32,8 +31,14 @@ floating_modifier $mod
 
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+i exec i3-sensible-terminal
+#bindsym $mod+Return exec i3-sensible-terminal
+#bindsym $mod+Return exec mate-terminal
+
+# curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+# installs to the directory below:
+bindsym $mod+Return exec /home/ryan/.local/kitty.app/bin/kitty
+
+#bindsym $mod+i exec i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+c kill
