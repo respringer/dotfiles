@@ -36,7 +36,12 @@ floating_modifier $mod
 
 # curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
 # installs to the directory below:
-bindsym $mod+Return exec /home/ryan/.local/kitty.app/bin/kitty
+#bindsym $mod+Return exec /home/ryan/.local/kitty.app/bin/kitty
+
+# in my testing, alacritty is faster than kitty
+bindsym $mod+Return exec alacritty
+
+#bindsym $mod+i exec alacritty
 
 #bindsym $mod+i exec i3-sensible-terminal
 
