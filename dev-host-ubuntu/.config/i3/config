@@ -34,12 +34,15 @@ floating_modifier $mod
 #bindsym $mod+Return exec i3-sensible-terminal
 #bindsym $mod+Return exec mate-terminal
 
+# in my testing, alacritty is faster than kitty
+# however alacritty is broken:
+# https://github.com/jwilm/alacritty/issues/2217
+bindsym $mod+Return exec alacritty
+
 # curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
 # installs to the directory below:
 #bindsym $mod+Return exec /home/ryan/.local/kitty.app/bin/kitty
 
-# in my testing, alacritty is faster than kitty
-bindsym $mod+Return exec alacritty
 
 #bindsym $mod+i exec alacritty
 
@@ -69,8 +72,9 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute s
 # Sreen brightness controls
 #bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
 #bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
-bindsym $mod+p exec xbacklight -inc 20 # increase screen brightness
-bindsym $mod+o exec xbacklight -dec 20 # decrease screen brightness
+# to install brightnessctl in ubuntu: sudo apt install brightnessctl
+bindsym $mod+p exec sudo brightnessctl s +5% # increase screen brightness
+bindsym $mod+o exec sudo brightnessctl s 5%- # decrease screen brightness
 
 
 
